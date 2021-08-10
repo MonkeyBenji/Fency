@@ -1,0 +1,37 @@
+[
+  {
+    "id": "common",
+    "type": "folder",
+    "name": "Common",
+    "description": "Common additions for any website",
+    "path": "common/index.json"
+  },
+  {
+    "id": "inwork",
+    "type": "folder",
+    "name": "InWork",
+    "description": "Additions specific to the InWork website",
+    "path": "inwork/index.json"
+  },
+  {
+    "id": "salesforce",
+    "type": "folder",
+    "name": "SalesForce",
+    "description": "Additions specific to SalesForce websites",
+    "path": "salesforce/index.json"
+  },
+  {
+    "id": "connexys",
+    "type": "folder",
+    "name": "Connexys",
+    "description": "Additions specific to Connexys websites",
+    "path": "connexys/index.json"
+  },
+  {
+    "id": "inctrl",
+    "type": "folder",
+    "name": "InCTRL",
+    "description": "Additions specific to InCTRL website",
+    "path": "inctrl/index.json"
+  }
+]

@@ -1,0 +1,58 @@
+[
+  {
+    "id": "dash-autorefresh",
+    "type": "script",
+    "version": "0.1",
+    "name": "Dashboard Auto-refresh",
+    "description": "Automatically refresh dashboards when Salesforce warns they're old",
+    "matches": ["https://inwork.lightning.force.com/desktopDashboards/*"],
+    "path": "dash-autorefresh.js",
+    "enabled": true,
+    "allFrames": true
+  },
+  {
+    "id": "matching-customers",
+    "type": "script",
+    "version": "0.1",
+    "name": "Matchende klanten zoekert",
+    "description": "Maak vanuit een kandidaat, automagisch een rapport van klanten op basis van Geo/BU/Functie",
+    "matches": [
+      "https://inwork.lightning.force.com/lightning/r/cxsrec__cxsCandidate__c/*",
+      "https://inwork.lightning.force.com/lightning/r/a0A*",
+      "https://inwork.lightning.force.com/reports/*"
+    ],
+    "path": "matching-customers.js",
+    "enabled": true,
+    "allFrames": true
+  },
+  {
+    "id": "cv-generator-sort",
+    "type": "script",
+    "version": "0.1",
+    "name": "CV Generator Sorteerding",
+    "description": "TODO: Deprecaten na release 30",
+    "matches": ["https://inwork.lightning.force.com/one/*"],
+    "path": "cv-generator-sort.js",
+    "enabled": true
+  },
+  {
+    "id": "cv-generator-style",
+    "type": "script",
+    "version": "0.1",
+    "name": "CV Generator Style",
+    "description": "Wat minder verticale space gebruiken",
+    "matches": ["https://inwork.lightning.force.com/one/*"],
+    "path": "cv-generator-style.js",
+    "enabled": true
+  },
+  {
+    "id": "cv-generator-textdates",
+    "type": "script",
+    "version": "0.1",
+    "name": "CV Generator Text in Date Fields",
+    "description": "Kut Connexys updates ook",
+    "matches": ["https://inwork.lightning.force.com/one/*"],
+    "path": "cv-generator-textdates.js",
+    "enabled": true
+  }
+]

@@ -1,0 +1,22 @@
+[
+  {
+    "id": "inwork-bananen",
+    "type": "script",
+    "version": "0.1",
+    "name": "Groene bananen",
+    "description": "Banaan!",
+    "matches": ["https://inwork.nl/*", "https://www.inwork.nl/*"],
+    "path": "bananen.js",
+    "enabled": false
+  },
+  {
+    "id": "vaca-shortcuts",
+    "type": "script",
+    "version": "0.1",
+    "name": "InWork Vacature Connexys Link",
+    "description": "Maakt van vacature titels hieperlinks naar het Connexys object",
+    "matches": ["https://inwork.nl/*", "https://www.inwork.nl/*"],
+    "path": "vaca-shortcuts.js",
+    "enabled": true
+  }
+]

@@ -1,0 +1,12 @@
+[
+  {
+    "id": "auto-mike",
+    "type": "script",
+    "version": "0.1",
+    "name": "AutoMike",
+    "description": "Redirect InCTRL to mike.inwork.nl",
+    "matches": "https://inctrl.inwork.nl/*",
+    "path": "auto-mike.js",
+    "enabled": false
+  }
+]
