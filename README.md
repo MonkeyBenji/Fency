@@ -1,11 +1,18 @@
 # Fency
 
-Fency is a web extension which will inject JavaScript to various pages to improve the experience with those pages.
-You can enable/disable JavaScripts that will be injected via the popup menu.
+Fency is a browser extension that will allow the user to install a series of content scripts to optimize the experience of various websites.
+The user can toggle the content scripts that will be injected via the popup menu.
+Also, external sources can be managed from this menu so users can add/remove scripts from certain sources.
 
-The focus is on baked-in scripts for web applications used by InWork for now.
-In a future version we hope to allow users to add their own scripts to further personalize the experience.
+For now, the sources are fixed to a few trusted URL's.
+This will allow users to enable content scripts I create to enhance the experience of software I wrote those scripts for.
+When the targeted software changes, the scripts can quickly be updated and a refresh from within Fency should fetch the latest versions of the content scripts.
 
-Use the Git Bash shell and enter the command
+Fency provides a library to allow commonly required content script actions to be programmed with less lines of code.
+On top of that, the library adds extra functionality not normally available to content scripts, by communicating with the background script (e.g. typing like a user or closing a tab).
+
+To run the software you can use the command
 
 web-ext run -t chromium
+
+If your terminal is complaining about digitally signing, execution policies, PSSecurityException and stuff, try not using PowerShell, but something like Git Bash

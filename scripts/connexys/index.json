@@ -1,5 +1,16 @@
 [
   {
+    "id": "geo-col",
+    "type": "script",
+    "version": "0.1",
+    "name": "Geo Col",
+    "description": "Quicker method to add geo distance columns",
+    "matches": "https://inwork.lightning.force.com/reports/lightningReportApp.app*",
+    "path": "geo-col.js",
+    "enabled": true,
+    "allFrames": true
+  },
+  {
     "id": "dash-autorefresh",
     "type": "script",
     "version": "0.1",

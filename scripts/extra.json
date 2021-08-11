@@ -1,0 +1,9 @@
+[
+  {
+    "id": "inctrl",
+    "type": "folder",
+    "name": "InCTRL",
+    "description": "Additions specific to InCTRL website",
+    "path": "inctrl/index.json"
+  }
+]

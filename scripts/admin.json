@@ -1,0 +1,9 @@
+[
+  {
+    "id": "salesforce",
+    "type": "folder",
+    "name": "SalesForce",
+    "description": "Additions specific to SalesForce websites",
+    "path": "salesforce/index.json"
+  }
+]

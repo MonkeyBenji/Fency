@@ -21,6 +21,10 @@ label {
   padding-right: 4px;
 }
 
+.smaller label {
+  font-size: 1em;
+}
+
 label:hover {
   background-color: rgba(155, 203, 65, 0.2);
 }
@@ -79,4 +83,8 @@ input[type="checkbox"]:checked::before {
 input[type="checkbox"]:checked::after {
   background: #9bcb41;
   transition: ease 0.3s;
+}
+
+.right {
+  float: right;
 }

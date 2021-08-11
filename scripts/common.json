@@ -1,0 +1,16 @@
+[
+  {
+    "id": "inwork",
+    "type": "folder",
+    "name": "InWork",
+    "description": "Additions specific to the InWork website",
+    "path": "inwork/index.json"
+  },
+  {
+    "id": "connexys",
+    "type": "folder",
+    "name": "Connexys",
+    "description": "Additions specific to Connexys websites",
+    "path": "connexys/index.json"
+  }
+]

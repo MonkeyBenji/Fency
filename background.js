@@ -1,12 +1,41 @@
 "use strict";
 
+const SUBSCRIPTIONS_DEFAULT = [
+  { url: browser.runtime.getURL("scripts/index.json"), enabled: true },
+  { url: "https://fency.dev/scripts/inwork/common.json", enabled: true },
+  { url: "https://fency.dev/scripts/inwork/extra.json", enabled: false },
+  { url: "https://fency.dev/scripts/inwork/admin.json", enabled: false },
+];
+
+const set = (key, value) =>
+  new Promise((resolve) =>
+    chrome.storage.local.set({ [key]: value }, () => resolve())
+  );
+const get = (key, defaultValue) =>
+  new Promise((resolve) =>
+    chrome.storage.local.get([key], (result) =>
+      resolve(result[key] ?? defaultValue)
+    )
+  );
+const fetchCached = async (url, json = false, ignoreCache = false) => {
+  if (url.startsWith("chrome-extension://")) ignoreCache = true;
+  if (!ignoreCache) {
+    const cached = await get(url);
+    if (cached) return cached;
+  }
+  const text = await fetch(url).then((response) =>
+    json ? response.json() : response.text()
+  );
+  await set(url, text);
+  return text;
+};
+
 // Get list of scripts
 const pathRelative = (oldPath, newPath) =>
   oldPath.split("/").slice(0, -1).join("/") + "/" + newPath;
-const resolveScripts = async (path, folder = "") => {
+const resolveScripts = async (path, folder = "", ignoreCache = false) => {
   const scripts = [];
-  const runtimePath = browser.runtime.getURL(path);
-  const data = await fetch(runtimePath).then((response) => response.json());
+  const data = await fetchCached(path, true, ignoreCache);
   for (const entry of data) {
     if (entry.type === "folder") {
       const subPath = pathRelative(path, entry.path);
@@ -25,21 +54,38 @@ const resolveScripts = async (path, folder = "") => {
 
 // Start up stuff
 (async () => {
-  const scripts = await resolveScripts("scripts/index.json");
-  const toggles = (await browser.storage.local.get("toggles")).toggles ?? {};
+  const subscriptions = await get("subscriptions", SUBSCRIPTIONS_DEFAULT);
+  const scripts = [];
+  for (const subscription of subscriptions) {
+    if (!subscription.enabled) continue;
+    try {
+      const moreScripts = await resolveScripts(subscription.url);
+      scripts.push(...moreScripts);
+    } catch (e) {
+      console.warn(`Could not load scripts of ${subscription.url}`, e);
+    }
+  }
+  const toggles = await get("toggles", {});
 
   // Handle content script register/unregister
   const registrations = {};
-  const register = async (id) => {
-    if (id in registrations) return;
+  const register = async (id, ignoreCache = false) => {
+    if (id in registrations) {
+      if (ignoreCache) {
+        await unregister(id);
+      } else {
+        return;
+      }
+    }
     const script = scripts.find((script) => script.id === id);
     if (!script) throw `No script ${id}`;
     const matches =
       typeof script.matches === "string" ? [script.matches] : script.matches;
+    const code = await fetchCached(script.path, false, ignoreCache);
 
     registrations[script.id] = await browser.contentScripts.register({
       matches,
-      js: [{ file: script.path }],
+      js: [{ code }],
       allFrames: script.allFrames ?? false,
     });
   };
@@ -74,6 +120,19 @@ const resolveScripts = async (path, folder = "") => {
       script.enabled = toggles[args.id];
     } else if (fun === "getScripts") {
       return Promise.resolve(scripts);
+    } else if (fun === "toggleSubscription") {
+      const enabled = args.enabled;
+      if (enabled) {
+        register(args.id);
+      } else {
+        unregister(args.id);
+      }
+      toggles[args.id] = enabled;
+      browser.storage.local.set({ toggles });
+      const script = scripts.find((script) => script.id === args.id);
+      script.enabled = toggles[args.id];
+    } else if (fun === "getSubscriptions") {
+      return Promise.resolve(subscriptions);
     } else if (fun === "refresh") {
       browser.tabs
         .query({ active: true, windowId: browser.windows.WINDOW_ID_CURRENT })

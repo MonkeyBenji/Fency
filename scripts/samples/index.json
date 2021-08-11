@@ -10,13 +10,13 @@
     "enabled": false
   },
   {
-    "id": "test",
+    "id": "rainbow-links",
     "type": "script",
     "version": "0.1",
-    "name": "Test",
-    "description": "Test",
-    "matches": "https://fency.dev/sample/sample-form-1.html",
-    "path": "test.js",
+    "name": "Rainbow Links",
+    "description": "Change the font color of hyperlinks on every website to animate through the colors of a rainbow",
+    "matches": "<all_urls>",
+    "path": "rainbow-links.js",
     "enabled": false,
     "allFrames": true
   }
