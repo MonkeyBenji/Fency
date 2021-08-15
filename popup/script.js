@@ -1,16 +1,13 @@
 "use strict";
 
-(async () => {
-  const sendMessage = (fun, args = undefined) =>
-    new Promise((resolve, reject) => {
-      const message = { fun };
-      if (typeof args !== "undefined") message.args = args;
-      chrome.runtime.sendMessage(message, resolve);
-    });
-
-  const scripts = await sendMessage("getScripts");
+import("/lib/core.js").then(async (Monkey) => {
+  const scripts = (await Monkey.sendMessage("getScripts")).sort((a, b) => {
+    const folderOrder = a.folder.localeCompare(b.folder);
+    if (folderOrder !== 0) return folderOrder;
+    return a.name.localeCompare(b.name);
+  });
   const toggleScript = async (id, enabled) =>
-    await sendMessage("toggleScript", { id, enabled });
+    await Monkey.sendMessage("toggleScript", { id, enabled });
 
   const toggles = document.querySelector("#toggles");
   toggles.innerHTML = "";
@@ -43,7 +40,7 @@
   });
 
   document.querySelector("#refresh").addEventListener("click", () => {
-    sendMessage("refresh");
+    Monkey.sendMessage("refresh");
     window.close();
   });
-})();
+});

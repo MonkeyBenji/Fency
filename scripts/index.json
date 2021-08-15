@@ -1,9 +1,39 @@
-[
-  {
-    "id": "samples",
-    "type": "folder",
-    "name": "Samples",
-    "description": "Sample additions targeting any website",
-    "path": "samples/index.json"
+{
+  "version": "0.0.0.1",
+  "scripts": {
+    "Samples": [
+      {
+        "id": "comic-sans",
+        "type": "script",
+        "version": "0.1",
+        "name": "Comic Sans Everywhere",
+        "description": "Change the font on every website to \"Comic Sans MS\"",
+        "matches": "<all_urls>",
+        "path": "samples/comic-sans.js",
+        "enabled": false
+      },
+      {
+        "id": "rainbow-links",
+        "type": "script",
+        "version": "0.1",
+        "name": "Rainbow Links",
+        "description": "Change the font color of hyperlinks on every website to animate through the colors of a rainbow",
+        "matches": "<all_urls>",
+        "path": "samples/rainbow-links.js",
+        "enabled": false,
+        "allFrames": true
+      },
+      {
+        "id": "capslock",
+        "type": "script",
+        "version": "0.1",
+        "name": "CAPSLOCK EVERYWHERE",
+        "description": "Changes all texts uppercase",
+        "matches": "<all_urls>",
+        "path": "samples/capslock.js",
+        "enabled": false,
+        "allFrames": true
+      }
+    ]
   }
-]
+}
