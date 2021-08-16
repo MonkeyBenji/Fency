@@ -2,9 +2,12 @@
 
 const SUBSCRIPTIONS_DEFAULT = [
   { url: browser.runtime.getURL("scripts/index.json"), enabled: true },
-  { url: "https://fency.dev/scripts/inwork/common.json", enabled: true },
-  { url: "https://fency.dev/scripts/inwork/extra.json", enabled: false },
-  { url: "https://fency.dev/scripts/inwork/admin.json", enabled: false },
+  { url: browser.runtime.getURL("scripts/common.json"), enabled: true },
+  { url: browser.runtime.getURL("scripts/extra.json"), enabled: true },
+  { url: browser.runtime.getURL("scripts/admin.json"), enabled: true },
+  // { url: "https://fency.dev/scripts/inwork/common.json", enabled: true },
+  // { url: "https://fency.dev/scripts/inwork/extra.json", enabled: false },
+  // { url: "https://fency.dev/scripts/inwork/admin.json", enabled: false },
 ];
 
 import("/lib/core.js").then(
