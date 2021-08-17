@@ -3,6 +3,19 @@
   "scripts": {
     "Salesforce": [
       {
+        "id": "salesblurred",
+        "type": "script",
+        "version": "0.1",
+        "name": "Salesblurred",
+        "description": "Defaultly blur private information in Salesforce, for making screenshots n stuff",
+        "matches": [
+          "https://*.lightning.force.com/*",
+          "https://*.cloudforce.com/*"
+        ],
+        "path": "salesforce/salesblurred.js",
+        "enabled": false
+      },
+      {
         "id": "language-switch",
         "type": "script",
         "version": "0.1",

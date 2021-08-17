@@ -6,9 +6,13 @@
         "id": "inwork-bananen",
         "type": "script",
         "version": "0.1",
-        "name": "Groene bananen",
+        "name": "Groene Bananen",
         "description": "Banaan!",
-        "matches": ["https://inwork.nl/*", "https://www.inwork.nl/*"],
+        "matches": [
+          "https://inwork.nl/*",
+          "https://www.inwork.nl/*",
+          "https://intranet.inwork.nl/*"
+        ],
         "path": "inwork/bananen.js",
         "enabled": false
       }

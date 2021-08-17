@@ -8,13 +8,23 @@
   </head>
 
   <body>
-    <button
-      id="refresh"
-      title="Refresh page to (de-)activate toggled content scripts"
-    >
+    <div id="refresh-buttons">
       Refresh
-    </button>
+      <button
+        id="refresh-scripts"
+        title="Refetch scripts from active subscriptions"
+      >
+        Scripts
+      </button>
+      <button
+        id="refresh-page"
+        title="Refresh page to (de-)activate toggled content scripts"
+      >
+        Page
+      </button>
+    </div>
     <div id="toggles"></div>
+    <span id="version"></span>
     <a href="subscriptions.html" class="right">subscriptions</a>
 
     <script src="script.js"></script>

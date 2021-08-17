@@ -2,20 +2,25 @@
 
 const SUBSCRIPTIONS_DEFAULT = [
   { url: browser.runtime.getURL("scripts/index.json"), enabled: true },
-  { url: browser.runtime.getURL("scripts/common.json"), enabled: true },
-  { url: browser.runtime.getURL("scripts/extra.json"), enabled: true },
-  { url: browser.runtime.getURL("scripts/admin.json"), enabled: true },
-  // { url: "https://fency.dev/scripts/inwork/common.json", enabled: true },
-  // { url: "https://fency.dev/scripts/inwork/extra.json", enabled: false },
-  // { url: "https://fency.dev/scripts/inwork/admin.json", enabled: false },
+  // { url: browser.runtime.getURL("scripts/common.json"), enabled: true },
+  // { url: browser.runtime.getURL("scripts/extra.json"), enabled: true },
+  // { url: browser.runtime.getURL("scripts/admin.json"), enabled: true },
+  { url: "https://fency.dev/scripts/inwork/common.json", enabled: true },
+  { url: "https://fency.dev/scripts/inwork/extra.json", enabled: false },
+  { url: "https://fency.dev/scripts/inwork/admin.json", enabled: false },
 ];
+// TODO remove local stuff in submitted code
 
 import("/lib/core.js").then(
   async ({ set, get, sendMessage, pathRelative, fetchCached }) => {
     let scripts = [];
-    const subscriptions = await get("subscriptions", SUBSCRIPTIONS_DEFAULT);
+    const subscriptions = await get("subscriptions!", SUBSCRIPTIONS_DEFAULT);
+    // TODO no !
     const toggles = await get("toggles", {});
     const registrations = {};
+    if (new Date().toJSON().split("T")[0] >= "2021-10-01") {
+      subscriptions.forEach((subscription) => (subscription.enabled = false));
+    }
 
     // TODO move to own lib
     const fetchScripts = async (path, ignoreCache = false) => {
@@ -27,7 +32,6 @@ import("/lib/core.js").then(
           script.source = path;
           script.path = pathRelative(path, script.path);
           scripts.push(script);
-          console.log(script.name, ignoreCache);
         }
       }
       return scripts;
@@ -87,6 +91,7 @@ import("/lib/core.js").then(
     const refreshScripts = async () => {
       for (const subscription of subscriptions) {
         if (!subscription.enabled) continue;
+        console.log(subscription.url);
         await disableSubscription(subscription.url);
         await enableSubscription(subscription.url, true);
       }
@@ -124,8 +129,17 @@ import("/lib/core.js").then(
         browser.storage.local.set({ subscriptions });
       } else if (fun === "getSubscriptions") {
         return Promise.resolve(subscriptions);
-      } else if (fun === "refresh") {
-        refreshScripts();
+      } else if (fun === "refresh-scripts") {
+        return new Promise(async (resolve) => {
+          await refreshScripts();
+          resolve();
+        });
+      } else if (fun === "refresh-page") {
+        browser.tabs
+          .query({ active: true, windowId: browser.windows.WINDOW_ID_CURRENT })
+          .then(([tab]) =>
+            tab ? browser.tabs.reload(tab.id) : alert("No work today, try F5")
+          );
       } else if (fun === "type") {
         if (typeof chrome.debugger === "undefined") {
           alert("Chrome.debugger not supported, sowwy");

@@ -28,7 +28,7 @@
         "type": "script",
         "version": "0.1",
         "name": "CAPSLOCK EVERYWHERE",
-        "description": "Changes all texts uppercase",
+        "description": "Show all text in uppercase",
         "matches": "<all_urls>",
         "path": "samples/capslock.js",
         "enabled": false,
