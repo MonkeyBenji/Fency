@@ -10,12 +10,7 @@
     "512": "icons/icon.svg"
   },
 
-  "web_accessible_resources": [
-    "lib/core.js",
-    "lib/wait-for-it.js",
-    "lib/osm-coords.js",
-    "lib/monkey-script.js"
-  ],
+  "web_accessible_resources": ["lib/*", "icons/*"],
 
   "permissions": ["<all_urls>", "webNavigation", "storage", "debugger"],
 

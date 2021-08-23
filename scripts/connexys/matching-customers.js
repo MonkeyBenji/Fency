@@ -30,7 +30,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
   if (window.location.pathname.includes("/a0A")) {
     // TODO fix navigations without page reload
     // Candidate parsing
-    Monkey.fab("fa fa-magic", "Zoek klantjes", async () => {
+    Monkey.fab("fa fa-suitcase", "Zoek klantjes!", async () => {
       const map = await extractSalesforceDataFromPage();
       await Monkey.set(KEY, map);
       const confirmQuestion = `Ik ga op zoek naar klantjes 
