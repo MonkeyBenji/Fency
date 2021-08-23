@@ -173,6 +173,20 @@ import("/lib/core.js").then(
         });
       } else if (fun === "closeTab") {
         browser.tabs.remove(sender.tab.id);
+      } else if (fun === "fetchText") {
+        return new Promise((resolve, reject) => {
+          fetch(args.resource, args.init)
+            .then((res) => res.text())
+            .then(resolve)
+            .catch(reject);
+        });
+      } else if (fun === "fetchJson") {
+        return new Promise((resolve, reject) => {
+          fetch(args.resource, args.init)
+            .then((res) => res.json())
+            .then(resolve)
+            .catch(reject);
+        });
       } else {
         throw `Unexpected fun ${fun}`;
       }
