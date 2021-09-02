@@ -42,12 +42,19 @@
         "version": "0.1",
         "name": "Matchende klanten zoekert",
         "description": "Maak vanuit een kandidaat, automagisch een rapport van klanten op basis van Geo/BU/Functie",
-        "matches": [
-          "https://inwork.lightning.force.com/lightning/r/cxsrec__cxsCandidate__c/*",
-          "https://inwork.lightning.force.com/lightning/r/a0A*",
-          "https://inwork.lightning.force.com/reports/*"
-        ],
+        "matches": ["https://inwork.lightning.force.com/*"],
         "path": "connexys/matching-customers.js",
+        "enabled": true,
+        "allFrames": true
+      },
+      {
+        "id": "add-to-vacancy",
+        "type": "script",
+        "version": "0.1",
+        "name": "Snellere recr. inschrijving",
+        "description": "Voeg een kandidaat toe aan je recente vacature vanuit een FAB menu'tje bij de kandidaat",
+        "matches": ["https://inwork.lightning.force.com/*"],
+        "path": "connexys/add-to-vacancy.js",
         "enabled": true,
         "allFrames": true
       },
