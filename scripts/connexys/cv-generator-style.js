@@ -13,4 +13,5 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
   height: 70px;
 }
 `);
+  // TODO for CV generator page only
 });

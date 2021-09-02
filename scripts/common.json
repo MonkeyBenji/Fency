@@ -87,6 +87,16 @@
         "matches": ["https://inwork.lightning.force.com/one/*"],
         "path": "connexys/cv-generator-textdates.js",
         "enabled": true
+      },
+      {
+        "id": "step-style",
+        "type": "script",
+        "version": "0.1",
+        "name": "Step styling",
+        "description": "Zet wat veldjes naast elkaar voor betere UI",
+        "matches": ["https://inwork.lightning.force.com/*"],
+        "path": "connexys/step-style.js",
+        "enabled": true
       }
     ]
   }
