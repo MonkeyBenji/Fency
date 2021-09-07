@@ -30,9 +30,15 @@ label:hover {
   background-color: rgba(155, 203, 65, 0.2);
 }
 
-#refresh-buttons {
+header div {
+  float: left;
+}
+header label {
   float: right;
-  width: fit-content;
+  width: 120px;
+  font-size: 1em;
+  margin-top: -8px;
+  margin-bottom: 8px;
 }
 
 /* Toggle Button */
@@ -88,6 +94,13 @@ input[type="checkbox"]:checked::after {
 
 #toggles {
   padding-bottom: 4px;
+  padding-top: 4px;
+  border-top: 1px solid #eee;
+  clear: both;
+}
+#toggles.disabled {
+  opacity: 0.1;
+  pointer-events: none;
 }
 #version {
   font-size: 0.8em;
@@ -104,6 +117,7 @@ button {
   background: #4299e1;
   border: 1px solid #2b6cb0;
   padding: 2px 8px;
+  cursor: pointer;
 }
 button:hover {
   opacity: 0.8;

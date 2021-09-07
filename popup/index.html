@@ -8,21 +8,27 @@
   </head>
 
   <body>
-    <div id="refresh-buttons">
-      Refresh
-      <button
-        id="refresh-scripts"
-        title="Refetch scripts from active subscriptions"
-      >
-        Scripts
-      </button>
-      <button
-        id="refresh-page"
-        title="Refresh page to (de-)activate toggled content scripts"
-      >
-        Page
-      </button>
-    </div>
+    <header>
+      <div>
+        Refresh
+        <button
+          id="refresh-scripts"
+          title="Refetch scripts from active subscriptions"
+        >
+          Scripts
+        </button>
+        <button
+          id="refresh-page"
+          title="Refresh page to (de-)activate toggled content scripts"
+        >
+          Page
+        </button>
+      </div>
+      <label>
+        Fency enabled
+        <input type="checkbox" id="enabled-toggle" />
+      </label>
+    </header>
     <div id="toggles"></div>
     <span id="version"></span>
     <a href="subscriptions.html" class="right">subscriptions</a>

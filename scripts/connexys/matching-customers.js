@@ -35,7 +35,6 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
     const data = await Monkey.get(KEY);
 
     if (window.location.pathname.includes("/a0A")) {
-      // TODO fix navigations without page reload
       // Candidate parsing
       thisButton = Monkey.fab("fa fa-suitcase", "Zoek klantjes!", async () => {
         const map = await extractSalesforceDataFromPage();
@@ -87,7 +86,7 @@ Ff nergens aanzitten okki?`;
         selectMatches.value = selectMatches.children[1].value;
         selectMatches.dispatchEvent(new Event("change"));
         document
-          .querySelector('form[method="dialog"] button:last-of-type')
+          .querySelector('form[method="dialog"] button[type="submit"]')
           .click();
 
         // Wait for geo-col to do its magic

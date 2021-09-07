@@ -13,6 +13,7 @@ const SUBSCRIPTIONS_DEFAULT = [
 
 import("/lib/core.js").then(
   async ({ set, get, sendMessage, pathRelative, fetchCached }) => {
+    let fencyEnabled = await get("enabled", true);
     let scripts = [];
     const subscriptions = await get("subscriptions!", SUBSCRIPTIONS_DEFAULT);
     // TODO no !
@@ -91,7 +92,6 @@ import("/lib/core.js").then(
     const refreshScripts = async () => {
       for (const subscription of subscriptions) {
         if (!subscription.enabled) continue;
-        console.log(subscription.url);
         await disableSubscription(subscription.url);
         await enableSubscription(subscription.url, true);
       }
@@ -101,6 +101,21 @@ import("/lib/core.js").then(
       if (!subscription.enabled) continue;
       enableSubscription(subscription.url);
     }
+
+    let tempDisabledScripts = [];
+    const setFencyEnabled = async (enabled) => {
+      fencyEnabled = enabled;
+      set("enabled", fencyEnabled);
+      scripts
+        .filter(({ enabled }) => enabled)
+        .forEach((script) => {
+          if (fencyEnabled) {
+            register(script.id);
+          } else {
+            unregister(script.id);
+          }
+        });
+    };
 
     // Handle messages from popup and stuff
     const onMessage = ({ fun, args }, sender) => {
@@ -115,6 +130,11 @@ import("/lib/core.js").then(
         browser.storage.local.set({ toggles });
         const script = scripts.find((script) => script.id === args.id);
         script.enabled = toggles[args.id];
+      } else if (fun === "enabled") {
+        if (args && "enabled" in args) {
+          setFencyEnabled(args.enabled);
+        }
+        return Promise.resolve(fencyEnabled);
       } else if (fun === "getScripts") {
         return Promise.resolve(scripts);
       } else if (fun === "toggleSubscription") {

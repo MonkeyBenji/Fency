@@ -4,6 +4,7 @@ import("/lib/core.js").then(async (Monkey) => {
   const toggles = document.querySelector("#toggles");
   const refreshScriptsButton = document.querySelector("#refresh-scripts");
   const refreshPageButton = document.querySelector("#refresh-page");
+  const enabledToggle = document.querySelector("#enabled-toggle");
   const version = chrome.runtime.getManifest().version;
   document.querySelector("#version").textContent = `Fency version ${version}`;
 
@@ -42,6 +43,9 @@ import("/lib/core.js").then(async (Monkey) => {
       checkbox.addEventListener("change", () => {
         toggleScript(script.id, checkbox.checked);
       });
+      label.addEventListener("dblclick", () => {
+        window.open(script.path);
+      });
 
       label.appendChild(checkbox);
       div.appendChild(label);
@@ -60,6 +64,15 @@ import("/lib/core.js").then(async (Monkey) => {
     ]);
     displayScripts();
     refreshScriptsButton.disabled = false;
+  });
+
+  let enabled = await Monkey.sendMessage("enabled");
+  enabledToggle.checked = enabled; // TODO spawn with checked = true, now animates
+  toggles.classList.toggle("disabled", !enabled);
+  enabledToggle.addEventListener("click", async () => {
+    enabled = enabledToggle.checked;
+    await Monkey.sendMessage("enabled", { enabled });
+    toggles.classList.toggle("disabled", !enabled);
   });
 
   refreshPageButton.addEventListener("click", async () => {

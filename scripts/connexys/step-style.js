@@ -51,11 +51,10 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
     setWidth(fieldsByName["Functiedomein"], 100 / 2);
     setWidth(fieldsByName["Functierol"], 100 / 2);
 
-    // setWidth(fieldsByName["Straat en huisnummer"], 100);
-
-    setWidth(fieldsByName["Postcode"], 100 / 3, "left");
+    setWidth(fieldsByName["Straat en huisnummer"], 100 / 3, "left");
+    setWidth(fieldsByName["Postcode"], 100 / 6);
     setWidth(fieldsByName["Woonplaats"], 100 / 3);
-    setWidth(fieldsByName["Provincie"], 100 / 3);
+    setWidth(fieldsByName["Provincie"], 100 / 6);
 
     setWidth(fieldsByName["Telefoonnummer"], 100 / 3, "left");
     setWidth(fieldsByName["Aanvullende contactgegevens"], 100 / 3);
