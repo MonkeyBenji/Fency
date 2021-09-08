@@ -33,6 +33,17 @@
         "path": "samples/capslock.js",
         "enabled": false,
         "allFrames": true
+      },
+      {
+        "id": "rfc",
+        "type": "script",
+        "version": "0.1",
+        "name": "Request Fency Change",
+        "description": "Voegt een rechtermuisknop menu item toe waarmee je nieuwe scriptjes kan aanvragen. Heb je een InWorks muis, klik dan op de rechterkant van je enige muis knop. Heb je een Mac ... dan weet ik het ook niet.",
+        "matches": "<all_urls>",
+        "path": "samples/rfc.js",
+        "enabled": true,
+        "allFrames": true
       }
     ]
   }

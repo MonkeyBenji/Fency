@@ -102,7 +102,6 @@ import("/lib/core.js").then(
       enableSubscription(subscription.url);
     }
 
-    let tempDisabledScripts = [];
     const setFencyEnabled = async (enabled) => {
       fencyEnabled = enabled;
       set("enabled", fencyEnabled);
@@ -115,6 +114,28 @@ import("/lib/core.js").then(
             unregister(script.id);
           }
         });
+      if (fencyEnabled) {
+        chrome.browserAction.setIcon({ path: "/icons/icon32.png" });
+      } else {
+        chrome.browserAction.setIcon({ path: "/icons/icon32_disabled.png" });
+      }
+    };
+
+    // tabMenusMap[TAB_ID][MENU_I] = TITLE;
+    const tabMenusMap = [];
+    const buildContextMenuForTab = (tabId) => {
+      chrome.contextMenus.removeAll();
+      (tabMenusMap[tabId] ?? []).forEach((title, menuI) => {
+        chrome.contextMenus.create({
+          title,
+          onclick: () => {
+            chrome.tabs.sendMessage(tabId, {
+              fun: "menu",
+              args: { index: menuI },
+            });
+          },
+        });
+      });
     };
 
     // Handle messages from popup and stuff
@@ -191,6 +212,14 @@ import("/lib/core.js").then(
             });
           });
         });
+      } else if (fun === "menu") {
+        // tabMenusMap[TAB_ID][MENU_I] = TITLE;
+        const tabId = sender.tab.id;
+        if (typeof tabMenusMap[tabId] === "undefined") tabMenusMap[tabId] = [];
+        const menuI = tabMenusMap[tabId].length;
+        tabMenusMap[tabId][menuI] = args.title;
+        buildContextMenuForTab(tabId);
+        return Promise.resolve(menuI);
       } else if (fun === "closeTab") {
         browser.tabs.remove(sender.tab.id);
       } else if (fun === "fetchText") {
@@ -213,5 +242,13 @@ import("/lib/core.js").then(
     };
 
     browser.runtime.onMessage.addListener(onMessage);
+    // Context menu stuff
+    browser.webNavigation.onCommitted.addListener(({ tabId }) => {
+      chrome.contextMenus.removeAll();
+      tabMenusMap[tabId] = [];
+    });
+    chrome.tabs.onActivated.addListener(({ tabId }) => {
+      buildContextMenuForTab(tabId);
+    });
   }
 );
