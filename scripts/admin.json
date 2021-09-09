@@ -76,6 +76,26 @@
         ],
         "path": "salesforce/workbench-autologin.js",
         "enabled": false
+      },
+      {
+        "id": "reporttype-shortcut",
+        "type": "script",
+        "version": "0.1",
+        "name": "Shortcut to report types",
+        "description": "May safe some clicks",
+        "matches": ["https://inwork.lightning.force.com/reports/*"],
+        "path": "salesforce/reporttype-shortcut.js",
+        "enabled": true
+      },
+      {
+        "id": "accountmerge-shortcut",
+        "type": "script",
+        "version": "0.1",
+        "name": "Shortcut to account merging",
+        "description": "Classic > Lightning",
+        "matches": ["https://inwork.lightning.force.com/*"],
+        "path": "salesforce/accountmerge-shortcut.js",
+        "enabled": true
       }
     ]
   }
