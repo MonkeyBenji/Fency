@@ -4,7 +4,6 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
   let thisButton = null;
 
   const boopVaca = async (id, title) => {
-    console.log("boop", id, title);
     const recentPositions = await Monkey.get(RECENT_POSITIONS_KEY, []);
     const found = recentPositions.find((position) => position.id === id);
     const lastVisited = Date.now();

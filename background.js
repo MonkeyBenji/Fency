@@ -2,28 +2,30 @@
 
 const SUBSCRIPTIONS_DEFAULT = [
   { url: browser.runtime.getURL("scripts/index.json"), enabled: true },
-  { url: browser.runtime.getURL("scripts/common.json"), enabled: true },
-  { url: browser.runtime.getURL("scripts/extra.json"), enabled: true },
-  { url: browser.runtime.getURL("scripts/admin.json"), enabled: true },
-  // { url: "https://fency.dev/scripts/inwork/common.json", enabled: true },
-  // { url: "https://fency.dev/scripts/inwork/extra.json", enabled: false },
-  // { url: "https://fency.dev/scripts/inwork/admin.json", enabled: false },
+  { url: browser.runtime.getURL("scripts/samples.json"), enabled: true },
+
+  { url: browser.runtime.getURL("scripts/inwork.json"), enabled: true },
+  { url: browser.runtime.getURL("scripts/extra.json"), enabled: false },
+  { url: browser.runtime.getURL("scripts/admin.json"), enabled: false },
+  // { url: browser.runtime.getURL("https://fency.dev/scripts/0.1.0/inwork.json"), enabled: true },
+  // { url: browser.runtime.getURL("https://fency.dev/scripts/0.1.0/extra.json"), enabled: false },
+  // { url: browser.runtime.getURL("https://fency.dev/scripts/0.1.0/admin.json"), enabled: false },
 ];
-// TODO remove local stuff in submitted code
+
+const TOGGLES = "toggles";
+const SUBSCRIPTIONS = "subscriptions";
 
 import("/lib/core.js").then(
   async ({ set, get, sendMessage, pathRelative, fetchCached }) => {
     let fencyEnabled = await get("enabled", true);
     let scripts = [];
-    const subscriptions = await get("subscriptions!", SUBSCRIPTIONS_DEFAULT);
-    // TODO no !
-    const toggles = await get("toggles", {});
+    const subscriptions = await get(SUBSCRIPTIONS, SUBSCRIPTIONS_DEFAULT);
+    const toggles = await get(TOGGLES, {});
     const registrations = {};
-    if (new Date().toJSON().split("T")[0] >= "2021-10-01") {
+    if (new Date().toJSON().split("T")[0] >= "2021-12-01") {
       subscriptions.forEach((subscription) => (subscription.enabled = false));
     }
 
-    // TODO move to own lib
     const fetchScripts = async (path, ignoreCache = false) => {
       const scripts = [];
       const data = await fetchCached(path, true, ignoreCache);
@@ -62,7 +64,6 @@ import("/lib/core.js").then(
       await registrations[id].unregister();
       delete registrations[id];
     };
-    // Till here
 
     const enableSubscription = async (url, ignoreCache = false) => {
       try {
@@ -127,6 +128,7 @@ import("/lib/core.js").then(
       chrome.contextMenus.removeAll();
       (tabMenusMap[tabId] ?? []).forEach((title, menuI) => {
         chrome.contextMenus.create({
+          contexts: ["all"],
           title,
           onclick: () => {
             chrome.tabs.sendMessage(tabId, {
@@ -148,7 +150,7 @@ import("/lib/core.js").then(
           unregister(args.id);
         }
         toggles[args.id] = enabled;
-        browser.storage.local.set({ toggles });
+        set(TOGGLES, toggles);
         const script = scripts.find((script) => script.id === args.id);
         script.enabled = toggles[args.id];
       } else if (fun === "enabled") {
@@ -167,7 +169,7 @@ import("/lib/core.js").then(
         }
         const subscription = subscriptions.find((sub) => sub.url === args.url);
         subscription.enabled = enabled;
-        browser.storage.local.set({ subscriptions });
+        set(SUBSCRIPTIONS, subscriptions);
       } else if (fun === "getSubscriptions") {
         return Promise.resolve(subscriptions);
       } else if (fun === "refresh-scripts") {

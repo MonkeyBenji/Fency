@@ -1,5 +1,4 @@
 import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
-  console.log("AmIHere?");
   const sortOne = () => {
     const parseCxsNlDate = (s) => {
       if (s === "") return "1970-01-01";
@@ -42,7 +41,6 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
       .entries()) {
       if (dateCurrent > datePrevious) {
         // Go up
-        console.log("up", dateCurrent, datePrevious);
         workExperienceDivs[idx + 1]
           .querySelector(".cxsMoveSubsectionUp")
           .click();

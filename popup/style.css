@@ -129,3 +129,7 @@ button:active {
 button:disabled {
   opacity: 0.6;
 }
+
+a#reset {
+  color: #e53e3e;
+}

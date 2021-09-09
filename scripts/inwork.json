@@ -99,5 +99,17 @@
         "enabled": true
       }
     ]
-  }
+  },
+  "Misc": [
+    {
+      "id": "directlease-contract-kevin",
+      "type": "script",
+      "version": "0.1",
+      "name": "DirectLease Contract Kevin",
+      "description": "Set contract settings to Kevin preferences automagically",
+      "matches": "https://directlease.nl/leasen/*",
+      "path": "misc/directlease-contract-kevin.js",
+      "enabled": false
+    }
+  ]
 }

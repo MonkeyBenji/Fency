@@ -1,15 +1,12 @@
 import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
   document.body.addEventListener("click", async (ev) => {
-    console.log("click");
     if (!ev.target.closest(".cxsrecWorkflowStepActions")) return;
 
-    console.log("step clicked");
     await Monkey.waitForTrue(
       () =>
         document.querySelectorAll(".cxsField_PICKLIST select.uiInput--select")
           .length > 3
     );
-    console.log("selects found");
     const modal = document.querySelector(".modal-body");
     modal.querySelector("h3:first-of-type button").click();
 
@@ -90,19 +87,4 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
     selectToToggle(fieldsByName["Aantal jaren ervaring"]);
     selectToToggle(fieldsByName["Talen"]);
   });
-
-  //   Monkey.css(`.cxsField_STRING {
-  //   max-width: 33%;
-  //   float: left;
-  //   clear: none !important;
-  // }
-  // .cxsField_DATE {
-  //   max-width: 49%;
-  //   float: left;
-  //   clear: none !important;
-  // }
-  // .cxsrecField.cxsField_TEXTAREA .uiInputTextArea {
-  //   height: 70px;
-  // }
-  // `);
 });

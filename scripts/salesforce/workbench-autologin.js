@@ -6,7 +6,6 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
     loginBtn.click();
   }
   if (location.href.includes("login.salesforce.com/")) {
-    console.log("login", location.href);
     const mydomainLink = await Monkey.waitForSelector("#mydomainLink");
     mydomainLink.click();
     const mydomain = await Monkey.waitForSelector("#mydomain");
