@@ -19,7 +19,7 @@
     const div = document.createElement("div");
     const label = document.createElement("label");
     label.textContent = subscription.url.replace(
-      /chrome-extension:\/\/.*\//,
+      /(chrome|moz)-extension:\/\/.*\//,
       "Fency/"
     );
 

@@ -11,7 +11,7 @@
         "matches": "<all_urls>",
         "path": "fency/rfc.js",
         "enabled": true,
-        "allFrames": true
+        "allFrames": false
       }
     ]
   }

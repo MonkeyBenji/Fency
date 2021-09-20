@@ -3,8 +3,8 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
   const mail = "fency@inwork.nl";
   const salutation = Monkey.sample(["Yo Gap", "Hey Gozert", "Hey Pik"]);
   const greeting = Monkey.sample(["Xoxo", "Hoogachtend", "Latex"]);
-  const host = window.location.host;
-  const href = window.location.href;
+  const host = window.top.location.host;
+  const href = window.top.location.href;
   const title = `Geniaal idee ${host}`;
   const body = `${salutation},
 

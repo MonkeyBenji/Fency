@@ -133,3 +133,17 @@ button:disabled {
 a#reset {
   color: #e53e3e;
 }
+
+@-moz-document url-prefix() {
+  body {
+    padding: 1em;
+    min-width: 340px;
+    padding-bottom: 0;
+    overflow-x: hidden;
+  }
+  header,
+  #toggles,
+  footer {
+    width: 95%;
+  }
+}

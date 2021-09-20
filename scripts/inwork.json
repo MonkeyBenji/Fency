@@ -97,19 +97,43 @@
         "matches": ["https://inwork.lightning.force.com/*"],
         "path": "connexys/step-style.js",
         "enabled": true
+      },
+      {
+        "id": "default-report-filter-iw",
+        "type": "script",
+        "version": "0.1",
+        "name": "Standaard [iw] filter",
+        "description": "Standaard [iw] filter bij nieuw rapport",
+        "matches": [
+          "https://inwork.lightning.force.com/reports/lightningReportApp.app"
+        ],
+        "path": "connexys/default-report-filter-iw.js",
+        "enabled": true,
+        "allFrames": true
+      },
+      {
+        "id": "default-subject-empty",
+        "type": "script",
+        "version": "0.1",
+        "name": "Standaard leeg onderwerp taak",
+        "description": "Is nu standaard \"Bellen\" ... ... teh fuk Salesforce",
+        "matches": ["https://inwork.lightning.force.com/*"],
+        "path": "connexys/default-subject-empty.js",
+        "enabled": true,
+        "allFrames": true
+      }
+    ],
+    "Misc": [
+      {
+        "id": "directlease-contract-kevin",
+        "type": "script",
+        "version": "0.1",
+        "name": "DirectLease Contract Kevin",
+        "description": "Set contract settings to Kevin preferences automagically",
+        "matches": "https://directlease.nl/leasen/*",
+        "path": "misc/directlease-contract-kevin.js",
+        "enabled": true
       }
     ]
-  },
-  "Misc": [
-    {
-      "id": "directlease-contract-kevin",
-      "type": "script",
-      "version": "0.1",
-      "name": "DirectLease Contract Kevin",
-      "description": "Set contract settings to Kevin preferences automagically",
-      "matches": "https://directlease.nl/leasen/*",
-      "path": "misc/directlease-contract-kevin.js",
-      "enabled": false
-    }
-  ]
+  }
 }
