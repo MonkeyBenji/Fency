@@ -1,7 +1,7 @@
 body {
   padding: 1em;
   min-width: 300px;
-  padding-bottom: 0;
+  padding-bottom: 16px;
 }
 
 h1 {
@@ -39,6 +39,33 @@ header label {
   font-size: 1em;
   margin-top: -8px;
   margin-bottom: 8px;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  background-color: #fff;
+  width: 100%;
+}
+
+#update-button {
+  border-radius: 100%;
+  width: 21px;
+  height: 21px;
+  padding: 2px;
+}
+#update-button > svg {
+  height: 14px;
+}
+
+#version {
+  font-size: 1em;
+  font-style: italic;
+}
+.right {
+  float: right;
+  padding-bottom: 4px;
+  padding-right: 28px;
 }
 
 /* Toggle Button */
@@ -102,14 +129,6 @@ input[type="checkbox"]:checked::after {
   opacity: 0.1;
   pointer-events: none;
 }
-#version {
-  font-size: 0.8em;
-  font-style: italic;
-}
-.right {
-  float: right;
-  padding-bottom: 4px;
-}
 
 button {
   border-radius: 4px;
@@ -128,6 +147,20 @@ button:active {
 }
 button:disabled {
   opacity: 0.6;
+}
+button.success {
+  background: #9bcb41;
+}
+button.error {
+  background: #e53e3e;
+}
+button.spin {
+  animation: spin 4s linear infinite;
+}
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 a#reset {

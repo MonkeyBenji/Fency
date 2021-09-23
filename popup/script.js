@@ -5,6 +5,7 @@ import("/lib/core.js").then(async (Monkey) => {
   const refreshScriptsButton = document.querySelector("#refresh-scripts");
   const refreshPageButton = document.querySelector("#refresh-page");
   const enabledToggle = document.querySelector("#enabled-toggle");
+  const updateButton = document.querySelector("#update-button");
   const version = chrome.runtime.getManifest().version;
   document.querySelector("#version").textContent = `Fency version ${version}`;
 
@@ -74,6 +75,75 @@ import("/lib/core.js").then(async (Monkey) => {
     await Monkey.sendMessage("enabled", { enabled });
     toggles.classList.toggle("disabled", !enabled);
   });
+
+  // Update status
+  const AUTO_UPDATE_INTERVAL = 24 * 60 * 60 * 1000;
+  const LOADING = 0;
+  const UPDATE_AVAILABLE = 1;
+  const THROTTLED = 2;
+  const UP_TO_DATE = 3;
+  let updateStatus = UP_TO_DATE;
+  let lastUpdated = await Monkey.get("lastUpdated", 0);
+
+  const updateClassReset = () => {
+    updateButton.classList.remove("success");
+    updateButton.classList.remove("error");
+    updateButton.classList.remove("spin");
+  };
+  const updateIsAvailable = async () => {
+    updateStatus = UPDATE_AVAILABLE;
+    updateButton.innerHTML = await Monkey.getFaSvg("arrow-alt-up");
+    updateClassReset();
+    updateButton.classList.add("success");
+  };
+  const isUpToDate = async () => {
+    updateStatus = UP_TO_DATE;
+    updateButton.innerHTML = await Monkey.getFaSvg("check");
+    updateClassReset();
+    updateButton.classList.add("success");
+  };
+  const updateThrottled = async () => {
+    updateStatus = THROTTLED;
+    updateButton.innerHTML = await Monkey.getFaSvg("exclamation-triangle");
+    updateClassReset();
+    updateButton.classList.add("error");
+  };
+  const updateDoLoading = async () => {
+    updateStatus = LOADING;
+    await Monkey.set("lastUpdated", new Date().getTime());
+    updateClassReset();
+    updateButton.classList.add("spin");
+    updateButton.innerHTML = await Monkey.getFaSvg("spinner");
+    setTimeout(() => {
+      chrome.runtime.requestUpdateCheck((status) => {
+        if (status === "update_available") {
+          updateIsAvailable();
+        } else if (status === "no_update") {
+          isUpToDate();
+        } else if (status === "throttled") {
+          console.error("throttled");
+          updateThrottled();
+        }
+      });
+    }, 1337);
+  };
+  updateButton.addEventListener("click", () => {
+    if (updateStatus === LOADING) {
+      alert("Rustig jij!");
+    } else if (updateStatus === UPDATE_AVAILABLE) {
+      console.log("reload!");
+      chrome.runtime.reload();
+    } else if (updateStatus === THROTTLED) {
+      updateDoLoading();
+    } else if (updateStatus === UP_TO_DATE) {
+      updateDoLoading();
+    }
+  });
+  if (new Date().getTime() - lastUpdated > AUTO_UPDATE_INTERVAL) {
+    updateDoLoading();
+  } else {
+    isUpToDate();
+  }
 
   refreshPageButton.addEventListener("click", async () => {
     await Monkey.sendMessage("refresh-page");
