@@ -11,6 +11,7 @@
         "matches": [
           "https://inwork.nl/*",
           "https://www.inwork.nl/*",
+          "https://www-dev.inwork.nl/*",
           "https://intranet.inwork.nl/*"
         ],
         "path": "inwork/bananen.js",

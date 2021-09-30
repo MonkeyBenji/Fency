@@ -26,6 +26,17 @@
         "allFrames": true
       },
       {
+        "id": "remove-default-filters",
+        "type": "script",
+        "version": "0.1",
+        "name": "#nofilter",
+        "description": "Verwijder de standaard filters van een Salesforce rapport met 1 klik",
+        "matches": "https://inwork.lightning.force.com/reports/lightningReportApp.app*",
+        "path": "connexys/remove-default-filters.js",
+        "enabled": true,
+        "allFrames": true
+      },
+      {
         "id": "dash-autorefresh",
         "type": "script",
         "version": "0.1",
