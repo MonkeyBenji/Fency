@@ -131,7 +131,6 @@ import("/lib/core.js").then(async (Monkey) => {
     if (updateStatus === LOADING) {
       alert("Rustig jij!");
     } else if (updateStatus === UPDATE_AVAILABLE) {
-      console.log("reload!");
       chrome.runtime.reload();
     } else if (updateStatus === THROTTLED) {
       updateDoLoading();

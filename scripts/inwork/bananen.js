@@ -8,6 +8,8 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
       duurzaam: "groen",
       Duurzame: "Groene",
       duurzame: "groene",
+      "Werkgeluk is volgens": "Bananen zijn volgens",
+      "werkgeluk bepalend is": "bananen bepalend zijn",
       Werkgeluk: "Bananen",
       werkgeluk: "bananen",
       baan: "banaan",

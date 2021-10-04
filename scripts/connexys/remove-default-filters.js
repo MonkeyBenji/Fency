@@ -4,7 +4,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
   )
     .then((span) => {
       const a = Monkey.createElement(
-        `<a href="#nofilter" style="position: absolute;top: 14px;right: 2px;">#nofilter</a>`
+        `<a href="#nofilter" style="position: absolute;top: 26px;right: 4px;z-index: 1337;font-weight: normal">#nofilter</a>`
       );
       span.parentNode.insertBefore(a, span);
       a.addEventListener("click", async (ev) => {
@@ -56,26 +56,35 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
         buttonApplyDate.click();
         await Monkey.waitForTrue(filterApplyBeGone);
 
-        // Add Anonimize filter
-        document.querySelector(".filters-panel .slds-combobox__input").click();
-        [...document.querySelectorAll("ul.report-combobox-listbox li > span")]
-          .filter((li) => li.textContent === "Anonimiseringsstatus")[0]
-          .click();
-        (
-          await Monkey.waitForSelector(".filter-popover .slds-picklist button")
-        ).click();
-        (
-          await Monkey.waitForSelector(
-            ".filter-popover .slds-dropdown__item:nth-of-type(2) a"
-          )
-        ).click();
-        (
-          await Monkey.waitForSelector(
-            "ul.multi-picklist-container li:nth-of-type(4) a"
-          )
-        ).click();
-        document.querySelector(".filter-popover button.filter-apply").click();
-        await Monkey.waitForTrue(filterApplyBeGone);
+        // Add Anonimize filter for candidates
+        if (
+          document.querySelector(".dash-title .dash-tag").textContent ===
+          "[iw] Kandidaten"
+        ) {
+          document
+            .querySelector(".filters-panel .slds-combobox__input")
+            .click();
+          [...document.querySelectorAll("ul.report-combobox-listbox li > span")]
+            .filter((li) => li.textContent === "Anonimiseringsstatus")[0]
+            .click();
+          (
+            await Monkey.waitForSelector(
+              ".filter-popover .slds-picklist button"
+            )
+          ).click();
+          (
+            await Monkey.waitForSelector(
+              ".filter-popover .slds-dropdown__item:nth-of-type(2) a"
+            )
+          ).click();
+          (
+            await Monkey.waitForSelector(
+              "ul.multi-picklist-container li:nth-of-type(4) a"
+            )
+          ).click();
+          document.querySelector(".filter-popover button.filter-apply").click();
+          await Monkey.waitForTrue(filterApplyBeGone);
+        }
       });
     })
     .catch(() => {});

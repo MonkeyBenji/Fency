@@ -40,10 +40,11 @@
     const uSure =
       "Weet je zeker dat je al je mooie voorkeuren 'n shit in de shredder wilt pleuren?";
     const allDone =
-      "Ik heb het in principe nu weggepleurt, maar ik denk dat je er pas echt wat van merkt als je je browsert opnieuw opstart (alle venstertjes)";
+      "Alles is weggepleurt, kan je weer opnieuw beginnen... Nou succes hè!";
     if (confirm(uSure)) {
       chrome.storage.local.clear();
       alert(allDone);
+      chrome.runtime.reload();
       window.close();
     }
   });

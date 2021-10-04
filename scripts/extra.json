@@ -16,6 +16,16 @@
         ],
         "path": "inwork/bananen.js",
         "enabled": false
+      },
+      {
+        "id": "inwork-werkgeluk",
+        "type": "script",
+        "version": "0.1",
+        "name": "Werkgeluk",
+        "description": "Heel duurzaam",
+        "matches": "<all_urls>",
+        "path": "inwork/werkgeluk.js",
+        "enabled": false
       }
     ],
     "InCTRL": [

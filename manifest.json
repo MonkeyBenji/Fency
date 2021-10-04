@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Fency",
-  "version": "0.1.1.0",
+  "version": "0.1.1.2",
 
   "description": "Hack the Web: For Fun and Profit",
   "icons": {
