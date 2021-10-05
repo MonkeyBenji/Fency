@@ -26,6 +26,17 @@
         "allFrames": true
       },
       {
+        "id": "vaca-font",
+        "type": "script",
+        "version": "0.1",
+        "name": "Vaca font fixer",
+        "description": "Zorgt dat je vacature niet vernoikt wordt als je van Word naar Knexis kopie pasta'd",
+        "matches": "https://inwork.lightning.force.com/lightning/r/cxsrec__cxsPosition__c/*",
+        "path": "connexys/vaca-font.js",
+        "enabled": true,
+        "allFrames": true
+      },
+      {
         "id": "remove-default-filters",
         "type": "script",
         "version": "0.1",
