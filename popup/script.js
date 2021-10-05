@@ -42,6 +42,7 @@ import("/lib/core.js").then(async (Monkey) => {
       checkbox.type = "checkbox";
       checkbox.checked = script.enabled;
       checkbox.addEventListener("change", () => {
+        refreshPageButton.classList.add("blinking");
         toggleScript(script.id, checkbox.checked);
       });
       label.addEventListener("dblclick", () => {
@@ -85,6 +86,11 @@ import("/lib/core.js").then(async (Monkey) => {
   let updateStatus = UP_TO_DATE;
   let lastUpdated = await Monkey.get("lastUpdated", 0);
 
+  chrome.runtime.onUpdateAvailable.addListener((details) => {
+    console.log("Updating to version " + details.version);
+    chrome.runtime.reload();
+  });
+
   const updateClassReset = () => {
     updateButton.classList.remove("success");
     updateButton.classList.remove("error");
@@ -93,18 +99,21 @@ import("/lib/core.js").then(async (Monkey) => {
   const updateIsAvailable = async () => {
     updateStatus = UPDATE_AVAILABLE;
     updateButton.innerHTML = await Monkey.getFaSvg("arrow-alt-up");
+    updateButton.title = "Update available";
     updateClassReset();
     updateButton.classList.add("success");
   };
-  const isUpToDate = async () => {
+  const isUpToDate = async (checked = false) => {
     updateStatus = UP_TO_DATE;
     updateButton.innerHTML = await Monkey.getFaSvg("check");
+    updateButton.title = "Up-to-date" + (checked ? "" : " (probably)");
     updateClassReset();
     updateButton.classList.add("success");
   };
   const updateThrottled = async () => {
     updateStatus = THROTTLED;
     updateButton.innerHTML = await Monkey.getFaSvg("exclamation-triangle");
+    updateButton.title = "Throttled";
     updateClassReset();
     updateButton.classList.add("error");
   };
@@ -114,12 +123,13 @@ import("/lib/core.js").then(async (Monkey) => {
     updateClassReset();
     updateButton.classList.add("spin");
     updateButton.innerHTML = await Monkey.getFaSvg("spinner");
+    updateButton.title = "Checking for update";
     setTimeout(() => {
       chrome.runtime.requestUpdateCheck((status) => {
         if (status === "update_available") {
           updateIsAvailable();
         } else if (status === "no_update") {
-          isUpToDate();
+          isUpToDate(true);
         } else if (status === "throttled") {
           console.error("throttled");
           updateThrottled();
@@ -141,7 +151,7 @@ import("/lib/core.js").then(async (Monkey) => {
   if (new Date().getTime() - lastUpdated > AUTO_UPDATE_INTERVAL) {
     updateDoLoading();
   } else {
-    isUpToDate();
+    isUpToDate(false);
   }
 
   refreshPageButton.addEventListener("click", async () => {

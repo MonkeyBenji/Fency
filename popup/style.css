@@ -167,16 +167,25 @@ a#reset {
   color: #e53e3e;
 }
 
+.blinking {
+  animation: blink 1337ms ease-in-out infinite;
+}
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.2;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 @-moz-document url-prefix() {
   body {
-    padding: 1em;
     min-width: 340px;
-    padding-bottom: 0;
-    overflow-x: hidden;
-  }
-  header,
-  #toggles,
-  footer {
-    width: 95%;
+    padding-bottom: 24px;
+    overflow-y: scroll;
   }
 }
