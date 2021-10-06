@@ -31,7 +31,7 @@
         "version": "0.1",
         "name": "Vaca font fixer",
         "description": "Zorgt dat je vacature niet vernoikt wordt als je van Word naar Knexis kopie pasta'd",
-        "matches": "https://inwork.lightning.force.com/lightning/r/cxsrec__cxsPosition__c/*",
+        "matches": "https://inwork.lightning.force.com/*",
         "path": "connexys/vaca-font.js",
         "enabled": true,
         "allFrames": true
@@ -64,7 +64,7 @@
         "version": "0.1",
         "name": "Matchende klanten zoekert",
         "description": "Maak vanuit een kandidaat, automagisch een rapport van klanten op basis van Geo/BU/Functie",
-        "matches": ["https://inwork.lightning.force.com/*"],
+        "matches": "https://inwork.lightning.force.com/*",
         "path": "connexys/matching-customers.js",
         "enabled": true,
         "allFrames": true
