@@ -48,6 +48,17 @@
         "allFrames": true
       },
       {
+        "id": "anonimize-default-state",
+        "type": "script",
+        "version": "0.1",
+        "name": "Status na anonimiseren",
+        "description": "Zet de standaard status bij anonimiseren op 9.0, omdat de standaard standaard (6.0 aangenomen) niet heel logisch is...",
+        "matches": "https://inwork--cxsrec.eu18.visual.force.com/apex/cxsAnonymize*",
+        "path": "connexys/anonimize-default-state.js",
+        "enabled": true,
+        "allFrames": true
+      },
+      {
         "id": "dash-autorefresh",
         "type": "script",
         "version": "0.1",

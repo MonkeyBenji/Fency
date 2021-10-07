@@ -22,7 +22,9 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
     padding-left: 0;
   }`);
     const fontClear = (ev) => {
-      const rt = ev.target.closest("lightning-input-rich-text");
+      const rt =
+        ev.target.closest("lightning-input-rich-text") ||
+        ev.target.closest(".lightningInputRichText");
       if (!rt) return;
       const editor = rt.querySelector("div.ql-editor");
 

@@ -4,8 +4,8 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
     const TIME_BETWEEN = 10 * 60 * 60 * 1000; // once every 10 hours
     const now = new Date().getTime();
     const lastOccurrence = await Monkey.get(KEY, 0);
-    if (now - lastOccurrence > TIME_BETWEEN) {
-      Monkey.css(`#happy-guy {
+    if (now - lastOccurrence < TIME_BETWEEN) return;
+    Monkey.css(`#happy-guy {
         position: fixed;
         top: 0;
         left: 0;
@@ -37,11 +37,10 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
         }
       }
       `);
-      const happyGuy = Monkey.createElement(
-        '<div id="happy-guy"><img src="https://fency.dev/img/happy-person.png"></div>'
-      );
-      document.body.appendChild(happyGuy);
-      setTimeout(() => Monkey.set(KEY, now), 1337);
-    }
+    const happyGuy = Monkey.createElement(
+      '<div id="happy-guy"><img src="https://fency.dev/img/happy-person.png"></div>'
+    );
+    document.body.appendChild(happyGuy);
+    setTimeout(() => Monkey.set(KEY, now), 1337);
   });
 });
