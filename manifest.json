@@ -38,11 +38,5 @@
       "content-scripts-register-polyfill.js",
       "background.js"
     ]
-  },
-
-  "browser_specific_settings": {
-    "gecko": {
-      "id": "extension@fency.dev"
-    }
   }
 }
