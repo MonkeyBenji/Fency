@@ -102,7 +102,8 @@
       if (
         !matchesRegex.test(url) ||
         !(await isOriginPermitted(url)) ||
-        (await wasPreviouslyLoaded(tabId, frameId, { js, css }))
+        (await wasPreviouslyLoaded(tabId, frameId, { js, css })) ||
+        (!contentScriptOptions.allFrames && frameId !== 0)
       ) {
         return;
       }

@@ -245,7 +245,8 @@ import("/lib/core.js").then(
 
     browser.runtime.onMessage.addListener(onMessage);
     // Context menu stuff
-    browser.webNavigation.onCommitted.addListener(({ tabId }) => {
+    browser.webNavigation.onCommitted.addListener(({ tabId, frameId }) => {
+      if (frameId !== 0) return;
       chrome.contextMenus.removeAll();
       tabMenusMap[tabId] = [];
     });
