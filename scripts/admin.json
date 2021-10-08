@@ -13,7 +13,8 @@
           "https://*.cloudforce.com/*"
         ],
         "path": "salesforce/salesblurred.js",
-        "enabled": false
+        "enabled": false,
+        "allFrames": true
       },
       {
         "id": "language-switch",
