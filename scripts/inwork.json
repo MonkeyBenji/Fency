@@ -92,33 +92,13 @@
         "allFrames": true
       },
       {
-        "id": "cv-generator-sort",
+        "id": "cv-generator",
         "type": "script",
         "version": "0.1",
-        "name": "CV Generator Sorteerding",
-        "description": "TODO: Deprecaten na release 30",
+        "name": "CV Generator Fixes",
+        "description": "Kut Connexys updates ook (tekst in datum veld, auto anoniem, styling, etc.)",
         "matches": ["https://inwork.lightning.force.com/one/*"],
-        "path": "connexys/cv-generator-sort.js",
-        "enabled": true
-      },
-      {
-        "id": "cv-generator-style",
-        "type": "script",
-        "version": "0.1",
-        "name": "CV Generator Style",
-        "description": "Wat minder verticale space gebruiken",
-        "matches": ["https://inwork.lightning.force.com/one/*"],
-        "path": "connexys/cv-generator-style.js",
-        "enabled": true
-      },
-      {
-        "id": "cv-generator-textdates",
-        "type": "script",
-        "version": "0.1",
-        "name": "CV Generator Text in Date Fields",
-        "description": "Kut Connexys updates ook",
-        "matches": ["https://inwork.lightning.force.com/one/*"],
-        "path": "connexys/cv-generator-textdates.js",
+        "path": "connexys/cv-generator.js",
         "enabled": true
       },
       {

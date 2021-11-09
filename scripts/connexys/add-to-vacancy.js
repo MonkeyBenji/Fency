@@ -28,13 +28,17 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
     // Keep track of recent vaca's
     if (window.location.pathname.includes("/a0w")) {
       // Wait for title change
-      new MutationObserver(async () => {
+      const watcher = new MutationObserver(async () => {
+        if (!window.location.pathname.includes("/a0w")) {
+          return watcher.disconnect();
+        }
         const positionId = window.location.pathname
           .split("/")
           .filter((s) => s.startsWith("a0w"))[0];
         const title = document.title.split(" | ")[0];
         await boopVaca(positionId, title);
-      }).observe(document.querySelector("title"), {
+      });
+      watcher.observe(document.querySelector("title"), {
         subtree: true,
         characterData: true,
         childList: true,
