@@ -1,6 +1,7 @@
 import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
   Monkey.waitForSelector(
-    ".query-builder-widget li.slds-tabs_default__item:not(.slds-is-active) .tab-label"
+    ".query-builder-widget li.slds-tabs_default__item:not(.slds-is-active) .tab-label",
+    5 * 60 * 1000
   )
     .then((span) => {
       const a = Monkey.createElement(

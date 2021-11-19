@@ -53,7 +53,7 @@
         "version": "0.1",
         "name": "Status na anonimiseren",
         "description": "Zet de standaard status bij anonimiseren op 9.0, omdat de standaard standaard (6.0 aangenomen) niet heel logisch is...",
-        "matches": "https://inwork--cxsrec.eu18.visual.force.com/apex/cxsAnonymize*",
+        "matches": "https://*.visual.force.com/apex/cxsAnonymize*",
         "path": "connexys/anonimize-default-state.js",
         "enabled": true,
         "allFrames": true
@@ -97,7 +97,7 @@
         "version": "0.1",
         "name": "CV Generator Fixes",
         "description": "Kut Connexys updates ook (tekst in datum veld, auto anoniem, styling, etc.)",
-        "matches": ["https://inwork.lightning.force.com/one/*"],
+        "matches": ["https://inwork.lightning.force.com/*"],
         "path": "connexys/cv-generator.js",
         "enabled": true
       },

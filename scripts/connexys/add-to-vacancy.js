@@ -47,6 +47,13 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
 
     // Keep track of record type choices and choose same one again
     if (window.location.pathname.includes("/one.app")) {
+      try {
+        const oneApp = JSON.parse(atob(window.location.hash.slice(1)));
+        if (oneApp.componentDef !== "cxsrec:EasyCreateJobApplication") return;
+      } catch (e) {
+        return;
+      }
+
       document.body.addEventListener("click", async (ev) => {
         const selectedRadio = document.querySelector(
           'input[type="radio"][value^="012"]:checked'

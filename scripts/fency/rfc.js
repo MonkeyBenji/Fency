@@ -10,7 +10,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
 
 Ik zat dus op deze woopsite pagina: ${href}
 En ik dacht zo van hoe chill zou het zijn dat als je hiero:
-<plaatje hier?>
+<plaatje hier?> (Gebruik Windowsvlaggetje+Shift+S om een screenshot van deel van scherm te maken)
 
 Nou eens: <verwijder wat niet van toepassing is>
 - Een knopje toevoegt, en als je er op klikt dan ... ... kaboom!
