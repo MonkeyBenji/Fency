@@ -10,7 +10,7 @@
     "256": "icons/icon256.png"
   },
 
-  "web_accessible_resources": ["lib/*", "icons/*"],
+  "web_accessible_resources": ["lib/*", "icons/*", "misc/*"],
 
   "permissions": [
     "<all_urls>",

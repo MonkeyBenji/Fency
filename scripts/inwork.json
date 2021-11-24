@@ -102,6 +102,16 @@
         "enabled": true
       },
       {
+        "id": "cv-docx",
+        "type": "script",
+        "version": "0.1",
+        "name": "CV Word (beta)",
+        "description": "Word CV download knop ding",
+        "matches": ["https://inwork.lightning.force.com/*"],
+        "path": "connexys/cv-docx.js",
+        "enabled": true
+      },
+      {
         "id": "step-style",
         "type": "script",
         "version": "0.1",

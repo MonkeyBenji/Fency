@@ -39,18 +39,6 @@
         "path": "inctrl/auto-mike.js",
         "enabled": false
       }
-    ],
-    "Samples": [
-      {
-        "id": "upside-down",
-        "type": "script",
-        "version": "0.1",
-        "name": "Upside Down",
-        "description": "Turns the page upside down... for when a user forgot to lock the computer or something",
-        "matches": "<all_urls>",
-        "path": "samples/upside-down.js",
-        "enabled": false
-      }
     ]
   }
 }

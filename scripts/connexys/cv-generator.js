@@ -66,7 +66,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
         });
         save.parentNode.appendChild(button);
       })
-      .catch();
+      .catch(() => {});
 
     // Keep track of text override listeners
     let iDontLikeChange = {};
