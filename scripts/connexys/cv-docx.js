@@ -27,37 +27,9 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
       return;
     }
 
-    // TODO Monkey.save
-    function saveAs(blob, filename) {
-      if (typeof navigator.msSaveOrOpenBlob !== "undefined") {
-        return navigator.msSaveOrOpenBlob(blob, fileName);
-      } else if (typeof navigator.msSaveBlob !== "undefined") {
-        return navigator.msSaveBlob(blob, fileName);
-      } else {
-        var elem = window.document.createElement("a");
-        elem.href = window.URL.createObjectURL(blob);
-        elem.download = filename;
-        elem.style = "display:none;opacity:0;color:transparent;";
-        (document.body || document.documentElement).appendChild(elem);
-        if (typeof elem.click === "function") {
-          elem.click();
-        } else {
-          elem.target = "_blank";
-          elem.dispatchEvent(
-            new MouseEvent("click", {
-              view: window,
-              bubbles: true,
-              cancelable: true,
-            })
-          );
-        }
-        URL.revokeObjectURL(elem.href);
-      }
-    }
-
     Monkey.fab("fa fa-file-word", "Word CV'tje genereren", async () => {
-      await import(chrome.runtime.getURL("/lib/jszip.js"));
-      fetch(chrome.runtime.getURL("/misc/InWorkStandard.docx"))
+      await Monkey.lib("jszip");
+      fetch("https://fency.dev/misc/InWorkStandard.php")
         .then((response) => response.blob())
         .then(JSZip.loadAsync)
         .then(async (zip) => {
@@ -146,7 +118,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
                 education.Einddatum,
                 false
               );
-              const body = `${education.Opleiding}
+              const body = `${education.Niveau} ${education.Opleiding}
 ${education.Instituut}
 ${education["Overige informatie"]}`.trim();
               return (
@@ -184,10 +156,9 @@ ${education["Overige informatie"]}`.trim();
             .join(pWorkDivider.outerHTML);
           workHtml = workHtml.replaceAll(
             '<wp:docPr id="19"',
-            `<wp:docPr id="${i++}"`
-          ); // TODO, make this work
+            () => `<wp:docPr id="${i++}"`
+          );
           pWork.outerHTML = workHtml;
-          console.log(workHtml);
           pWork2.outerHTML = "";
           pWorkDivider.outerHTML = "";
 
@@ -198,7 +169,9 @@ ${education["Overige informatie"]}`.trim();
 
           zip
             .generateAsync({ type: "blob" })
-            .then((content) => saveAs(content, "cv.docx"));
+            .then((content) =>
+              Monkey.save(content, `${mapping["Roepnaam"]}.docx`)
+            );
         });
     });
   };

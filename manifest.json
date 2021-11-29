@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Fency",
-  "version": "0.1.1.3",
+  "version": "0.1.2.0",
 
   "description": "Hack the Web: For Fun and Profit",
   "icons": {
@@ -10,7 +10,7 @@
     "256": "icons/icon256.png"
   },
 
-  "web_accessible_resources": ["lib/*", "icons/*", "misc/*"],
+  "web_accessible_resources": ["lib/*", "icons/*"],
 
   "permissions": [
     "<all_urls>",

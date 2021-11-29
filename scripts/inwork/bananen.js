@@ -3,6 +3,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
   Monkey.onLoad(() => {
     Monkey.replaceDomStrings({
       "Duurzaam Werkgeluk": "Groene Bananen",
+      "Duurzaam werkgeluk": "Groene bananen",
       "duurzaam werkgeluk": "groene bananen",
       Duurzaam: "Groen",
       duurzaam: "groen",
