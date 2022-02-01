@@ -1,0 +1,42 @@
+{
+  "manifest_version": 2,
+  "name": "Fency",
+  "version": "0.1.2.3",
+
+  "description": "Hack the Web: For Fun and Profit",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "256": "icons/icon256.png"
+  },
+
+  "web_accessible_resources": ["lib/*", "icons/*"],
+
+  "permissions": [
+    "<all_urls>",
+    "webNavigation",
+    "storage",
+    "debugger",
+    "tabs",
+    "contextMenus"
+  ],
+
+  "browser_action": {
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "256": "icons/icon256.png"
+    },
+    "default_title": "Fency",
+    "default_popup": "popup/index.html",
+    "browser_style": true
+  },
+
+  "background": {
+    "scripts": [
+      "browser-polyfill.js",
+      "content-scripts-register-polyfill.js",
+      "background.js"
+    ]
+  }
+}
