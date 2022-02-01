@@ -1,0 +1,44 @@
+{
+  "version": "0.0.0.1",
+  "scripts": {
+    "InWork": [
+      {
+        "id": "inwork-bananen",
+        "type": "script",
+        "version": "0.1",
+        "name": "Groene Bananen",
+        "description": "Banaan!",
+        "matches": [
+          "https://inwork.nl/*",
+          "https://www.inwork.nl/*",
+          "https://www-dev.inwork.nl/*",
+          "https://intranet.inwork.nl/*"
+        ],
+        "path": "inwork/bananen.js",
+        "enabled": false
+      },
+      {
+        "id": "inwork-werkgeluk",
+        "type": "script",
+        "version": "0.1",
+        "name": "Werkgeluk",
+        "description": "Heel duurzaam",
+        "matches": "<all_urls>",
+        "path": "inwork/werkgeluk.js",
+        "enabled": false
+      }
+    ],
+    "InCTRL": [
+      {
+        "id": "auto-mike",
+        "type": "script",
+        "version": "0.1",
+        "name": "AutoMike",
+        "description": "Redirect InCTRL to mike.inwork.nl",
+        "matches": "https://inctrl.inwork.nl/*",
+        "path": "inctrl/auto-mike.js",
+        "enabled": false
+      }
+    ]
+  }
+}
