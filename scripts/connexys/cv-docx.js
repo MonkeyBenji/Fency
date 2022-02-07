@@ -20,6 +20,61 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
       .join(" - ");
   };
 
+  /** Read the fields from the current Connexys form */
+  const getConnexysFields = () => {
+    const mapping = [...document.querySelectorAll("div.cxsrecField")]
+      .map((div) => {
+        const input = div.querySelector("input,select,textarea,.ql-editor");
+        if (!input) return null;
+        const name = div
+          .querySelector("span.slds-form-element__label")
+          .childNodes[1].textContent.trim();
+
+        let value;
+        if (input.matches(".ql-editor")) {
+          // RichText magic
+          value = input.innerText
+            .replaceAll("\n\n\n\n\n", "\n\n\n\n")
+            .replaceAll("\n\n", "\n");
+        } else if (input.matches('input[type="checkbox"]')) {
+          value = input.checked ? input.value : null;
+        } else {
+          value = input.value;
+        }
+
+        // Group educations and workexperiences
+        let section = null;
+        if (div.closest(".cvSection-Educations")) section = "education";
+        if (div.closest(".cvSection-WorkExperiences")) section = "work";
+        return {
+          section,
+          name,
+          value,
+        };
+      })
+      .filter((x) => x)
+      .reduce(
+        (map, { section, name, value }) => {
+          if (section) {
+            // If field was found before, create a new workexperience / education block
+            if (name in map[section][map[section].length - 1])
+              map[section].push({});
+            map[section][map[section].length - 1][name] = value;
+          } else {
+            map[name] = value;
+          }
+          return map;
+        },
+        { education: [{}], work: [{}] }
+      );
+    mapping.education = mapping.education.slice(
+      0,
+      mapping.education.length / 2
+    );
+    mapping.work = mapping.work.slice(0, mapping.work.length / 2);
+    return mapping;
+  };
+
   const doStuff = async () => {
     if (thisButton !== null) {
       thisButton.unregister();
@@ -40,53 +95,12 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
       "Word CV'tje genereren",
       async () => {
         await Monkey.lib("jszip");
-        fetch("https://fency.dev/misc/InWorkStandard.php")
+        fetch("https://fency.dev/misc/InWorkStandard2.php")
           .then((response) => response.blob())
           .then(JSZip.loadAsync)
           .then(async (zip) => {
             // Rip fields from Connexys CV gen wizard and put them in a mapping
-            const mapping = [...document.querySelectorAll("div.cxsrecField")]
-              .map((div) => {
-                const input = div.querySelector("input,select,textarea");
-                if (!input) return null;
-                const name = div
-                  .querySelector("span.slds-form-element__label")
-                  .childNodes[1].textContent.trim();
-                const value = div.matches(".cxsField_RICHTEXT")
-                  ? div
-                      .querySelector(".ql-editor")
-                      .innerText.replaceAll("\n\n\n\n\n", "\n\n\n\n")
-                      .replaceAll("\n\n", "\n")
-                  : input.value;
-                let section = null;
-                if (div.closest(".cvSection-Educations")) section = "education";
-                if (div.closest(".cvSection-WorkExperiences")) section = "work";
-                return {
-                  section,
-                  name,
-                  value,
-                };
-              })
-              .filter((x) => x)
-              .reduce(
-                (map, { section, name, value }) => {
-                  if (section) {
-                    // If field was found before, create a new workexperience / education block
-                    if (name in map[section][map[section].length - 1])
-                      map[section].push({});
-                    map[section][map[section].length - 1][name] = value;
-                  } else {
-                    map[name] = value;
-                  }
-                  return map;
-                },
-                { education: [{}], work: [{}] }
-              );
-            mapping.education = mapping.education.slice(
-              0,
-              mapping.education.length / 2
-            );
-            mapping.work = mapping.work.slice(0, mapping.work.length / 2);
+            const mapping = getConnexysFields();
 
             // Replace word content
             const xml = await zip.file("word/document.xml").async("string");
@@ -95,7 +109,6 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
             // Find <w:t> node references in document.xml DOM
             const tName = selectorByText(dom, "t", "Roepnaam");
             const tYear = selectorByText(dom, "t", "1970");
-            const tNationality = selectorByText(dom, "t", "Friese");
             const tPlace = selectorByText(dom, "t", "Hollum");
             const tDriversLicense = selectorByText(dom, "t", "Soms");
             const pProfile = selectorByText(dom, "t", "Hallo").closest("p");
@@ -103,6 +116,16 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
               "p"
             );
             const pEducationYear = pEducation.previousElementSibling;
+            const pEducationTitle =
+              pEducationYear.previousElementSibling.previousElementSibling;
+            const pCertificate = selectorByText(
+              dom,
+              "t",
+              "Certificaat"
+            ).closest("p");
+            const pCertificateYear = pCertificate.previousElementSibling;
+            const pCertificateTitle =
+              pCertificateYear.previousElementSibling.previousElementSibling;
             const pWork = selectorByText(dom, "t", "Werkgever").closest("p");
             const pWork2 = pWork.nextElementSibling;
             const pWorkDivider = pWork2.nextElementSibling;
@@ -110,7 +133,6 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
             // Single line replacements
             tName.textContent = mapping["Roepnaam"];
             tYear.textContent = mapping["Geboortedatum"].split(" ")[2];
-            tNationality.textContent = mapping["Nationaliteit"];
             tPlace.textContent = mapping["Woonplaats"];
             tDriversLicense.textContent = mapping["Rijbewijs"];
 
@@ -122,34 +144,82 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
                 .replaceAll(">", "&gt;")
                 .replaceAll("\n", "</w:t>\n<w:br/>\n<w:t>");
 
+            const persoonsProfiel = mapping["Persoonsprofiel"] ?? "";
             pProfile.outerHTML = pProfile.outerHTML.replace(
               "Hallo",
               wordNewLinesAndEscape(
-                mapping["Persoonsprofiel"].replaceAll("\n", "\n\n")
+                persoonsProfiel.replaceAll("\n", "\n\n") + "\n"
               )
             );
 
-            // Opleidingen & Trainingen
-            pEducation.outerHTML = mapping["education"]
-              .map((education) => {
+            // Opleidingen
+            const educations = mapping["education"].filter(
+              (edu) => edu["Is certificaat"] === null
+            );
+            const certificates = mapping["education"].filter(
+              (edu) => edu["Is certificaat"] !== null
+            );
+            pEducation.outerHTML = educations
+              .map((education, i) => {
                 const period = formatPeriod(
                   education.Startdatum,
                   education.Einddatum,
                   false
                 );
-                const body = `${education.Niveau} ${education.Opleiding}
+                const educationWithLevel = education.Niveau
+                  ? `${education.Opleiding} (${education.Niveau})`
+                  : education.Opleiding;
+                const body =
+                  `${educationWithLevel}
 ${education.Instituut}
-${education["Overige informatie"]}`.trim();
+${education["Overige informatie"]}`.trim() +
+                  (i < educations.length - 1 ? "\n" : "");
                 return (
                   pEducationYear.outerHTML.replace("1980", period) +
                   pEducation.outerHTML.replace(
                     "Opleiding",
-                    wordNewLinesAndEscape(body + "\n")
+                    wordNewLinesAndEscape(body)
                   )
                 );
               })
               .join("\n");
             pEducationYear.outerHTML = "";
+
+            // Certificaten
+            pCertificate.outerHTML = certificates
+              .map((education, i) => {
+                const period = formatPeriod(
+                  education.Startdatum,
+                  education.Einddatum,
+                  false
+                );
+                const educationWithLevel = education.Niveau
+                  ? `${education.Opleiding} (${education.Niveau})`
+                  : education.Opleiding;
+                const body =
+                  `${educationWithLevel}
+${education.Instituut}
+${education["Overige informatie"]}`.trim() +
+                  (i < certificates.length - 1 ? "\n" : "");
+                return (
+                  pCertificateYear.outerHTML.replace("1990", period) +
+                  pCertificate.outerHTML.replace(
+                    "Certificaat",
+                    wordNewLinesAndEscape(body)
+                  )
+                );
+              })
+              .join("\n");
+            pCertificateYear.outerHTML = "";
+
+            if (educations.length === 0) {
+              pEducationTitle.nextElementSibling.outerHTML = "";
+              pEducationTitle.outerHTML = "";
+            }
+            if (certificates.length === 0) {
+              pCertificateTitle.nextElementSibling.outerHTML = "";
+              pCertificateTitle.outerHTML = "";
+            }
 
             // Werkervaring
             let i = 19; // Shapes have id's in Word, need to uniqueify them or Word will start bitchin
