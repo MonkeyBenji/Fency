@@ -48,7 +48,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
             const mapping = [...document.querySelectorAll("div.cxsrecField")]
               .map((div) => {
                 const input = div.querySelector("input,select,textarea");
-                if (!input) return null;
+                if (!input && !div.matches(".cxsField_RICHTEXT")) return null;
                 const name = div
                   .querySelector("span.slds-form-element__label")
                   .childNodes[1].textContent.trim();
@@ -122,11 +122,10 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
                 .replaceAll(">", "&gt;")
                 .replaceAll("\n", "</w:t>\n<w:br/>\n<w:t>");
 
+            const persoonsProfiel = mapping["Persoonsprofiel"] ?? "";
             pProfile.outerHTML = pProfile.outerHTML.replace(
               "Hallo",
-              wordNewLinesAndEscape(
-                mapping["Persoonsprofiel"].replaceAll("\n", "\n\n")
-              )
+              wordNewLinesAndEscape(persoonsProfiel.replaceAll("\n", "\n\n"))
             );
 
             // Opleidingen & Trainingen
