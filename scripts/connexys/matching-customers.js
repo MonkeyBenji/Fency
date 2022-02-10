@@ -17,7 +17,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
       .parentElement.innerHTML; // That's not the same as child.outerHTML today no
     const doc = parser.parseFromString(html, "text/html");
     const map = {};
-    [...doc.querySelectorAll("force-record-layout-item")]
+    [...doc.querySelectorAll("records-record-layout-item")]
       .map((el) => ({
         name: el.querySelector(".test-id__field-label")?.textContent,
         value: el.querySelector(".test-id__field-value")?.textContent,
@@ -118,15 +118,15 @@ Ff nergens aanzitten okki?`;
       );
       buttonScope.click();
       const picklistScope = await Monkey.waitForSelector(
-        ".filter-popover .slds-picklist button"
+        ".filter-widget .slds-picklist button"
       );
       picklistScope.click();
       const picklistItemAllOfThem = await Monkey.waitForSelector(
-        ".filter-popover .slds-dropdown__item:last-of-type a"
+        ".filter-widget .slds-dropdown__item:last-of-type a"
       );
       picklistItemAllOfThem.click();
       const buttonApplyScope = await Monkey.waitForSelector(
-        ".filter-popover button.filter-apply"
+        ".filter-widget button.filter-apply"
       );
       buttonApplyScope.click();
       await Monkey.waitForTrue(filterApplyBeGone);
@@ -137,15 +137,15 @@ Ff nergens aanzitten okki?`;
       );
       buttonDate.click();
       const picklistDate = await Monkey.waitForSelector(
-        ".filter-popover .custom-range-picklist .slds-picklist button"
+        ".filter-widget .custom-range-picklist .slds-picklist button"
       );
       picklistDate.click();
       const picklistItemAllTheTime = await Monkey.waitForSelector(
-        ".filter-popover .slds-dropdown__item:first-of-type a"
+        ".filter-widget .slds-dropdown__item:first-of-type a"
       );
       picklistItemAllTheTime.click();
       const buttonApplyDate = await Monkey.waitForSelector(
-        ".filter-popover button.filter-apply"
+        ".filter-widget button.filter-apply"
       );
       buttonApplyDate.click();
       await Monkey.waitForTrue(filterApplyBeGone);
@@ -156,16 +156,16 @@ Ff nergens aanzitten okki?`;
         .filter((li) => li.textContent === "Business unit")[0]
         .click();
       (
-        await Monkey.waitForSelector(".filter-popover .slds-picklist button")
+        await Monkey.waitForSelector(".filter-widget .slds-picklist button")
       ).click();
       (
         await Monkey.waitForSelector(
-          ".filter-popover .slds-dropdown__item:nth-of-type(3) a"
+          ".filter-widget .slds-dropdown__item:nth-of-type(3) a"
         )
       ).click();
-      document.querySelector(".filter-popover .slds-input").focus();
+      document.querySelector(".filter-widget .slds-input").focus();
       await Monkey.type(data["Business unit"]);
-      document.querySelector(".filter-popover button.filter-apply").click();
+      document.querySelector(".filter-widget button.filter-apply").click();
       await Monkey.waitForTrue(filterApplyBeGone);
 
       // Add functions filter
@@ -174,16 +174,16 @@ Ff nergens aanzitten okki?`;
         .filter((li) => li.textContent === "Functies")[0]
         .click();
       (
-        await Monkey.waitForSelector(".filter-popover .slds-picklist button")
+        await Monkey.waitForSelector(".filter-widget .slds-picklist button")
       ).click();
       (
         await Monkey.waitForSelector(
-          ".filter-popover .slds-dropdown__item:nth-of-type(3) a"
+          ".filter-widget .slds-dropdown__item:nth-of-type(3) a"
         )
       ).click();
-      document.querySelector(".filter-popover .slds-input").focus();
+      document.querySelector(".filter-widget .slds-input").focus();
       await Monkey.type(data["Gewenste functie"].replace(/;/g, ","));
-      document.querySelector(".filter-popover button.filter-apply").click();
+      document.querySelector(".filter-widget button.filter-apply").click();
       await Monkey.waitForTrue(filterApplyBeGone);
 
       // Add distance filter
@@ -194,16 +194,16 @@ Ff nergens aanzitten okki?`;
       );
       distanceCol.click();
       (
-        await Monkey.waitForSelector(".filter-popover .slds-picklist button")
+        await Monkey.waitForSelector(".filter-widget .slds-picklist button")
       ).click();
       (
         await Monkey.waitForSelector(
-          ".filter-popover .slds-dropdown__item:nth-of-type(5) a"
+          ".filter-widget .slds-dropdown__item:nth-of-type(5) a"
         )
       ).click();
-      document.querySelector(".filter-popover .slds-input").focus();
+      document.querySelector(".filter-widget .slds-input").focus();
       await Monkey.type("25");
-      document.querySelector(".filter-popover button.filter-apply").click();
+      document.querySelector(".filter-widget button.filter-apply").click();
       await Monkey.waitForTrue(filterApplyBeGone);
 
       await Monkey.sleep(200);

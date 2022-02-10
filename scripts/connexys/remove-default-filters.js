@@ -25,15 +25,15 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
         );
         buttonScope.click();
         const picklistScope = await Monkey.waitForSelector(
-          ".filter-popover .slds-picklist button"
+          ".filter-widget .slds-picklist button"
         );
         picklistScope.click();
         const picklistItemAllOfThem = await Monkey.waitForSelector(
-          ".filter-popover .slds-dropdown__item:last-of-type a"
+          ".filter-widget .slds-dropdown__item:last-of-type a"
         );
         picklistItemAllOfThem.click();
         const buttonApplyScope = await Monkey.waitForSelector(
-          ".filter-popover button.filter-apply"
+          ".filter-widget button.filter-apply"
         );
         buttonApplyScope.click();
         await Monkey.waitForTrue(filterApplyBeGone);
@@ -44,15 +44,15 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
         );
         buttonDate.click();
         const picklistDate = await Monkey.waitForSelector(
-          ".filter-popover .custom-range-picklist .slds-picklist button"
+          ".filter-widget .custom-range-picklist .slds-picklist button"
         );
         picklistDate.click();
         const picklistItemAllTheTime = await Monkey.waitForSelector(
-          ".filter-popover .slds-dropdown__item:first-of-type a"
+          ".filter-widget .slds-dropdown__item:first-of-type a"
         );
         picklistItemAllTheTime.click();
         const buttonApplyDate = await Monkey.waitForSelector(
-          ".filter-popover button.filter-apply"
+          ".filter-widget button.filter-apply"
         );
         buttonApplyDate.click();
         await Monkey.waitForTrue(filterApplyBeGone);
@@ -69,13 +69,11 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
             .filter((li) => li.textContent === "Anonimiseringsstatus")[0]
             .click();
           (
-            await Monkey.waitForSelector(
-              ".filter-popover .slds-picklist button"
-            )
+            await Monkey.waitForSelector(".filter-widget .slds-picklist button")
           ).click();
           (
             await Monkey.waitForSelector(
-              ".filter-popover .slds-dropdown__item:nth-of-type(2) a"
+              ".filter-widget .slds-dropdown__item:nth-of-type(2) a"
             )
           ).click();
           (
@@ -83,7 +81,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
               "ul.multi-picklist-container li:nth-of-type(4) a"
             )
           ).click();
-          document.querySelector(".filter-popover button.filter-apply").click();
+          document.querySelector(".filter-widget button.filter-apply").click();
           await Monkey.waitForTrue(filterApplyBeGone);
         }
       });
