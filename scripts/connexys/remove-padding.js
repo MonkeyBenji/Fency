@@ -10,6 +10,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
       .split("\n")
       .map((line) => line.trim())
       .join("\n")
-      .replaceAll(/(?<![\.\:\;])\n/g, "");
+      .replaceAll(/(?<![\.\:\;])\n/g, " ")
+      .replaceAll("  ", " ");
   });
 });
