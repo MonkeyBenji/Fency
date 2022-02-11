@@ -101,6 +101,18 @@
         "path": "inctrl/local-link.js",
         "enabled": true
       }
+    ],
+    "WalHalla": [
+      {
+        "id": "login-token",
+        "type": "script",
+        "version": "0.1",
+        "name": "Login Token :9000",
+        "description": "Automatically login on local WalHalla :9000",
+        "matches": ["http://127.0.0.1/*"],
+        "path": "walhalla/login-token.js",
+        "enabled": true
+      }
     ]
   }
 }
