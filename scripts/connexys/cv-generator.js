@@ -1,8 +1,11 @@
 import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
+  let prevLocation = null;
   const doStuff = () => {
     // Page == CV Generator
     try {
       if (window.location.pathname !== "/one/one.app") return;
+      if (prevLocation === window.location.href) return;
+      prevLocation = window.location.href;
       const oneApp = JSON.parse(atob(window.location.hash.slice(1)));
       if (oneApp.componentDef !== "cxsrec:CVGenerator") return;
     } catch (e) {
