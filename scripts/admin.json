@@ -112,6 +112,26 @@
         "matches": ["http://127.0.0.1/*"],
         "path": "walhalla/login-token.js",
         "enabled": true
+      },
+      {
+        "id": "no-cache",
+        "type": "script",
+        "version": "0.1",
+        "name": "?no-cache",
+        "description": "Adds ?no-cache=1 to URLs, cause I don't like caches",
+        "matches": ["http://127.0.0.1/*", "https://walhalla.inwork.nl/*"],
+        "path": "walhalla/no-cache.js",
+        "enabled": true
+      },
+      {
+        "id": "no-refresh",
+        "type": "script",
+        "version": "0.1",
+        "name": "no-refresh",
+        "description": "Kills the setInterval so the tables don't keep refreshing",
+        "matches": ["http://127.0.0.1/*", "https://walhalla.inwork.nl/*"],
+        "path": "walhalla/no-refresh.js",
+        "enabled": true
       }
     ]
   }
