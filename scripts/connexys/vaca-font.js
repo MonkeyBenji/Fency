@@ -46,16 +46,27 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
           .replace("<p>", `<${listElement}><li>`)
           .replace("</p>", `</li></${listElement}>`);
       });
+      // Fix other unordered lists
+      [...editor.querySelectorAll("p")]
+        .filter((p) => p.textContent.startsWith("•"))
+        .forEach((span) => {
+          const firstWord = span.textContent.trim().split(/(\s+)/, 3)[2];
+          span.innerHTML = span.innerHTML.substring(
+            span.innerHTML.indexOf(firstWord)
+          );
+          span.outerHTML = span.outerHTML
+            .replace("<p>", "<ul><li>")
+            .replace("</p>", "</li></ul>");
+        });
 
       // Remove fonts
       editor
         .querySelectorAll(
-          '[style*="font-family"],[style*="font-size"],[style*="color"]'
+          '[style*="font-family"],[style*="font-size"],[style*="background-color"]'
         )
         .forEach((span) => {
           span.style.fontFamily = null;
-          if (span.style.backgroundColor === "white")
-            span.style.backgroundColor = null;
+          if (span.style.backgroundColor) span.style.backgroundColor = null;
           if (
             span.style.fontSize === "14px" ||
             span.style.fontSize === "12px" ||
