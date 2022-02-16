@@ -1,5 +1,7 @@
 "use strict";
 
+const LAST_SCRIPT_REFRESH_TS = "lastScriptRefreshTS";
+
 import("/lib/core.js").then(async (Monkey) => {
   const toggles = document.querySelector("#toggles");
   const refreshScriptsButton = document.querySelector("#refresh-scripts");
@@ -58,6 +60,7 @@ import("/lib/core.js").then(async (Monkey) => {
 
   // Refresh buttons
   refreshScriptsButton.addEventListener("click", async () => {
+    refreshScriptsButton.setAttribute("title", "");
     refreshScriptsButton.disabled = true;
     toggles.textContent = "";
     await Promise.all([
@@ -157,5 +160,23 @@ import("/lib/core.js").then(async (Monkey) => {
   refreshPageButton.addEventListener("click", async () => {
     await Monkey.sendMessage("refresh-page");
     window.close();
+  });
+
+  Monkey.get(LAST_SCRIPT_REFRESH_TS).then((lastUpdateTS) => {
+    if (lastUpdateTS) {
+      const formatted = new Date(lastUpdateTS).toLocaleString("en-UK", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+      });
+      refreshScriptsButton.setAttribute(
+        "title",
+        refreshScriptsButton.getAttribute("title") +
+          ` (Last update ${formatted})`
+      );
+    }
   });
 });

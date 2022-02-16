@@ -10,6 +10,7 @@ const SUBSCRIPTIONS_DEFAULT = [
 
 const TOGGLES = "toggles";
 const SUBSCRIPTIONS = "subscriptions";
+const LAST_SCRIPT_REFRESH_TS = "lastScriptRefreshTS";
 
 import("/lib/core.js").then(
   async ({ set, get, sendMessage, pathRelative, fetchCached }) => {
@@ -92,6 +93,7 @@ import("/lib/core.js").then(
         await disableSubscription(subscription.url);
         await enableSubscription(subscription.url, true);
       }
+      await set(LAST_SCRIPT_REFRESH_TS, Date.now());
     };
 
     for (const subscription of subscriptions) {
@@ -177,7 +179,9 @@ import("/lib/core.js").then(
         browser.tabs
           .query({ active: true, windowId: browser.windows.WINDOW_ID_CURRENT })
           .then(([tab]) =>
-            tab ? browser.tabs.reload(tab.id) : alert("No work today, try F5")
+            tab
+              ? browser.tabs.reload(tab.id, { bypassCache: true })
+              : alert("No work today, try F5")
           );
       } else if (fun === "type") {
         if (typeof chrome.debugger === "undefined") {
@@ -249,5 +253,46 @@ import("/lib/core.js").then(
     chrome.tabs.onActivated.addListener(({ tabId }) => {
       buildContextMenuForTab(tabId);
     });
+
+    // Auto update
+    const getNextTime = (h = 0, m = 0, s = 0, ms = 0) => {
+      const d = new Date();
+      const [cH, cM, cS, cMs] = [
+        d.getHours(),
+        d.getMinutes(),
+        d.getSeconds(),
+        d.getMilliseconds(),
+      ];
+
+      const curTime = cH * 60 * 60 * 1000 + cM * 60 * 1000 + cS * 1000 + cMs;
+      const newTime = h * 60 * 60 * 1000 + m * 60 * 1000 + s * 1000 + ms;
+
+      return (
+        d.getTime() +
+        (newTime - curTime) +
+        (newTime <= curTime ? 24 * 60 * 60 * 1000 : 0)
+      );
+    };
+    const getTimeTillNextTime = (h = 0, m = 0, s = 0, ms = 0) =>
+      getNextTime(h, m, s, ms) - Date.now();
+
+    const autoUpdate = async () => {
+      await refreshScripts();
+      updateAt1337();
+    };
+    const updateAt1337 = () => {
+      const s = Math.floor(Math.random() * 60);
+      const ms = Math.floor(Math.random() * 1000);
+      let delay = getTimeTillNextTime(13, 37, s, ms);
+      if (delay < 60 * 1000) delay += 24 * 60 * 60 * 1000;
+      setTimeout(autoUpdate, delay);
+    };
+
+    const lastUpdateTS = await get(LAST_SCRIPT_REFRESH_TS, 0);
+    if (Date.now() - lastUpdateTS > 24 * 60 * 60 * 1000) {
+      setTimeout(autoUpdate, 1337);
+    } else {
+      updateAt1337();
+    }
   }
 );
