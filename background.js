@@ -290,7 +290,7 @@ import("/lib/core.js").then(
 
     const lastUpdateTS = await get(LAST_SCRIPT_REFRESH_TS, 0);
     if (Date.now() - lastUpdateTS > 24 * 60 * 60 * 1000) {
-      autoUpdate();
+      setTimeout(autoUpdate, 1337);
     } else {
       updateAt1337();
     }
