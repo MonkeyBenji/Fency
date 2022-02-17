@@ -13,7 +13,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
    */
   const extractSalesforceDataFromPage = async () => {
     const parser = new DOMParser();
-    const html = document.querySelector("one-record-home-flexipage2")
+    const html = document.querySelector(".active one-record-home-flexipage2")
       .parentElement.innerHTML; // That's not the same as child.outerHTML today no
     const doc = parser.parseFromString(html, "text/html");
     const map = {};
