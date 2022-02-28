@@ -24,7 +24,7 @@
         "version": "0.1",
         "name": "TextArea autobullets",
         "description": "Zet automagisch een • en wat bijzondere spaties aan het begin van de regel als je vorige regel eindigde met een : en iets met ; en zo",
-        "matches": "<all_urls>",
+        "matches": "https://*.lightning.force.com/*",
         "path": "connexys/textarea-autobullets.js",
         "enabled": true,
         "allFrames": true

@@ -67,11 +67,8 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
         },
         { education: [{}], work: [{}] }
       );
-    mapping.education = mapping.education.slice(
-      0,
-      mapping.education.length / 2
-    );
-    mapping.work = mapping.work.slice(0, mapping.work.length / 2);
+    mapping.education = mapping.education.slice(mapping.education.length / 2);
+    mapping.work = mapping.work.slice(mapping.work.length / 2);
     return mapping;
   };
 
