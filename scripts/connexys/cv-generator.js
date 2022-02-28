@@ -19,15 +19,19 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
 
     // More fields per row
     Monkey.css(`
-  .cvSection-Educations .cxsField_STRING,
-  .cvSection-WorkExperiences .cxsField_STRING {
+  .cvSection-Educations .cxsField_STRING {
     max-width: 33%;
+    float: left;
+    clear: none !important;
+  }
+  .cvSection-WorkExperiences .cxsField_STRING {
+    max-width: 50%;
     float: left;
     clear: none !important;
   }
   .cvSection-Educations .cxsField_DATE,
   .cvSection-WorkExperiences .cxsField_DATE {
-    max-width: 49%;
+    max-width: 50%;
     float: left;
     clear: none !important;
   }
@@ -70,58 +74,6 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
         save.parentNode.appendChild(button);
       })
       .catch(() => {});
-
-    // Keep track of text override listeners
-    let iDontLikeChange = {};
-    document.body.addEventListener("click", (ev) => {
-      const realInput = ev.target;
-      const id = ev.target.id;
-      if (!realInput.matches("input.disabledDateInput.slds-inputundefined"))
-        return;
-
-      // Call this when text changes or datepicker is clicked and changes may occur once more
-      const iLikeChange = (id) => {
-        if (iDontLikeChange[id]) {
-          realInput.removeEventListener("change", iDontLikeChange[id]);
-          delete iDontLikeChange[id];
-        }
-      };
-
-      // Create shadow input to retrieve user input, cause Connexys keeps emptying the real onput
-      const shadowInput = document.createElement("input");
-      shadowInput.classList.add("input");
-      shadowInput.classList.add("disabledDateInput");
-
-      const datePicker = realInput.nextSibling;
-      realInput.style.display = "none";
-      shadowInput.value = realInput.value;
-      realInput.parentNode.insertBefore(shadowInput, realInput.nextSibling);
-      shadowInput.focus();
-      shadowInput.select();
-
-      // When input is filled in make sure Connexys does not override it like ever
-      shadowInput.addEventListener(
-        "blur",
-        () => {
-          iLikeChange(id);
-          const fixedValue = shadowInput.value;
-          realInput.style.display = "block";
-          realInput.value = fixedValue;
-          iDontLikeChange[id] = (ev) => {
-            ev.target.value = fixedValue;
-          };
-          realInput.addEventListener("change", iDontLikeChange[id]);
-          shadowInput.remove();
-          realInput.dispatchEvent(new Event("change"));
-        },
-        { once: true }
-      );
-
-      // If datepicker is clicked, perhaps allow datepicker to change the date again
-      datePicker.addEventListener("click", () => iLikeChange(id), {
-        once: true,
-      });
-    });
   };
   Monkey.onLocationChange(doStuff);
   doStuff();

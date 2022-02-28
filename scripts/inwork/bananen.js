@@ -13,7 +13,10 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
       "werkgeluk bepalend is": "bananen bepalend zijn",
       Werkgeluk: "Bananen",
       werkgeluk: "bananen",
+      Baan: "Banaan",
       baan: "banaan",
+      Banen: "Bananen",
+      banen: "bananen",
     });
   });
 });
