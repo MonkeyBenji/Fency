@@ -224,6 +224,17 @@ import("/lib/core.js").then(
         return Promise.resolve(menuI);
       } else if (fun === "closeTab") {
         browser.tabs.remove(sender.tab.id);
+      } else if (fun === "fetchData") {
+        return new Promise((resolve, reject) => {
+          fetch(args.resource, args.init)
+            .then((res) => res.blob())
+            .then((blob) => {
+              const reader = new FileReader();
+              reader.readAsDataURL(blob);
+              reader.onloadend = () => resolve(reader.result);
+            })
+            .catch(reject);
+        });
       } else if (fun === "fetchText") {
         return new Promise((resolve, reject) => {
           fetch(args.resource, args.init)
