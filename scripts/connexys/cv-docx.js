@@ -20,6 +20,35 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
       .join(" - ");
   };
 
+  /** Crop/resize image to fit within width/height (using CXS CV logic) */
+  const getImageResized = (url, width, height) =>
+    new Promise((resolve, reject) => {
+      const canvas = document.createElement("canvas");
+      canvas.width = width;
+      canvas.height = height;
+      const context = canvas.getContext("2d");
+
+      const image = new Image();
+
+      image.onload = () => {
+        context.drawImage(
+          image,
+          0,
+          0,
+          image.width,
+          image.height,
+          0,
+          0,
+          width,
+          (image.height / image.width) * height
+        );
+        resolve(canvas.toDataURL("image/png").split(";base64,")[1]);
+      };
+      image.onerror = reject;
+
+      Monkey.fetchData(url).then((data) => (image.src = data));
+    });
+
   /** Read the fields from the current Connexys form */
   const getConnexysFields = () => {
     const mapping = [...document.querySelectorAll("div.cxsrecField")]
@@ -256,6 +285,17 @@ ${education["Overige informatie"]}`.trim() +
               new XMLSerializer().serializeToString(dom)
             );
 
+            if (Monkey.fetchData)
+              zip.file(
+                "word/media/image3.png",
+                await getImageResized(
+                  document.querySelector(".cxsSection_CandidatePhoto img").src,
+                  400,
+                  400
+                ),
+                { base64: true }
+              );
+
             zip
               .generateAsync({ type: "blob" })
               .then((content) =>
@@ -265,43 +305,6 @@ ${education["Overige informatie"]}`.trim() +
       }
     );
   };
-
   Monkey.onLocationChange(doStuff);
   doStuff();
 });
-
-// const canvas = document.createElement("canvas");
-// canvas.width = 200;
-// canvas.height = 200;
-// const context = canvas.getContext("2d");
-// const image = new Image();
-
-// image.onload = () => {
-//   var sourceX = 0;
-//   var sourceY = 0;
-//   var sourceWidth = 150;
-//   var sourceHeight = 150;
-//   var destWidth = sourceWidth;
-//   var destHeight = sourceHeight;
-//   var destX = canvas.width / 2 - destWidth / 2;
-//   var destY = canvas.height / 2 - destHeight / 2;
-
-//   context.drawImage(
-//     image,
-//     sourceX,
-//     sourceY,
-//     sourceWidth,
-//     sourceHeight,
-//     destX,
-//     destY,
-//     destWidth,
-//     destHeight
-//   );
-
-//   console.log(123, canvas.toDataURL("image/png"));
-// };
-// const data = await Monkey.fetchText(
-//   "https://inwork--c.eu38.content.force.com/servlet/servlet.FileDownload?file=00P1n00002fOmgOEAS"
-// );
-// console.log(`data:image/jpeg,${data}`);
-// image.src = `data:image/jpeg,${data}`;
