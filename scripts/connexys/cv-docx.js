@@ -20,6 +20,13 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
       .join(" - ");
   };
 
+  const wordNewLinesAndEscape = (s) =>
+    (s ?? "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll("\n", "</w:t>\n<w:br/>\n<w:t>");
+
   /** Crop/resize image to fit within width/height (using CXS CV logic) */
   const getImageResized = (url, width, height) =>
     new Promise((resolve, reject) => {
@@ -101,6 +108,137 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
     return mapping;
   };
 
+  const chunkify = (arr, size) =>
+    Array(Math.ceil(arr.length / size))
+      .fill(0)
+      .map((_, i) => arr.slice(i * size, i * size + size));
+
+  const tReplace = (dom, search, replace) => {
+    const t = selectorByText(dom, "t", search);
+    t.outerHTML = t.outerHTML.replace(search, replace);
+  };
+
+  const nuke = (...elements) =>
+    elements.forEach((elem) => (elem.outerHTML = ""));
+
+  const educationAndCertificateMagic = (dom, educationMap) => {
+    educationMap = educationMap.map((edu) => ({
+      isCertificate: edu["Is certificaat"] !== null,
+      period: formatPeriod(edu.Startdatum, edu.Einddatum),
+      body:
+        (
+          (edu.Niveau ? `${edu.Opleiding} (${edu.Niveau})` : edu.Opleiding) +
+          "\n" +
+          (edu.Instituut ? edu.Instituut + "\n" : "") +
+          edu["Overige informatie"]
+        ).trim() + "\n",
+    }));
+    const educations = educationMap.filter((edu) => !edu.isCertificate);
+    const certificates = educationMap.filter((edu) => edu.isCertificate);
+
+    const educationT = selectorByText(dom, "t", "Opleiding");
+    if (educationT) {
+      // InWorkStandard
+      const pEducation = educationT.closest("p");
+      const pEducationYear = pEducation.previousElementSibling;
+      const pEducationTitle =
+        pEducationYear.previousElementSibling.previousElementSibling;
+      const pCertificate = selectorByText(dom, "t", "Certificaat").closest("p");
+      const pCertificateYear = pCertificate.previousElementSibling;
+      const pCertificateTitle =
+        pCertificateYear.previousElementSibling.previousElementSibling;
+
+      // Opleidingen
+      educations.slice(-1)[0].body = educations.slice(-1)[0].body.trim();
+      pEducation.outerHTML = educations
+        .map((edu) => {
+          return (
+            pEducationYear.outerHTML.replace("1980", edu.period) +
+            pEducation.outerHTML.replace(
+              "Opleiding",
+              wordNewLinesAndEscape(edu.body)
+            )
+          );
+        })
+        .join("\n");
+      pEducationYear.outerHTML = "";
+
+      // Certificaten
+      pCertificate.outerHTML = certificates
+        .map((edu) => {
+          return (
+            pCertificateYear.outerHTML.replace("1990", edu.period) +
+            pCertificate.outerHTML.replace(
+              "Certificaat",
+              wordNewLinesAndEscape(edu.body)
+            )
+          );
+        })
+        .join("\n");
+      pCertificateYear.outerHTML = "";
+
+      if (educations.length === 0)
+        nuke(pEducationTitle.nextElementSibling, pEducationTitle);
+      if (certificates.length === 0)
+        nuke(pCertificateTitle.nextElementSibling, pCertificateTitle);
+    } else {
+      // InWorkLongEducation
+      let tr = selectorByText(dom, "t", "Opleiding1").closest("tr");
+      const educationsTrXml = tr.outerHTML;
+
+      chunkify(educations, 3).forEach((chunk) => {
+        tReplace(tr, "1981", chunk?.[0]?.period ?? "");
+        tReplace(tr, "Opleiding1", wordNewLinesAndEscape(chunk?.[0]?.body));
+        tReplace(tr, "1982", chunk?.[1]?.period ?? "");
+        tReplace(tr, "Opleiding2", wordNewLinesAndEscape(chunk?.[1]?.body));
+        tReplace(tr, "1983", chunk?.[2]?.period ?? "");
+        tReplace(tr, "Opleiding3", wordNewLinesAndEscape(chunk?.[2]?.body));
+
+        tr.insertAdjacentHTML("afterend", educationsTrXml);
+        tr = selectorByText(dom, "t", "Opleiding1").closest("tr");
+      });
+      if (educations.length === 0) {
+        const tbl = tr.closest("tbl");
+        nuke(
+          tbl,
+          tbl.previousElementSibling,
+          tbl.previousElementSibling.previousElementSibling
+            .querySelector("t")
+            .closest("r")
+        );
+      } else {
+        nuke(tr);
+      }
+
+      tr = selectorByText(dom, "t", "Certificaat1").closest("tr");
+      const certificateTrXml = tr.outerHTML;
+
+      chunkify(certificates, 3).forEach((chunk) => {
+        tReplace(tr, "1991", chunk?.[0]?.period ?? "");
+        tReplace(tr, "Certificaat1", wordNewLinesAndEscape(chunk?.[0]?.body));
+        tReplace(tr, "1992", chunk?.[1]?.period ?? "");
+        tReplace(tr, "Certificaat2", wordNewLinesAndEscape(chunk?.[1]?.body));
+        tReplace(tr, "1993", chunk?.[2]?.period ?? "");
+        tReplace(tr, "Certificaat3", wordNewLinesAndEscape(chunk?.[2]?.body));
+
+        tr.insertAdjacentHTML("afterend", certificateTrXml);
+        tr = selectorByText(dom, "t", "Certificaat1").closest("tr");
+      });
+      if (certificates.length === 0) {
+        const tbl = tr.closest("tbl");
+        nuke(
+          tbl,
+          tbl.previousElementSibling,
+          tbl.previousElementSibling.previousElementSibling
+            .querySelector("t")
+            .closest("r")
+        );
+      } else {
+        nuke(tr);
+      }
+    }
+  };
+
   const doStuff = async () => {
     if (thisButton !== null) {
       thisButton.unregister();
@@ -121,7 +259,10 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
       "Word CV'tje genereren",
       async () => {
         await Monkey.lib("jszip");
-        fetch("https://fency.dev/misc/InWorkStandard2.php")
+        const template = (
+          await Monkey.waitForSelector('select[name="template"]')
+        ).value;
+        fetch(`https://fency.dev/misc/${template}.php`)
           .then((response) => response.blob())
           .then(JSZip.loadAsync)
           .then(async (zip) => {
@@ -138,20 +279,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
             const tPlace = selectorByText(dom, "t", "Hollum");
             const tDriversLicense = selectorByText(dom, "t", "Soms");
             const pProfile = selectorByText(dom, "t", "Hallo").closest("p");
-            const pEducation = selectorByText(dom, "t", "Opleiding").closest(
-              "p"
-            );
-            const pEducationYear = pEducation.previousElementSibling;
-            const pEducationTitle =
-              pEducationYear.previousElementSibling.previousElementSibling;
-            const pCertificate = selectorByText(
-              dom,
-              "t",
-              "Certificaat"
-            ).closest("p");
-            const pCertificateYear = pCertificate.previousElementSibling;
-            const pCertificateTitle =
-              pCertificateYear.previousElementSibling.previousElementSibling;
+
             const pWork = selectorByText(dom, "t", "Werkgever").closest("p");
             const pWork2 = pWork.nextElementSibling;
             const pWorkDivider = pWork2.nextElementSibling;
@@ -163,13 +291,6 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
             tDriversLicense.textContent = mapping["Rijbewijs"];
 
             // Persoonsprofiel
-            const wordNewLinesAndEscape = (s) =>
-              s
-                .replaceAll("&", "&amp;")
-                .replaceAll("<", "&lt;")
-                .replaceAll(">", "&gt;")
-                .replaceAll("\n", "</w:t>\n<w:br/>\n<w:t>");
-
             const persoonsProfiel = mapping["Persoonsprofiel"] ?? "";
             pProfile.outerHTML = pProfile.outerHTML.replace(
               "Hallo",
@@ -178,74 +299,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
               )
             );
 
-            // Opleidingen
-            const educations = mapping["education"].filter(
-              (edu) => edu["Is certificaat"] === null
-            );
-            const certificates = mapping["education"].filter(
-              (edu) => edu["Is certificaat"] !== null
-            );
-            pEducation.outerHTML = educations
-              .map((education, i) => {
-                const period = formatPeriod(
-                  education.Startdatum,
-                  education.Einddatum,
-                  false
-                );
-                const educationWithLevel = education.Niveau
-                  ? `${education.Opleiding} (${education.Niveau})`
-                  : education.Opleiding;
-                const body =
-                  `${educationWithLevel}
-${education.Instituut}
-${education["Overige informatie"]}`.trim() +
-                  (i < educations.length - 1 ? "\n" : "");
-                return (
-                  pEducationYear.outerHTML.replace("1980", period) +
-                  pEducation.outerHTML.replace(
-                    "Opleiding",
-                    wordNewLinesAndEscape(body)
-                  )
-                );
-              })
-              .join("\n");
-            pEducationYear.outerHTML = "";
-
-            // Certificaten
-            pCertificate.outerHTML = certificates
-              .map((education, i) => {
-                const period = formatPeriod(
-                  education.Startdatum,
-                  education.Einddatum,
-                  false
-                );
-                const educationWithLevel = education.Niveau
-                  ? `${education.Opleiding} (${education.Niveau})`
-                  : education.Opleiding;
-                const body =
-                  `${educationWithLevel}
-${education.Instituut}
-${education["Overige informatie"]}`.trim() +
-                  (i < certificates.length - 1 ? "\n" : "");
-                return (
-                  pCertificateYear.outerHTML.replace("1990", period) +
-                  pCertificate.outerHTML.replace(
-                    "Certificaat",
-                    wordNewLinesAndEscape(body)
-                  )
-                );
-              })
-              .join("\n");
-            pCertificateYear.outerHTML = "";
-
-            if (educations.length === 0) {
-              pEducationTitle.nextElementSibling.outerHTML = "";
-              pEducationTitle.outerHTML = "";
-            }
-            if (certificates.length === 0) {
-              pCertificateTitle.nextElementSibling.outerHTML = "";
-              pCertificateTitle.outerHTML = "";
-            }
+            educationAndCertificateMagic(dom, mapping["education"]);
 
             // Werkervaring
             let i = 19; // Shapes have id's in Word, need to uniqueify them or Word will start bitchin
