@@ -12,8 +12,10 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
 
   const setValue = (field, value) => {
     const input = field && field.querySelector("input,select");
+    input.focus();
     if (input) input.value = value;
     else console.warn("Could not find input", field);
+    input.dispatchEvent(new Event("change"));
   };
 
   const selectToToggle = (field) => {
