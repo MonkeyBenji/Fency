@@ -159,6 +159,16 @@
         "enabled": true
       },
       {
+        "id": "new-candidate-style",
+        "type": "script",
+        "version": "0.1",
+        "name": "Nieuwe kandidaat optimalisaties",
+        "description": "Zet wat veldjes naast elkaar voor betere UI; Kopie pasta functionaliteit InWork.club mail",
+        "matches": ["https://inwork.lightning.force.com/*"],
+        "path": "connexys/new-candidate-style.js",
+        "enabled": true
+      },
+      {
         "id": "default-report-filter-iw",
         "type": "script",
         "version": "0.1",
