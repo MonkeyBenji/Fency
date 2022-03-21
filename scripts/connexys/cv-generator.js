@@ -12,10 +12,30 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
       return;
     }
 
-    // Enable disabled date input
-    Monkey.css(`.slds-is-open .disabledDateInput {
-    pointer-events: auto !important;
-  }`);
+    // Change today hyperlink to present for work experience and education
+    document.body.addEventListener("click", async (ev) => {
+      if (!ev.target.matches(".uiInputDate *")) return;
+      if (
+        !ev.target.closest(".cvSection-Educations") &&
+        !ev.target.closest(".cvSection-WorkExperiences")
+      )
+        return;
+      const oldButton = await Monkey.waitForSelector(
+        ".uiDatePicker button.today"
+      );
+      const newButton = document.createElement("button");
+      newButton.className =
+        "today slds-button slds-align_absolute-center slds-text-link";
+      newButton.textContent = "Heden";
+      newButton.addEventListener("click", () => {
+        const input = ev.target.closest(".uiInputDate").querySelector("input");
+        input.focus();
+        input.value = "heden";
+        input.dispatchEvent(new Event("change"));
+      });
+      oldButton.parentNode.appendChild(newButton);
+      oldButton.parentNode.removeChild(oldButton);
+    });
 
     // More fields per row
     Monkey.css(`
