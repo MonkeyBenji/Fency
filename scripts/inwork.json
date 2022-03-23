@@ -227,6 +227,17 @@
         "path": "misc/phone-search.js",
         "enabled": true,
         "allFrames": false
+      },
+      {
+        "id": "intranet-links",
+        "type": "script",
+        "version": "0.1",
+        "name": "Intranet Linkjes",
+        "description": "Maakt het wat duidelijker dat die intranet linkjes linkjes zijn",
+        "matches": "https://intranet.inwork.nl/",
+        "path": "misc/intranet-links.js",
+        "enabled": true,
+        "allFrames": false
       }
     ]
   }
