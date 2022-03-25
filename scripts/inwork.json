@@ -238,6 +238,21 @@
         "path": "misc/intranet-links.js",
         "enabled": true,
         "allFrames": false
+      },
+      {
+        "id": "april-fools",
+        "type": "script",
+        "version": "0.1",
+        "name": "Fake News",
+        "description": "April 1st, frog in your buttock!",
+        "matches": [
+          "https://nos.nl/*",
+          "https://www.nu.nl/*",
+          "https://inwork.nl/*"
+        ],
+        "path": "misc/april-fools.js",
+        "enabled": true,
+        "allFrames": false
       }
     ]
   }
