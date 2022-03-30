@@ -29,6 +29,19 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
     if (pill) {
       pill.parentElement.removeChild(pill);
     }
+
+    const ul2 = await Monkey.waitForSelector("aside > div > div > ul");
+    ul2.insertAdjacentHTML("afterbegin", ul2.firstElementChild.outerHTML);
+    const li2 = ul2.firstElementChild;
+
+    li2.querySelector("a").href = url;
+    li2.querySelector("a > span").textContent = title;
+    li2.querySelector(
+      "time"
+    ).textContent = `${now.getHours()}:${now.getMinutes()}`;
+
+    const liveblogish = li2.querySelector("a > div > span");
+    if (liveblogish) liveblogish.parentElement.removeChild(liveblogish);
   } else if (window.location.href === "https://www.nu.nl/") {
     const ul = await Monkey.waitForSelector("#main .column.first ul");
 
