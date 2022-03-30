@@ -5,7 +5,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
   )
     .then((span) => {
       const a = Monkey.createElement(
-        `<a href="#nofilter" style="position: absolute;top: 26px;right: 4px;z-index: 1337;font-weight: normal">#nofilter</a>`
+        `<a href="#nofilter" style="position: absolute;top: 26px;right: 4px;z-index: 1337;font-weight: normal;padding-top:11px;line-height:18px">#nofilter</a>`
       );
       span.parentNode.insertBefore(a, span);
       a.addEventListener("click", async (ev) => {
@@ -78,7 +78,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
           ).click();
           (
             await Monkey.waitForSelector(
-              "ul.multi-picklist-container li:nth-of-type(4) a"
+              ".multi-picklist-container .multi-picklist-option:nth-of-type(4) a"
             )
           ).click();
           document.querySelector(".filter-widget button.filter-apply").click();
