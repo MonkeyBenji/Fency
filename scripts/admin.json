@@ -3,6 +3,16 @@
   "scripts": {
     "Salesforce": [
       {
+        "id": "fullcopy-link",
+        "type": "script",
+        "version": "0.1",
+        "name": "FullCopyLink",
+        "description": "Add link to fullcopy version of current page",
+        "matches": ["https://*.lightning.force.com/*"],
+        "path": "salesforce/fullcopy-link.js",
+        "enabled": true
+      },
+      {
         "id": "salesblurred",
         "type": "script",
         "version": "0.1",
@@ -97,20 +107,53 @@
         "matches": [
           "https://inctrl.inwork.nl/*",
           "https://mike.inwork.nl/*",
-          "http://127.0.0.1/*"
+          "http://127.0.0.1/*",
+          "http://127.0.0.1:8080/*"
         ],
         "path": "inctrl/local-link.js",
         "enabled": true
       }
     ],
+    "InWork": [
+      {
+        "id": "site-local-link",
+        "type": "script",
+        "version": "0.1",
+        "name": "LocalLink",
+        "description": "Add link to localhost:8088 of current page",
+        "matches": [
+          "https://inwork.nl/*",
+          "http://127.0.0.1/*",
+          "http://localhost/*",
+          "http://127.0.0.1:8088/*",
+          "http://localhost:8088/*"
+        ],
+        "path": "inwork/local-link.js",
+        "enabled": true
+      }
+    ],
     "WalHalla": [
+      {
+        "id": "walhalla-local-link",
+        "type": "script",
+        "version": "0.1",
+        "name": "LocalLink",
+        "description": "Add link to 127.0.0.1:9000 of current page",
+        "matches": [
+          "https://walhalla.inwork.nl/*",
+          "http://127.0.0.1/*",
+          "http://127.0.0.1:9000/*"
+        ],
+        "path": "walhalla/local-link.js",
+        "enabled": true
+      },
       {
         "id": "login-token",
         "type": "script",
         "version": "0.1",
         "name": "Login Token :9000",
         "description": "Automatically login on local WalHalla :9000",
-        "matches": ["http://127.0.0.1/*"],
+        "matches": ["http://127.0.0.1/*", "http://127.0.0.1:9000/*"],
         "path": "walhalla/login-token.js",
         "enabled": false
       },
@@ -120,7 +163,11 @@
         "version": "0.1",
         "name": "?no-cache",
         "description": "Adds ?no-cache=1 to URLs, cause I don't like caches",
-        "matches": ["http://127.0.0.1/*", "https://walhalla.inwork.nl/*"],
+        "matches": [
+          "http://127.0.0.1/*",
+          "http://127.0.0.1:9000/*",
+          "https://walhalla.inwork.nl/*"
+        ],
         "path": "walhalla/no-cache.js",
         "enabled": false
       },
@@ -130,7 +177,11 @@
         "version": "0.1",
         "name": "no-refresh",
         "description": "Kills the setInterval so the tables don't keep refreshing",
-        "matches": ["http://127.0.0.1/*", "https://walhalla.inwork.nl/*"],
+        "matches": [
+          "http://127.0.0.1/*",
+          "http://127.0.0.1:9000/*",
+          "https://walhalla.inwork.nl/*"
+        ],
         "path": "walhalla/no-refresh.js",
         "enabled": false
       }
