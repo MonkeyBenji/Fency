@@ -73,7 +73,8 @@
         "description": "May safe some clicks",
         "matches": ["https://inwork.lightning.force.com/reports/*"],
         "path": "salesforce/reporttype-shortcut.js",
-        "enabled": true
+        "enabled": true,
+        "allFrames": true
       },
       {
         "id": "accountmerge-shortcut",
