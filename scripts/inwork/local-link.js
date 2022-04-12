@@ -3,7 +3,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
     const logo = await Monkey.waitForSelector("a.navbar-brand");
     const url = new URL(window.location);
     let label = "2local";
-    if (url.protocol === "http:") {
+    if (url.protocol === "http:" && url.port === 8088) {
       url.host = "inwork.nl";
       url.protocol = "https:";
       url.port = "";
