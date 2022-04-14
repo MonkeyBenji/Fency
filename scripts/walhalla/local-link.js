@@ -1,7 +1,8 @@
 import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
+  const url = new URL(window.location);
+  if (url.host !== "walhalla.inwork.nl" && parseInt(url.port) !== 9000) return;
   try {
     const logo = await Monkey.waitForSelector("#navigation ul");
-    const url = new URL(window.location);
     let label = "2local";
     if (url.protocol === "http:") {
       url.host = "walhalla.inwork.nl";
