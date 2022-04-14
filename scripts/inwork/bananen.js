@@ -17,6 +17,10 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
       baan: "banaan",
       Banen: "Bananen",
       banen: "bananen",
+      Vitaliteits: "Ochtendgymnastiek-",
+      vitaliteits: "ochtendgymnastiek-",
+      Vitaliteit: "Ochtendgymnastiek",
+      vitaliteit: "ochtendgymnastiek",
     });
   });
 });
