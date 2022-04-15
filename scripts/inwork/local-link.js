@@ -1,6 +1,6 @@
 import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
   const url = new URL(window.location);
-  if (url.host !== "walhalla.inwork.nl" && parseInt(url.port) !== 8088) return;
+  if (url.host !== "inwork.nl" && parseInt(url.port) !== 8088) return;
   try {
     const logo = await Monkey.waitForSelector("a.navbar-brand");
     let label = "2local";
