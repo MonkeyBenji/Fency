@@ -10,7 +10,8 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
       const lsOptions = Object.entries(hijacks)
         .map(([key, value]) => `<option value="${key}">${value}</option>`)
         .join("");
-      const options = `<option selected>Hijack</option>${lsOptions}<option value='https://inwork.cloudforce.com/005?isUserEntityOverride=1'>All Users</option>`;
+      const base = window.location.hostname.split(".")[0];
+      const options = `<option selected>Hijack</option>${lsOptions}<option value='https://${base}.cloudforce.com/005?isUserEntityOverride=1'>All Users</option>`;
       hijackDropdown.innerHTML = options;
       globalActions.insertBefore(hijackDropdown, globalActions.firstChild);
       hijackDropdown.addEventListener("change", async (e) => {
