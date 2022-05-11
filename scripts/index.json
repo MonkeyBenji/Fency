@@ -22,7 +22,7 @@
         "matches": "<all_urls>",
         "path": "fency/membah-form.js",
         "enabled": true,
-        "allFrames": false
+        "allFrames": true
       },
       {
         "id": "membah-berry",
@@ -33,7 +33,7 @@
         "matches": "<all_urls>",
         "path": "fency/membah-berry.js",
         "enabled": true,
-        "allFrames": false
+        "allFrames": true
       }
     ]
   }
