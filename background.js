@@ -19,7 +19,7 @@ import("/lib/core.js").then(
     const subscriptions = await get(SUBSCRIPTIONS, SUBSCRIPTIONS_DEFAULT);
     const toggles = await get(TOGGLES, {});
     const registrations = {};
-    if (new Date().toJSON().split("T")[0] >= "2022-06-01") {
+    if (new Date().toJSON().split("T")[0] >= "2022-12-01") {
       subscriptions.forEach((subscription) => (subscription.enabled = false));
     }
 

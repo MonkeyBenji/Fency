@@ -12,6 +12,28 @@
         "path": "fency/rfc.js",
         "enabled": true,
         "allFrames": false
+      },
+      {
+        "id": "membah-form",
+        "type": "script",
+        "version": "0.1",
+        "name": "Membah Form",
+        "description": "Store filled in forms locally, so when Windows starts forcing update halfway through (or your session expires) you can restore using Membah Berry (keep on)",
+        "matches": "<all_urls>",
+        "path": "fency/membah-form.js",
+        "enabled": true,
+        "allFrames": true
+      },
+      {
+        "id": "membah-berry",
+        "type": "script",
+        "version": "0.1",
+        "name": "Membah Berry",
+        "description": "Restore forms saved by Membah Form",
+        "matches": "<all_urls>",
+        "path": "fency/membah-berry.js",
+        "enabled": true,
+        "allFrames": true
       }
     ]
   }
