@@ -100,9 +100,11 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
 
     const firstInput = fieldsByName["Roepnaam"].querySelector("input");
     firstInput.addEventListener("paste", (ev) => {
-      ev.preventDefault();
       const pasta = (ev.clipboardData || window.clipboardData).getData("text");
-      pasta.split("\n").forEach((line) => {
+      const pastaLines = pasta.split("\n");
+      if (pastaLines.length < 2) return;
+      ev.preventDefault();
+      pastaLines.forEach((line) => {
         const keyVal = line.trim().split(":");
         if (keyVal.length > 1) {
           const key = keyVal[0].trim();

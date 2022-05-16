@@ -21,12 +21,12 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
   // if sibbling of given element would be given absolute positioning and these left/top values, it would be on top of element
   const getAbsLeftTop = (elem) => {
     const getRelParent = (elem) =>
-      elem.parentNode.tagName === "HTML" ||
+      elem.parentElement.parentElement === null ||
       ["relative", "absolute", "sticky", "fixed"].includes(
-        getComputedStyle(elem.parentNode).position
+        getComputedStyle(elem.parentElement).position
       )
-        ? elem.parentNode
-        : getRelParent(elem.parentNode);
+        ? elem.parentElement
+        : getRelParent(elem.parentElement);
 
     const ancestor = getRelParent(elem);
     const ancestorRect = ancestor.getBoundingClientRect();
