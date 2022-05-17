@@ -93,13 +93,19 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
     data
       .map(([key, value]) => {
         const element = form[key];
-        if (!element || element.type === "hidden") return null;
-        if (!element.labels) return value;
+        if (
+          !element ||
+          !element.type ||
+          element.type === "hidden" ||
+          element.type === "file"
+        )
+          return null;
+        if (!element.labels || !element.labels[0]) return value;
         return `${
           element.labels[0].textContent.trim().split("\n")[0]
         }: ${value}`;
       })
-      .filter((s) => s !== null)
+      .filter((s) => s)
       .join("\n");
 
   berry.addEventListener("click", (ev) => {
