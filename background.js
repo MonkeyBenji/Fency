@@ -77,7 +77,7 @@ import("/lib/core.js").then(
           if (script.id in toggles) {
             script.enabled = toggles[script.id];
           }
-          if (script.enabled) {
+          if (script.enabled && fencyEnabled) {
             register(script.id, ignoreCache);
           }
         }

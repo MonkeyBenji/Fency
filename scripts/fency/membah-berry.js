@@ -107,13 +107,34 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
     }
   });
 
+  const formComplexity = (form) =>
+    [...form.elements]
+      .map((input) => {
+        switch (input.type) {
+          case "hidden":
+          case "button":
+          case "submit":
+            return 0;
+          case "password":
+            return -2;
+          case "checkbox":
+          case "radio":
+            return 0.3;
+          case "textarea":
+            return 3;
+          default:
+            return 1;
+        }
+      })
+      .reduce((a, b) => a + b);
+
   // Make berry appear
   document.addEventListener(
     "focus",
     (ev) => {
       const target = ev.target;
       const form = target.closest("form");
-      if (!form || target === berry) return;
+      if (!form || target === berry || formComplexity(form) <= 2) return;
       const formId = [...document.querySelectorAll("form")].indexOf(form);
       const url = window.location.href.split(/[?#]/)[0];
       load(url, formId).then((entries) => {
