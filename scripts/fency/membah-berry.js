@@ -88,6 +88,20 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
       }
     }
   };
+
+  const getDescription = (form, data) =>
+    data
+      .map(([key, value]) => {
+        const element = form[key];
+        if (!element || element.type === "hidden") return null;
+        if (!element.labels) return value;
+        return `${
+          element.labels[0].textContent.trim().split("\n")[0]
+        }: ${value}`;
+      })
+      .filter((s) => s !== null)
+      .join("\n");
+
   berry.addEventListener("click", (ev) => {
     ev.preventDefault();
     const form = ev.target.closest("form");
@@ -96,9 +110,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
         confirm(
           `Membah that form you filled in ${relativeTs(
             entry.ts
-          )} ago? (and wanna reload it?)\n${entry.data
-            .map(([key, value]) => value)
-            .join(";")}`
+          )} ago? (and wanna reload it?)\n${getDescription(form, entry.data)}`
         )
       ) {
         setFormData(form, entry.data);
@@ -107,13 +119,34 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
     }
   });
 
+  const formComplexity = (form) =>
+    [...form.elements]
+      .map((input) => {
+        switch (input.type) {
+          case "hidden":
+          case "button":
+          case "submit":
+            return 0;
+          case "password":
+            return -2;
+          case "checkbox":
+          case "radio":
+            return 0.3;
+          case "textarea":
+            return 3;
+          default:
+            return 1;
+        }
+      })
+      .reduce((a, b) => a + b);
+
   // Make berry appear
   document.addEventListener(
     "focus",
     (ev) => {
       const target = ev.target;
       const form = target.closest("form");
-      if (!form || target === berry) return;
+      if (!form || target === berry || formComplexity(form) <= 2) return;
       const formId = [...document.querySelectorAll("form")].indexOf(form);
       const url = window.location.href.split(/[?#]/)[0];
       load(url, formId).then((entries) => {
