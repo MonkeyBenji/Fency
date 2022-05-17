@@ -88,6 +88,20 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
       }
     }
   };
+
+  const getDescription = (form, data) =>
+    data
+      .map(([key, value]) => {
+        const element = form[key];
+        if (!element || element.type === "hidden") return null;
+        if (!element.labels) return value;
+        return `${
+          element.labels[0].textContent.trim().split("\n")[0]
+        }: ${value}`;
+      })
+      .filter((s) => s !== null)
+      .join("\n");
+
   berry.addEventListener("click", (ev) => {
     ev.preventDefault();
     const form = ev.target.closest("form");
@@ -96,9 +110,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
         confirm(
           `Membah that form you filled in ${relativeTs(
             entry.ts
-          )} ago? (and wanna reload it?)\n${entry.data
-            .map(([key, value]) => value)
-            .join(";")}`
+          )} ago? (and wanna reload it?)\n${getDescription(form, entry.data)}`
         )
       ) {
         setFormData(form, entry.data);
