@@ -33,7 +33,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
     }
     const ts = timestamps[key];
 
-    save(url, formId, ts, [...new FormData(form).entries()]);
+    save(url, formId, ts, [...new FormData(form)]);
   };
   document.addEventListener("input", logForm);
   document.addEventListener("change", logForm);
