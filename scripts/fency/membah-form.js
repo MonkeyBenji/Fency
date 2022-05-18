@@ -1,9 +1,5 @@
 import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
   const LIMIT = 3;
-  const load = async (url, formId) => {
-    const map = await Monkey.get(`membah-${url}`, {});
-    return map[formId] ?? [];
-  };
   const save = async (url, formId, ts, data) => {
     const map = await Monkey.get(`membah-${url}`, {});
     map[formId] = (map[formId] ?? []).filter((entry) => entry.ts !== ts);
@@ -33,7 +29,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
     }
     const ts = timestamps[key];
 
-    save(url, formId, ts, [...new FormData(form).entries()]);
+    save(url, formId, ts, [...new FormData(form)]);
   };
   document.addEventListener("input", logForm);
   document.addEventListener("change", logForm);

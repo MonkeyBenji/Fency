@@ -22,3 +22,10 @@ If your terminal is complaining about digitally signing, execution policies, PSS
 The background.js defines a constant SUBSCRIPTIONS_DEFAULT with references to JSON files that define the content scripts that Fency loads.
 The current version of Fency does not yet allow the end user to add extra subscriptions.
 A developer can just edit the refered json files there to their own liking, references to local files (browser.runtime.getURL) will not get cached for an easier debugging experience.
+
+## Install to Firefox Developer Edition
+
+Zip it
+Go to about:addons
+Drag&Drop zip file to extension list
+(or click cog (settings) icon and choose Install from file)

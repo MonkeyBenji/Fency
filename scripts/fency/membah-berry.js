@@ -151,7 +151,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
     "focus",
     (ev) => {
       const target = ev.target;
-      const form = target.closest("form");
+      const form = target.closest && target.closest("form");
       if (!form || target === berry || formComplexity(form) <= 2) return;
       const formId = [...document.querySelectorAll("form")].indexOf(form);
       const url = window.location.href.split(/[?#]/)[0];
