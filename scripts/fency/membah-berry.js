@@ -38,6 +38,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
   berry.textContent = "🍇";
   berry.style.background = "none";
   berry.style.border = "none";
+  berry.style.textDecoration = "none";
   berry.style.position = "absolute";
   berry.style.cursor = "pointer";
   berry.style.fontFamily = "emoji";
@@ -96,10 +97,11 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
         if (
           !element ||
           !element.type ||
-          element.type === "hidden" ||
-          element.type === "file"
-        )
+          ["hidden", "file"].includes(element.type) ||
+          !value
+        ) {
           return null;
+        }
         if (!element.labels || !element.labels[0]) return value;
         return `${
           element.labels[0].textContent.trim().split("\n")[0]
@@ -151,9 +153,10 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
     "focus",
     (ev) => {
       const target = ev.target;
-      const form = target.closest("form");
+      const form = target.closest && target.closest("form");
       if (!form || target === berry || formComplexity(form) <= 2) return;
-      const formId = [...document.querySelectorAll("form")].indexOf(form);
+      const formId =
+        form.id || [...document.querySelectorAll("form")].indexOf(form);
       const url = window.location.href.split(/[?#]/)[0];
       load(url, formId).then((entries) => {
         entries = entries.filter((entry) => entry.ts < ts);
@@ -169,7 +172,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
           width += 32;
         berry.style.left = `${left + width - 24 - 8}px`;
         berry.style.top = `${top - 8}px`;
-        target.insertAdjacentElement("afterend", berry);
+        target.parentNode.appendChild(berry);
       });
     },
     true
