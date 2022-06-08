@@ -78,9 +78,11 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
           ).click();
           (
             await Monkey.waitForSelector(
-              ".multi-picklist-container .multi-picklist-option:nth-of-type(4) a"
+              ".multi-picklist-container .multi-picklist-option:nth-of-type(4)"
             )
-          ).click();
+          )
+            .querySelector("a,button")
+            .click();
           document.querySelector(".filter-widget button.filter-apply").click();
           await Monkey.waitForTrue(filterApplyBeGone);
         }

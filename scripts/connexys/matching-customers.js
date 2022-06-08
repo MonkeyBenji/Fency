@@ -1,5 +1,5 @@
 const URL_REPORT_CREATE =
-  "https://inwork.lightning.force.com/one/one.app#eyJjb21wb25lbnREZWYiOiJyZXBvcnRzOnJlcG9ydEJ1aWxkZXIiLCJhdHRyaWJ1dGVzIjp7InJlY29yZElkIjoiIiwibmV3UmVwb3J0QnVpbGRlciI6dHJ1ZX0sInN0YXRlIjp7fX0%3D";
+  "/one/one.app#eyJjb21wb25lbnREZWYiOiJyZXBvcnRzOnJlcG9ydEJ1aWxkZXIiLCJhdHRyaWJ1dGVzIjp7InJlY29yZElkIjoiIiwibmV3UmVwb3J0QnVpbGRlciI6dHJ1ZX0sInN0YXRlIjp7fX0%3D";
 const KEY = "find-matching-customers-for";
 
 import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
@@ -53,12 +53,29 @@ Ff nergens aanzitten okki?`;
     } else if (window.location.pathname.includes("/reports/") && data) {
       // Matching report creation
 
+      const category = await Monkey.waitForSelector(
+        ".slds-navigation-list-vertical__action,.slds-nav-vertical__action"
+      );
+      if (category.matches(".slds-nav-vertical__action")) {
+        (
+          await Monkey.waitForSelector(
+            ".report-type-section-list .slds-nav-vertical__item:nth-of-type(2) a"
+          )
+        ).click();
+      }
+
       // [iw] Accounts, next
-      await Monkey.waitForSelector("a.report-type-text");
-      [...document.querySelectorAll("a.report-type-text")]
+      await Monkey.waitForSelector(
+        ".report-type-list-form a.slds-text-link_reset"
+      );
+      [
+        ...document.querySelectorAll(
+          ".report-type-list-form a.slds-text-link_reset"
+        ),
+      ]
         .filter((a) => a.textContent === "[iw] Accounts")[0]
         .click();
-      document.querySelector("button.report-type-continue").click();
+      document.querySelector("button.slds-button_brand").click();
 
       // Add distance col
       try {
@@ -97,6 +114,7 @@ Ff nergens aanzitten okki?`;
           ".formula-apply"
         );
         applyFormulaButton.click();
+        await Monkey.waitForSelector("li.formulacolumn-row");
       } catch (e) {
         alert("Oei, staat Geo Col wel aan?");
         console.error(e);

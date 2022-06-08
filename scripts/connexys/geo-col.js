@@ -1,6 +1,7 @@
 import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
   Monkey.waitForSelector(
-    ".report-query-builder .sectionable-table-section:nth-of-type(2) .sectionable-table-section-actions"
+    ".report-query-builder .sectionable-table-section:nth-of-type(2) .sectionable-table-section-actions",
+    999 * 999
   )
     .then((div) => {
       const button =
@@ -25,6 +26,8 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
             );
             if (!thirdMenuItem)
               return alert("Kan maar 1 rijniveau formule toevoegen");
+            if (thirdMenuItem.closest("ul").children.length === 3)
+              return alert("Fuckers, denk dat je ff F5 moet drukken");
             thirdMenuItem.click();
 
             const columnName = await Monkey.waitForSelector(
