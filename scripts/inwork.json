@@ -19,6 +19,17 @@
     ],
     "Connexys": [
       {
+        "id": "mail-task-html",
+        "type": "script",
+        "version": "0.1",
+        "name": "HTML mail taak",
+        "description": "Activeer HTML content uit mails als je de taak in Knexis opent, zodat je lekker kan klikken op hieperlinks",
+        "matches": "https://*.lightning.force.com/*",
+        "path": "connexys/mail-task-html.js",
+        "enabled": true,
+        "allFrames": true
+      },
+      {
         "id": "textarea-autobullets",
         "type": "script",
         "version": "0.1",
@@ -35,7 +46,7 @@
         "version": "0.1",
         "name": "Office 365 auto login",
         "description": "Klikt meteen op de Office 365 inlog knop, nog voordat je kan besluiten om op de verkeerde manier in te loggen",
-        "matches": "https://inwork.cloudforce.com/",
+        "matches": "https://inwork.cloudforce.com/*",
         "path": "connexys/auto-login-365.js",
         "enabled": true,
         "allFrames": true
