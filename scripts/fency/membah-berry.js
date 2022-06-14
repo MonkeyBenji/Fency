@@ -90,22 +90,29 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
     }
   };
 
+  const getElement = (form, key, value) => {
+    const elements = form[key];
+    if (!(elements instanceof NodeList)) return elements;
+    for (const element of elements) {
+      if (element.value === value) return element;
+    }
+  };
+
+  const getLabel = (element) => {
+    if (!element.labels || !element.labels[0]) return null;
+    const label = element.labels[0].textContent.trim().split("\n")[0];
+    return label.endsWith(":") ? label.slice(0, -1) : label;
+  };
+
   const getDescription = (form, data) =>
     data
       .map(([key, value]) => {
-        const element = form[key];
-        if (
-          !element ||
-          !element.type ||
-          ["hidden", "file"].includes(element.type) ||
-          !value
-        ) {
-          return null;
-        }
-        if (!element.labels || !element.labels[0]) return value;
-        return `${
-          element.labels[0].textContent.trim().split("\n")[0]
-        }: ${value}`;
+        const element = getElement(form, key, value);
+        if (!element || !element.type) return null;
+        if (["hidden", "file"].includes(element.type)) return null;
+        if (!value) return null;
+        const label = getLabel(element);
+        return label ? `${label}: ${value}` : value;
       })
       .filter((s) => s)
       .join("\n");
@@ -114,16 +121,20 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
     ev.preventDefault();
     const form = ev.target.closest("form");
     for (const entry of berryEntries.reverse()) {
+      const description = getDescription(form, entry.data);
+      const when = relativeTs(entry.ts);
       if (
+        description &&
         confirm(
-          `Membah that form you filled in ${relativeTs(
-            entry.ts
-          )} ago? (and wanna reload it?)\n${getDescription(form, entry.data)}`
+          `Membah that form you filled in ${when} ago? (and wanna reload it?)\n${description}`
         )
       ) {
         setFormData(form, entry.data);
-        break;
+        return;
       }
+    }
+    if (confirm("Remove the berry?")) {
+      berry.style.display = "None";
     }
   });
 
@@ -149,12 +160,15 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
       .reduce((a, b) => a + b);
 
   // Make berry appear
+  const buttonish = ["radio", "checkbox", "button", "submit"]; // Inputs you change by clicking
+  const hasIcon = ["date", "time", "datetime-local", "week", "month", "number"]; // Inputs with picker icon
   document.addEventListener(
     "focus",
     (ev) => {
       const target = ev.target;
       const form = target.closest && target.closest("form");
-      if (!form || target === berry || formComplexity(form) <= 2) return;
+      if (!form || !target.type || formComplexity(form) <= 2) return;
+      if (buttonish.includes(target.type)) return;
       const formId =
         form.id || [...document.querySelectorAll("form")].indexOf(form);
       const url = window.location.href.split(/[?#]/)[0];
@@ -164,12 +178,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
         berryEntries = entries;
         const [left, top] = getAbsLeftTop(target);
         let width = target.getBoundingClientRect().width;
-        if (
-          ["radio", "checkbox", "button", "submit", "date"].includes(
-            target.type
-          )
-        )
-          width += 32;
+        if (hasIcon.includes(target.type)) width += 32;
         berry.style.left = `${left + width - 24 - 8}px`;
         berry.style.top = `${top - 8}px`;
         target.parentNode.appendChild(berry);
