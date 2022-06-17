@@ -85,9 +85,18 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
           }
       }
       if (input === document.activeElement) {
-        input.dispatchEvent(new Event("change"));
+        input.dispatchEvent(new Event("change", { bubbles: true }));
       }
     }
+  };
+
+  const forgetData = async (form) => {
+    const url = window.location.href.split(/[?#]/)[0];
+    const formId =
+      form.id || [...document.querySelectorAll("form")].indexOf(form);
+    const map = await Monkey.get(`membah-${url}`, {});
+    delete map[formId];
+    await Monkey.set(`membah-${url}`, map);
   };
 
   const getElement = (form, key, value) => {
@@ -134,7 +143,11 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
       }
     }
     if (confirm("Remove the berry?")) {
-      berry.style.display = "None";
+      berry.style.opacity = 0;
+      berry.style.pointerEvents = "none";
+      if (confirm("Remove the membered form(s)?")) {
+        forgetData(form);
+      }
     }
   });
 
@@ -172,6 +185,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
       const formId =
         form.id || [...document.querySelectorAll("form")].indexOf(form);
       const url = window.location.href.split(/[?#]/)[0];
+      berry.style.display = "None";
       load(url, formId).then((entries) => {
         entries = entries.filter((entry) => entry.ts < ts);
         if (entries.length === 0) return;
@@ -182,6 +196,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
         berry.style.left = `${left + width - 24 - 8}px`;
         berry.style.top = `${top - 8}px`;
         target.parentNode.appendChild(berry);
+        setTimeout(() => (berry.style.display = "block"), 250);
       });
     },
     true

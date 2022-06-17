@@ -12,10 +12,14 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
   };
 
   let lastTs = 0;
+  let formActivity = 0;
   const timestamps = {};
   const logForm = (ev) => {
     const now = Date.now();
     if (ev.type === "input" && now - lastTs < 2500) return;
+    if (ev.type === "input") formActivity++;
+    else formActivity += 5;
+    if (formActivity < 25) return;
     lastTs = now;
     const target = ev.target;
     const form = target.closest && target.closest("form");
