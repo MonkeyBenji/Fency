@@ -130,6 +130,16 @@
         ],
         "path": "inwork/local-link.js",
         "enabled": true
+      },
+      {
+        "id": "local-wp-admin-color",
+        "type": "script",
+        "version": "0.1",
+        "name": "Local WP-Admin color",
+        "description": "Add some color to indicate local WP-admin",
+        "matches": ["https://inwork.nl/*", "https://intranet.inwork.nl/*"],
+        "path": "inwork/local-wp-admin-color.js",
+        "enabled": true
       }
     ],
     "WalHalla": [
