@@ -153,6 +153,16 @@
         "enabled": true
       },
       {
+        "id": "cv-parser",
+        "type": "script",
+        "version": "0.1",
+        "name": "CV Parser Persoonsprofiel",
+        "description": "Persoonsprofiel toevoegen aan CV parser",
+        "matches": ["https://*.lightning.force.com/*"],
+        "path": "connexys/cv-parser.js",
+        "enabled": true
+      },
+      {
         "id": "cv-docx",
         "type": "script",
         "version": "0.1",
