@@ -1,5 +1,5 @@
 if (
-  ([5400, 9000].includes(parseInt(url.port)) ||
+  ([5400, 9000].includes(parseInt(window.location.port)) ||
     window.location.host === "walhalla.inwork.nl") &&
   !window.location.href.includes("no-cache")
 ) {
