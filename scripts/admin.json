@@ -142,7 +142,8 @@
         "matches": [
           "https://walhalla.inwork.nl/*",
           "http://127.0.0.1/*",
-          "http://127.0.0.1:9000/*"
+          "http://127.0.0.1:9000/*",
+          "http://127.0.0.1:5400/*"
         ],
         "path": "walhalla/local-link.js",
         "enabled": true
@@ -153,7 +154,11 @@
         "version": "0.1",
         "name": "Login Token :9000",
         "description": "Automatically login on local WalHalla :9000",
-        "matches": ["http://127.0.0.1/*", "http://127.0.0.1:9000/*"],
+        "matches": [
+          "http://127.0.0.1/*",
+          "http://127.0.0.1:9000/*",
+          "http://127.0.0.1:5400/*"
+        ],
         "path": "walhalla/login-token.js",
         "enabled": false
       },
@@ -166,6 +171,7 @@
         "matches": [
           "http://127.0.0.1/*",
           "http://127.0.0.1:9000/*",
+          "http://127.0.0.1:5400/*",
           "https://walhalla.inwork.nl/*"
         ],
         "path": "walhalla/no-cache.js",
@@ -180,6 +186,7 @@
         "matches": [
           "http://127.0.0.1/*",
           "http://127.0.0.1:9000/*",
+          "http://127.0.0.1:5400/*",
           "https://walhalla.inwork.nl/*"
         ],
         "path": "walhalla/no-refresh.js",
