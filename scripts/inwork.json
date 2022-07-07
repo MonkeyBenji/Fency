@@ -264,17 +264,13 @@
         "allFrames": false
       },
       {
-        "id": "april-fools",
+        "id": "sign-request-100pp",
         "type": "script",
         "version": "0.1",
-        "name": "Fake News",
-        "description": "April 1st, frog in your buttock!",
-        "matches": [
-          "https://nos.nl/*",
-          "https://www.nu.nl/*",
-          "https://inwork.nl/*"
-        ],
-        "path": "misc/april-fools.js",
+        "name": "Sign Request 100p.p.",
+        "description": "Defaultly show 100 documents per page instead of 10 in SignRequest",
+        "matches": ["https://*.signrequest.com/*"],
+        "path": "misc/sign-request-100pp.js",
         "enabled": true,
         "allFrames": false
       }
