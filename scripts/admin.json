@@ -153,7 +153,10 @@
           "https://walhalla.inwork.nl/*",
           "http://127.0.0.1/*",
           "http://127.0.0.1:9000/*",
-          "http://127.0.0.1:5400/*"
+          "http://127.0.0.1:5400/*",
+          "http://localhost/*",
+          "http://localhost:9000/*",
+          "http://localhost:5400/*"
         ],
         "path": "walhalla/local-link.js",
         "enabled": true
@@ -167,7 +170,10 @@
         "matches": [
           "http://127.0.0.1/*",
           "http://127.0.0.1:9000/*",
-          "http://127.0.0.1:5400/*"
+          "http://127.0.0.1:5400/*",
+          "http://localhost/*",
+          "http://localhost:9000/*",
+          "http://localhost:5400/*"
         ],
         "path": "walhalla/login-token.js",
         "enabled": false
@@ -179,10 +185,13 @@
         "name": "?no-cache",
         "description": "Adds ?no-cache=1 to URLs, cause I don't like caches",
         "matches": [
+          "https://walhalla.inwork.nl/*",
           "http://127.0.0.1/*",
           "http://127.0.0.1:9000/*",
           "http://127.0.0.1:5400/*",
-          "https://walhalla.inwork.nl/*"
+          "http://localhost/*",
+          "http://localhost:9000/*",
+          "http://localhost:5400/*"
         ],
         "path": "walhalla/no-cache.js",
         "enabled": false
@@ -194,10 +203,13 @@
         "name": "no-refresh",
         "description": "Kills the setInterval so the tables don't keep refreshing",
         "matches": [
+          "https://walhalla.inwork.nl/*",
           "http://127.0.0.1/*",
           "http://127.0.0.1:9000/*",
           "http://127.0.0.1:5400/*",
-          "https://walhalla.inwork.nl/*"
+          "http://localhost/*",
+          "http://localhost:9000/*",
+          "http://localhost:5400/*"
         ],
         "path": "walhalla/no-refresh.js",
         "enabled": false
