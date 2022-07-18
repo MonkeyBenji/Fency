@@ -273,6 +273,17 @@
         "path": "misc/sign-request-100pp.js",
         "enabled": true,
         "allFrames": false
+      },
+      {
+        "id": "twitter-lurking",
+        "type": "script",
+        "version": "0.1",
+        "name": "Twitter Lurking",
+        "description": "Remove annoying popup forcing you to log in",
+        "matches": ["https://twitter.com/*"],
+        "path": "misc/twitter-lurking.js",
+        "enabled": true,
+        "allFrames": false
       }
     ]
   }
