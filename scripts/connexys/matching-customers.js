@@ -52,7 +52,6 @@ Ff nergens aanzitten okki?`;
       });
     } else if (window.location.pathname.includes("/reports/") && data) {
       // Matching report creation
-
       const category = await Monkey.waitForSelector(
         ".slds-navigation-list-vertical__action,.slds-nav-vertical__action"
       );
@@ -79,6 +78,7 @@ Ff nergens aanzitten okki?`;
 
       // Add distance col
       try {
+        Monkey.set(KEY, null);
         // Open dialog
         const addDistanceCol = await Monkey.waitForSelector(
           "#add-distance-col"
@@ -230,7 +230,6 @@ Ff nergens aanzitten okki?`;
       );
       if (refreshButton) refreshButton.click();
       await Monkey.sleep(200);
-      Monkey.set(KEY, null);
       alert("All done, je mag weer klikken yay");
     }
   };
