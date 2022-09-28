@@ -1,10 +1,9 @@
 const URL_REPORT_CREATE =
   "/one/one.app#eyJjb21wb25lbnREZWYiOiJyZXBvcnRzOnJlcG9ydEJ1aWxkZXIiLCJhdHRyaWJ1dGVzIjp7InJlY29yZElkIjoiIiwibmV3UmVwb3J0QnVpbGRlciI6dHJ1ZX0sInN0YXRlIjp7fX0%3D";
 const KEY = "find-matching-customers-for";
+let thisButton = null;
 
 import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
-  let thisButton = null;
-
   // TODO move functions to SF lib?
   /**
    * Maps the data shown on the current SF-view page to an object
@@ -36,6 +35,10 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
 
     if (window.location.pathname.includes("/a0A")) {
       // Candidate parsing
+      if (thisButton !== null) {
+        thisButton.unregister();
+        thisButton = null;
+      }
       thisButton = Monkey.fab("fa fa-suitcase", "Zoek klantjes!", async () => {
         const map = await extractSalesforceDataFromPage();
         await Monkey.set(KEY, map);

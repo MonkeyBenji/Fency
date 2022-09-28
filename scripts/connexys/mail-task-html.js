@@ -21,7 +21,6 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
     "click",
     async (ev) => {
       const target = ev.target;
-      console.log("clickety click");
       if (!target.matches("a.chevronLink") && !target.closest("a.chevronLink"))
         return;
       await Monkey.sleep(100);
