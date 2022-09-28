@@ -19,6 +19,16 @@
     ],
     "Connexys": [
       {
+        "id": "new-report-shortcut",
+        "type": "script",
+        "version": "0.1",
+        "name": "Nieuw rapport vanuit dropdown",
+        "description": "Nooit begrepen waarom je in Salesforce geen nieuw rapport kan maken vanuit de dropdown in de tab bar",
+        "matches": "https://*.lightning.force.com/*",
+        "path": "connexys/new-report-shortcut.js",
+        "enabled": true
+      },
+      {
         "id": "mail-task-html",
         "type": "script",
         "version": "0.1",
