@@ -106,6 +106,20 @@
         "allFrames": true
       },
       {
+        "id": "multipicklist-autocomplete",
+        "type": "script",
+        "version": "0.1",
+        "name": "Multipicklist Autocomplete",
+        "description": "Waarom dat filteren op multipicklist waardes nou weer zo omslachtig moet van Salesforce...",
+        "matches": [
+          "https://*.lightning.force.com/reports/lightningReportApp.app*",
+          "https://*.lightning.force.com/one/one.app*"
+        ],
+        "path": "connexys/multipicklist-autocomplete.js",
+        "enabled": true,
+        "allFrames": true
+      },
+      {
         "id": "anonimize-default-state",
         "type": "script",
         "version": "0.1",
