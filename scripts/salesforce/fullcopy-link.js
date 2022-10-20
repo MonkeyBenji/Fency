@@ -12,10 +12,9 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
       }
       return url;
     };
+    const isFullCopy = window.location.href.includes("--fullcopy");
     const a = document.createElement("a");
-    a.innerText = window.location.href.includes("--fullcopy")
-      ? "2live"
-      : "2copy";
+    a.innerText = isFullCopy ? "2live" : "2copy";
     a.setAttribute("href", getUrl());
     a.setAttribute(
       "style",
@@ -23,6 +22,14 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
     );
     a.addEventListener("click", () => (a.href = getUrl()));
     logo.parentElement.appendChild(a);
+    if (isFullCopy)
+      Monkey.css(`.slds-global-header {
+      background: repeating-linear-gradient(45deg, rgb(84,105,141), rgb(84,105,141) 20px, rgba(84,105,141,.97) 20px, rgba(84,105,141,.97) 40px);
+    }
+    .slds-global-header a {
+      background: #f8f8f8;
+    }
+    `);
   } catch (e) {
     console.error(e.toString());
   }
