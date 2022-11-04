@@ -39,6 +39,18 @@
         "path": "inctrl/auto-mike.js",
         "enabled": false
       }
+    ],
+    "Misc": [
+      {
+        "id": "untappd-lookup",
+        "type": "script",
+        "version": "0.1",
+        "name": "Untappd Lookup",
+        "description": "Select beer, find Untappd ratings",
+        "matches": "<all_urls>",
+        "path": "misc/untappd-lookup.js",
+        "enabled": true
+      }
     ]
   }
 }
