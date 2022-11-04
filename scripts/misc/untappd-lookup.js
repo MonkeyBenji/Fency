@@ -53,6 +53,8 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
       rating = rating.split('"')[1];
 
       const a = document.createElement("a");
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
       a.href = href;
       a.textContent = ` (🍺${rating})`;
       a.style.fontSize = "0.75rem";
