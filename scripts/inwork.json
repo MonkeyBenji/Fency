@@ -139,7 +139,7 @@
         "version": "0.1",
         "name": "Dashboard Auto-refresh",
         "description": "Automatically refresh dashboards when Salesforce warns they're old",
-        "matches": ["https://*.lightning.force.com/desktopDashboards/*"],
+        "matches": "https://*.lightning.force.com/desktopDashboards/*",
         "path": "connexys/dash-autorefresh.js",
         "enabled": true,
         "allFrames": true
@@ -161,7 +161,7 @@
         "version": "0.1",
         "name": "Snellere recr. inschrijving",
         "description": "Voeg een kandidaat toe aan je recente vacature vanuit een FAB menu'tje bij de kandidaat",
-        "matches": ["https://*.lightning.force.com/*"],
+        "matches": "https://*.lightning.force.com/*",
         "path": "connexys/add-to-vacancy.js",
         "enabled": true,
         "allFrames": true
@@ -172,7 +172,7 @@
         "version": "0.1",
         "name": "CV Generator Fixes",
         "description": "Kut Connexys updates ook (tekst in datum veld, auto anoniem, styling, etc.)",
-        "matches": ["https://*.lightning.force.com/*"],
+        "matches": "https://*.lightning.force.com/*",
         "path": "connexys/cv-generator.js",
         "enabled": true
       },
@@ -182,7 +182,7 @@
         "version": "0.1",
         "name": "CV Parser Persoonsprofiel",
         "description": "Persoonsprofiel toevoegen aan CV parser",
-        "matches": ["https://*.lightning.force.com/*"],
+        "matches": "https://*.lightning.force.com/*",
         "path": "connexys/cv-parser.js",
         "enabled": true
       },
@@ -192,7 +192,7 @@
         "version": "0.1",
         "name": "CV Word (beta)",
         "description": "Word CV download knop ding",
-        "matches": ["https://*.lightning.force.com/*"],
+        "matches": "https://*.lightning.force.com/*",
         "path": "connexys/cv-docx.js",
         "enabled": true
       },
@@ -202,9 +202,20 @@
         "version": "0.1",
         "name": "Step styling",
         "description": "Zet wat veldjes naast elkaar voor betere UI",
-        "matches": ["https://*.lightning.force.com/*"],
+        "matches": "https://*.lightning.force.com/*",
         "path": "connexys/step-style.js",
         "enabled": true
+      },
+      {
+        "id": "step-expand",
+        "type": "script",
+        "version": "0.1",
+        "name": "Stap openklap",
+        "description": "Ik kom binnen zo van whoop pap pap. Hey gap, ik open die shit stap voor stap",
+        "matches": "https://*.lightning.force.com/lightning/r/cxsrec__cxsJob_application__c/*",
+        "path": "connexys/step-expand.js",
+        "enabled": true,
+        "allFrames": true
       },
       {
         "id": "new-candidate-style",
@@ -212,7 +223,7 @@
         "version": "0.1",
         "name": "Nieuwe kandidaat optimalisaties",
         "description": "Zet wat veldjes naast elkaar voor betere UI; Kopie pasta functionaliteit InWork.club mail",
-        "matches": ["https://*.lightning.force.com/*"],
+        "matches": "https://*.lightning.force.com/*",
         "path": "connexys/new-candidate-style.js",
         "enabled": true
       },
@@ -222,9 +233,7 @@
         "version": "0.1",
         "name": "Standaard [iw] filter",
         "description": "Standaard [iw] filter bij nieuw rapport",
-        "matches": [
-          "https://*.lightning.force.com/reports/lightningReportApp.app"
-        ],
+        "matches": "https://*.lightning.force.com/reports/lightningReportApp.app",
         "path": "connexys/default-report-filter-iw.js",
         "enabled": true,
         "allFrames": true
@@ -235,7 +244,7 @@
         "version": "0.1",
         "name": "Standaard leeg onderwerp taak",
         "description": "Is nu standaard \"Bellen\" ... ... teh fuk Salesforce",
-        "matches": ["https://*.lightning.force.com/*"],
+        "matches": "https://*.lightning.force.com/*",
         "path": "connexys/default-subject-empty.js",
         "enabled": true,
         "allFrames": true
