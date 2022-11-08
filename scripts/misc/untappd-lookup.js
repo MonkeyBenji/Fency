@@ -10,6 +10,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
       found = { a: false, b: false }
     ) => {
       const nodes = [];
+      if (ancestor instanceof Text) nodes.push(ancestor);
       for (const child of ancestor.childNodes) {
         if (child === a) found.a = true;
         if (found.b) break;
@@ -33,7 +34,10 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
     ).filter((t) => t.textContent.trim().length > 2);
 
     for (const beerNode of beerNodes) {
-      const name = beerNode.textContent.trim();
+      const name =
+        beerNodes.length === 1
+          ? window.getSelection().toString()
+          : beerNode.textContent.trim();
       // Rip&parse data from Untappd
       const url = `https://untappd.com/search?q=${encodeURIComponent(name)}`;
       let html = await Monkey.fetchText(url);
