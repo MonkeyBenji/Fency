@@ -212,7 +212,7 @@
         "version": "0.1",
         "name": "Stap openklap",
         "description": "Ik kom binnen zo van whoop pap pap. Hey gap, ik open die shit stap voor stap",
-        "matches": "https://*.lightning.force.com/lightning/r/cxsrec__cxsJob_application__c/*",
+        "matches": "https://*.lightning.force.com/*",
         "path": "connexys/step-expand.js",
         "enabled": true,
         "allFrames": true
