@@ -1,6 +1,8 @@
 import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
+  const dontCloseMe = (ev) => (ev.returnValue = "u sure?");
   let prevLocation = null;
   const doStuff = () => {
+    if (window.onbeforeunload === dontCloseMe) window.onbeforeunload = null;
     // Page == CV Generator
     try {
       if (window.location.pathname !== "/one/one.app") return;
@@ -11,6 +13,15 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
     } catch (e) {
       return;
     }
+
+    // Prevent changed to be accidentally discarded by closing tabs
+    document.addEventListener(
+      "input",
+      () => {
+        if (window.onbeforeunload === null) window.onbeforeunload = dontCloseMe;
+      },
+      { once: true }
+    );
 
     // Change today hyperlink to present for work experience and education
     document.body.addEventListener("click", async (ev) => {
