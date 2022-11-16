@@ -108,7 +108,9 @@
           "https://inctrl.inwork.nl/*",
           "https://mike.inwork.nl/*",
           "http://127.0.0.1/*",
-          "http://127.0.0.1:8080/*"
+          "http://127.0.0.1:8080/*",
+          "http://127.0.0.1:7080/*",
+          "https://inctrl-update.dev.inwork.nl/*"
         ],
         "path": "inctrl/local-link.js",
         "enabled": true
