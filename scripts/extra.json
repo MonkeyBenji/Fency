@@ -50,6 +50,16 @@
         "matches": "<all_urls>",
         "path": "misc/untappd-lookup.js",
         "enabled": true
+      },
+      {
+        "id": "jira-recent",
+        "type": "script",
+        "version": "0.1",
+        "name": "Jira Recente Updates",
+        "description": "Laat de recent geüpdate issues wat meer shinen in het bord, zodat ze wat meer opvallen.",
+        "matches": "https://*.atlassian.net/*",
+        "path": "misc/jira-recent.js",
+        "enabled": true
       }
     ]
   }
