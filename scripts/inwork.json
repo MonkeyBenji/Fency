@@ -250,6 +250,19 @@
         "allFrames": true
       },
       {
+        "id": "decimal-dot",
+        "type": "script",
+        "version": "0.1",
+        "name": "Punt naar komma replacer",
+        "description": "Gebruik je je numpad om 12.34 als verkooptarief in te vullen, maakt dat pretpakket er €1234,- van. Lekker dan...",
+        "matches": [
+          "https://*.lightning.force.com/*",
+          "https://*.cloudforce.com/*"
+        ],
+        "path": "connexys/decimal-dot.js",
+        "enabled": true
+      },
+      {
         "id": "logo",
         "type": "script",
         "version": "0.1",
