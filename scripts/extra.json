@@ -60,6 +60,16 @@
         "matches": "https://*.atlassian.net/*",
         "path": "misc/jira-recent.js",
         "enabled": true
+      },
+      {
+        "id": "jira-current-estimate",
+        "type": "script",
+        "version": "0.1",
+        "name": "Jira Current Estimate",
+        "description": "Toon op de backlog de huidige estimates in plaats van de originals.",
+        "matches": "https://*.atlassian.net/*",
+        "path": "misc/jira-current-estimate.js",
+        "enabled": true
       }
     ]
   }
