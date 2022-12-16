@@ -52,6 +52,22 @@
         "enabled": true
       },
       {
+        "id": "pokemonwereld-autodownload",
+        "type": "script",
+        "version": "0.1",
+        "name": "Pokemonwereld Autodownload",
+        "description": "Too much clicks",
+        "matches": [
+          "https://pokemonwereld.eu/*",
+          "https://linkvertise.com/*",
+          "https://www.google.com/recaptcha/api2/*",
+          "https://mega.nz/*"
+        ],
+        "path": "misc/pokemonwereld-autodownload.js",
+        "enabled": true,
+        "allFrames": true
+      },
+      {
         "id": "jira-recent",
         "type": "script",
         "version": "0.1",
