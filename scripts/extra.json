@@ -56,7 +56,7 @@
         "type": "script",
         "version": "0.1",
         "name": "Jira Recente Updates",
-        "description": "Laat de recent geüpdate issues wat meer shinen in het bord, zodat ze wat meer opvallen.",
+        "description": "Laat de recent geüpdate issues wat meer shinen in het bord, zodat ze wat meer opvallen",
         "matches": "https://*.atlassian.net/*",
         "path": "misc/jira-recent.js",
         "enabled": true
@@ -66,9 +66,23 @@
         "type": "script",
         "version": "0.1",
         "name": "Jira Current Estimate",
-        "description": "Toon op de backlog de huidige estimates in plaats van de originals.",
+        "description": "Toon op de backlog de huidige estimates in plaats van de originals",
         "matches": "https://*.atlassian.net/*",
         "path": "misc/jira-current-estimate.js",
+        "enabled": true
+      },
+      {
+        "id": "camas-compare",
+        "type": "script",
+        "version": "0.1",
+        "name": "CAMAS Compare",
+        "description": "Vergelijk medewerkers/verzuim tussen InCTRL en CAMAS",
+        "matches": [
+          "https://werkgever.perspectief.eu/Overzichten/Werknemers",
+          "https://werkgever.perspectief.eu/Overzichten/Dossiers",
+          "https://inctrl.inwork.nl/profile/*"
+        ],
+        "path": "misc/camas-compare.js",
         "enabled": true
       }
     ]
