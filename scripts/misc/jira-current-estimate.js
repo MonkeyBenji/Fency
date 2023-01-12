@@ -31,18 +31,23 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
     return ret;
   };
 
-  sprintContainer.querySelectorAll("div.js-issue").forEach((div) => {
-    const key = div.dataset.issueKey;
-    const remaining = issuesRemainingEstimates[key];
-    if (!remaining) return;
-    const badge = div.querySelector(".ghx-statistic-badge");
-    const remainingString = Object.entries(secondsToWDHM(remaining))
-      .filter(([_, amount]) => amount > 0)
-      .map(([key, amount]) => `${amount}${key}`)
-      .join(" ");
-    if (badge.textContent !== remainingString) {
-      badge.textContent = remainingString;
-      badge.style.border = "1px solid #9ac445";
-    }
-  });
+  const doIt = () => {
+    sprintContainer.querySelectorAll("div.js-issue").forEach((div) => {
+      const key = div.dataset.issueKey;
+      const remaining = issuesRemainingEstimates[key];
+      if (!remaining) return;
+      const badge = div.querySelector(".ghx-statistic-badge");
+      const remainingString = Object.entries(secondsToWDHM(remaining))
+        .filter(([_, amount]) => amount > 0)
+        .map(([key, amount]) => `${amount}${key}`)
+        .join(" ");
+      if (badge.textContent !== remainingString) {
+        badge.textContent = remainingString;
+        badge.style.border = "1px solid #9ac445";
+      }
+    });
+  };
+  doIt();
+  document.addEventListener("click", () => setTimeout(doIt, 50));
+  document.addEventListener("click", () => setTimeout(doIt, 5000));
 });
