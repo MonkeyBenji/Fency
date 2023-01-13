@@ -82,6 +82,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
         let section = null;
         if (div.closest(".cvSection-Educations")) section = "education";
         if (div.closest(".cvSection-WorkExperiences")) section = "work";
+        if (section && !div.closest(".cxsGenCVSubsection")) return;
         return {
           section,
           name,
@@ -103,10 +104,8 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
         },
         { education: [{}], work: [{}] }
       );
-    mapping.education = mapping.education.slice(
-      Math.ceil(mapping.education.length / 2)
-    );
-    mapping.work = mapping.work.slice(Math.ceil(mapping.work.length / 2));
+    mapping.education = mapping.education.slice(0, -1);
+    mapping.work = mapping.work.slice(0, -1);
     return mapping;
   };
 
