@@ -14,7 +14,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
       return;
     }
 
-    // Prevent changed to be accidentally discarded by closing tabs
+    // Prevent changes to be accidentally discarded by closing tabs
     document.addEventListener(
       "input",
       () => {
@@ -22,6 +22,90 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
       },
       { once: true }
     );
+
+    // Prevent deleting work or education with required fields because Connexys bug prevents you from saving afterwards
+    document.addEventListener("click", async (ev) => {
+      const target = ev.target;
+      const isDeleteButton = target.matches(".slds-button_text-destructive");
+      const isDeleteAllButton = target.matches(
+        "ul.slds-accordion > div > button:not(.slds-float_right)"
+      );
+      if (!isDeleteButton && !isDeleteAllButton) return;
+      const parent = isDeleteButton
+        ? target.closest(".slds-section")
+        : target.closest(".cvSection");
+
+      const requiredInputsNotFilledIn = [
+        ...parent.querySelectorAll(".cxsrecField:has(.slds-required)"),
+      ]
+        .map((field) => field.querySelector("input,textarea,select"))
+        .filter((input) => !input.value);
+
+      if (requiredInputsNotFilledIn.length) {
+        requiredInputsNotFilledIn[0].scrollIntoView({ block: "center" });
+        try {
+          const modal = await Monkey.waitForSelector(
+            ".cxsrecCVGenerator section.slds-modal"
+          );
+          modal.querySelector("h2").textContent = "Ho eens even!";
+          modal.querySelector("p").textContent =
+            "Door een bug in Knexis kan je het CV niet opslaan als in de verwijderde opleidingen/werkervaring een verplicht veld niet is ingevuld. Vul eerst de verplichte velden voordat je dit blok mag verwijderen";
+          modal.querySelector("button.slds-button_brand").outerHTML = "";
+        } catch (e) {}
+      }
+    });
+
+    // Add open all the things
+    Monkey.waitForSelector(".cvSection button.slds-button_neutral").then(
+      async () => {
+        await Monkey.sleep(100);
+        document
+          .querySelectorAll("ul.slds-accordion > div.section_buttons")
+          .forEach((section) => {
+            const button = document.createElement("button");
+            button.setAttribute("class", "slds-button slds-float_right");
+            button.textContent = "Open all the things!";
+            button.addEventListener("click", () => {
+              section
+                .closest(".cvSection")
+                .querySelectorAll(
+                  button.textContent.startsWith("Open")
+                    ? 'button[aria-expanded="false"]'
+                    : 'button[aria-expanded="true"]'
+                )
+                .forEach((accordion) => {
+                  accordion.click();
+                  if (button.textContent.startsWith("Open")) {
+                    button.textContent = "Close all the things!";
+                  } else {
+                    button.textContent = "Open all the things!";
+                  }
+                });
+            });
+            section.appendChild(button);
+          });
+      }
+    );
+
+    // Focus missing required field on error
+    document.addEventListener("click", async (ev) => {
+      const saveButtonSelector =
+        ".cxsrecCVGenerator ul.slds-list_horizontal > li > button.slds-button_brand";
+      if (!ev.target.matches(saveButtonSelector)) return;
+      await Monkey.waitForSelector("span.toastMessage");
+      await Monkey.sleep(250);
+
+      const requiredInputsNotFilledIn = [
+        ...document.querySelectorAll(".cxsrecField:has(.slds-required)"),
+      ]
+        .map((field) => field.querySelector("input,textarea,select"))
+        .filter((input) => !input.value);
+      if (!requiredInputsNotFilledIn.length)
+        return console.log("Ik weet t ook niet man");
+      requiredInputsNotFilledIn[
+        requiredInputsNotFilledIn.length - 1
+      ].scrollIntoView({ block: "center" });
+    });
 
     // Change today hyperlink to present for work experience and education
     document.body.addEventListener("click", async (ev) => {
