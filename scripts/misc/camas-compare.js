@@ -93,7 +93,8 @@ Stefan Stefan
       button.textContent = "Zoek de Verschillen";
       searchButton.parentElement.appendChild(button);
 
-      button.addEventListener("click", () => {
+      button.addEventListener("click", (ev) => {
+        ev.preventDefault();
         button.disabled = true;
         button.textContent = "Ff wachten...";
         window.open("https://inctrl.inwork.nl/profile/?camas-compare");
