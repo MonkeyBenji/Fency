@@ -12,5 +12,10 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
     )
       .then((option) => (option.closest("select").value = "a181n00000BDPzNAAX"))
       .catch(yolo);
+    Monkey.waitForSelector(
+      '#cxsAnonymize\\:cxsAnonymizeForm\\:ModalPageBlock option[value="a180Y000000W9U9QAK"]'
+    )
+      .then((option) => (option.closest("select").value = "a180Y000000W9U9QAK"))
+      .catch(yolo);
   });
 });
