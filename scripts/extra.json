@@ -72,6 +72,16 @@
         "enabled": true
       },
       {
+        "id": "giphy-gif",
+        "type": "script",
+        "version": "0.1",
+        "name": "Giphy .gif images",
+        "description": "Replace the .webp images with the .gif variant when trying to copy it to Outlook or something",
+        "matches": "https://*.giphy.com/media/*",
+        "path": "misc/giphy-gif.js",
+        "enabled": true
+      },
+      {
         "id": "camas-compare",
         "type": "script",
         "version": "0.1",
