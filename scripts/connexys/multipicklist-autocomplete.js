@@ -59,9 +59,10 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
           );
 
           if (!title in multipicklistValues) return;
+          if (popover.querySelector(".multi-picklist-container") !== null)
+            return; // Multipicklists dont have a multi-picklist container, only single picklists do
 
           const operator = popover.querySelector("button.slds-picklist__label");
-          console.log("operator", operator);
           operator.click();
           const allInclusive = await Monkey.waitForSelector(
             "UL.dropdown__list > li:nth-of-type(3) > a"
