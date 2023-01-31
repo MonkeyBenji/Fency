@@ -34,6 +34,17 @@
         "path": "fency/membah-berry.js",
         "enabled": true,
         "allFrames": true
+      },
+      {
+        "id": "textarea-limit",
+        "type": "script",
+        "version": "0.1",
+        "name": "Textarea Limit",
+        "description": "Show the maximum number of characters left on textareas with a maxlength attribute",
+        "matches": "<all_urls>",
+        "path": "fency/textarea-limit.js",
+        "enabled": true,
+        "allFrames": true
       }
     ]
   }
