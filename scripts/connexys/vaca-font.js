@@ -79,6 +79,17 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
     document.body.addEventListener("input", (ev) =>
       setTimeout(() => fontClear(ev), 123)
     );
+    document.addEventListener("mousedown", (ev) => {
+      if (!ev.target.matches("textarea:not([maxlength])")) return;
+      const div = ev.target.closest(".cxsField_TEXTAREA");
+      if (!div) return;
+      const label =
+        div.querySelector(".slds-form-element__label")?.innerText ?? "";
+      if (label.includes("Ondertitel")) {
+        ev.target.maxLength = 255;
+      }
+    });
   };
   Monkey.onLocationChange(doStuff);
+  doStuff();
 });
