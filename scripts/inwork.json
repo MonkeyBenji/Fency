@@ -56,7 +56,10 @@
         "version": "0.1",
         "name": "Office 365 auto login",
         "description": "Klikt meteen op de Office 365 inlog knop, nog voordat je kan besluiten om op de verkeerde manier in te loggen",
-        "matches": "https://inwork.cloudforce.com/*",
+        "matches": [
+          "https://inwork.cloudforce.com/*",
+          "https://inwork.my.salesforce.com/*"
+        ],
         "path": "connexys/auto-login-365.js",
         "enabled": true,
         "allFrames": true
@@ -257,6 +260,7 @@
         "description": "Gebruik je je numpad om 12.34 als verkooptarief in te vullen, maakt dat pretpakket er €1234,- van. Lekker dan...",
         "matches": [
           "https://*.lightning.force.com/*",
+          "https://*.my.salesforce.com/*",
           "https://*.cloudforce.com/*"
         ],
         "path": "connexys/decimal-dot.js",
@@ -270,6 +274,7 @@
         "description": "Anders weet ik mijn weg terug niet als ik in de Admin verdwaal",
         "matches": [
           "https://*.lightning.force.com/*",
+          "https://*.my.salesforce.com/*",
           "https://*.cloudforce.com/*"
         ],
         "path": "connexys/logo.js",
