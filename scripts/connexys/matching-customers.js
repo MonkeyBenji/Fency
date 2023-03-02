@@ -53,7 +53,11 @@ Ff nergens aanzitten okki?`;
           alert("Dan niet joh!");
         }
       });
-    } else if (window.location.pathname.includes("/reports/") && data) {
+    } else if (
+      window.location.pathname.includes("/reports/") &&
+      data &&
+      !window.location.search.includes("reportId")
+    ) {
       // Matching report creation
       const category = await Monkey.waitForSelector(
         ".slds-navigation-list-vertical__action,.slds-nav-vertical__action"
@@ -79,6 +83,20 @@ Ff nergens aanzitten okki?`;
         .click();
       document.querySelector("button.slds-button_brand").click();
 
+      // Save it, cause Salesforce update requires that
+      (
+        await Monkey.waitForSelector("button.report-action-ReportSaveAction")
+      ).click();
+      await Monkey.waitForSelector("#reportName");
+      await Monkey.sleep(250);
+      await Monkey.type("Tijdelijk rapportje Fency");
+      await Monkey.sleep(125);
+      (await Monkey.waitForSelector("button.report-save")).click();
+    } else if (
+      window.location.pathname.includes("/reports/") &&
+      data &&
+      window.location.search.includes("reportId")
+    ) {
       // Add distance col
       try {
         Monkey.set(KEY, null);
