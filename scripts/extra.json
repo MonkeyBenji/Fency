@@ -52,6 +52,16 @@
         "enabled": true
       },
       {
+        "id": "drankgigant-ppl",
+        "type": "script",
+        "version": "0.1",
+        "name": "Drankgigant Prijs per Liter",
+        "description": "Toon prijs per liter bij zoekresultaten en zo",
+        "matches": "https://www.drankgigant.nl/*",
+        "path": "misc/drankgigant-ppl.js",
+        "enabled": true
+      },
+      {
         "id": "jira-recent",
         "type": "script",
         "version": "0.1",
