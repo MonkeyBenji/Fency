@@ -5,7 +5,11 @@ if (
   import(chrome.runtime.getURL("/lib/monkey-script.js")).then(
     async (Monkey) => {
       Monkey.js(() => {
-        setInterval = () => {};
+        const orgSetInterval = setInterval;
+        setInterval = (fun, delay) => {
+          if (delay === 30000) return;
+          return orgSetInterval(fun, delay);
+        };
       });
     }
   );
