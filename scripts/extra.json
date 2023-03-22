@@ -62,6 +62,16 @@
         "enabled": true
       },
       {
+        "id": "jira-less-dark",
+        "type": "script",
+        "version": "0.1",
+        "name": "Jira Less Dark",
+        "description": "Dark mode net iets minder donker maken",
+        "matches": "https://*.atlassian.net/*",
+        "path": "misc/jira-less-dark.js",
+        "enabled": true
+      },
+      {
         "id": "jira-current-estimate",
         "type": "script",
         "version": "0.1",
