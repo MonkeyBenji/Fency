@@ -15,6 +15,21 @@
         ],
         "path": "inwork/vaca-shortcuts.js",
         "enabled": true
+      },
+      {
+        "id": "campus-qr",
+        "type": "script",
+        "version": "0.1",
+        "name": "Campus QR",
+        "description": "Extra knopjes om QR code te maken met vooraf ingevulde info campus formulier",
+        "matches": [
+          "https://inwork.nl/events/campus-*",
+          "https://www.inwork.nl/events/campus-*",
+          "https://www-dev.inwork.nl/events/campus-*",
+          "https://www-test.inwork.nl/events/campus-*"
+        ],
+        "path": "inwork/campus-qr.js",
+        "enabled": true
       }
     ],
     "Connexys": [
