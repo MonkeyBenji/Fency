@@ -100,6 +100,9 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
               map[section].push({});
             map[section][map[section].length - 1][name] = value;
           } else {
+            while (name in map) {
+              name += "(2)";
+            }
             map[name] = value;
           }
           return map;
