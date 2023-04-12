@@ -1,6 +1,8 @@
 import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
   if (typeof Monkey.lib === "undefined") return;
-  let thisButton = null;
+  let docxButton = null;
+  let exportButton = null;
+  let importButton = null;
 
   /** Find querySelector match whose textContent also matches text */
   const selectorByText = (node, match, text) =>
@@ -241,9 +243,17 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
   };
 
   const doStuff = async () => {
-    if (thisButton !== null) {
-      thisButton.unregister();
-      thisButton = null;
+    if (docxButton !== null) {
+      docxButton.unregister();
+      docxButton = null;
+    }
+    if (exportButton !== null) {
+      exportButton.unregister();
+      exportButton = null;
+    }
+    if (importButton !== null) {
+      importButton.unregister();
+      importButton = null;
     }
 
     // Page == CV Generator
@@ -255,7 +265,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
       return;
     }
 
-    thisButton = Monkey.fab(
+    docxButton = Monkey.fab(
       "fa fa-file-word",
       "Word CV'tje genereren",
       async () => {
@@ -359,6 +369,127 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
           });
       }
     );
+
+    // TODO add more suitable icons to the core
+    exportButton = Monkey.fab("fa fa-file-archive", "JSON export", async () => {
+      const fields = getConnexysFields();
+      const data = [new TextEncoder().encode(JSON.stringify(fields))];
+      Monkey.save(
+        new Blob(data, { type: "application/json;charset=utf-8" }),
+        `${fields.Roepnaam}.json`
+      );
+    });
+
+    const findChildId = (parent, selector, child) => {
+      for (const [i, sibling] of parent.querySelectorAll(selector).entries()) {
+        if (sibling === child) return i;
+      }
+      return null;
+    };
+
+    const setValue = (input, value) => {
+      console.log(input, value);
+      if (input.matches('input[type="checkbox"]')) {
+        input.checked = value === input.value;
+      } else if (input.matches("input,select,textarea")) {
+        input.value = value;
+      } else if (input.matches(".ql-editor")) {
+        input.textContent = value;
+      }
+      input.dispatchEvent(new Event("change"));
+    };
+
+    const importData = async (data) => {
+      // Remove all teh things!
+      const deleteButtons = document.querySelectorAll(
+        ".slds-accordion:not(.cxsrecTimeline) > div > button:first-of-type"
+      );
+      for (const deleteButton of deleteButtons) {
+        deleteButton.click();
+        const confirmButton = await Monkey.waitForSelector(
+          'section[role="dialog"] button.slds-button_brand'
+        );
+        confirmButton.click();
+      }
+      await Monkey.sleep(222);
+
+      // Add all teh rows!
+      for (let i = 0; i < data.education.length; i++) {
+        document
+          .querySelector(
+            ".cvSection.cvSection-Educations:not(.slds-clearfix) > div:last-of-type > button"
+          )
+          .click();
+      }
+      for (let i = 0; i < data.work.length; i++) {
+        document
+          .querySelector(
+            ".cvSection.cvSection-WorkExperiences:not(.slds-clearfix) > div:last-of-type > button"
+          )
+          .click();
+      }
+      await Monkey.sleep(222);
+
+      // Fill in all teh data!
+      const fields = [...document.querySelectorAll("div.cxsrecField")];
+      for (div of fields) {
+        if (div.closest(".cxsrecTimeline")) continue;
+
+        const input = div.querySelector("input,select,textarea,.ql-editor");
+        if (!input) continue;
+        const name = div
+          .querySelector("span.slds-form-element__label")
+          .childNodes[1].textContent.trim();
+
+        let section = null;
+        if (div.closest(".cvSection-Educations")) section = "education";
+        if (div.closest(".cvSection-WorkExperiences")) section = "work";
+
+        let value = null;
+        if (section) {
+          const sectionId = findChildId(
+            div.closest("#draggable-wrapper"),
+            "#draggable-wrapper > div.cvSection",
+            div.closest("#draggable-wrapper > div.cvSection")
+          );
+
+          value = data?.[section]?.[sectionId]?.[name];
+        } else {
+          value = data?.[name];
+        }
+
+        setValue(input, value);
+        await Monkey.sleep(123);
+      }
+    };
+
+    importButton = Monkey.fab("fa fa-file-archive", "JSON import", async () => {
+      const warning =
+        "Het geïmporteerde bestand zal het huidige levenswerk overschrijven, zorg dat je met de juiste actie bezig bent";
+      if (!confirm(warning)) return;
+
+      // TODO make Monkey.load
+      const input = document.createElement("input");
+      input.type = "file";
+      input.accept = "application/json";
+      input.addEventListener("change", (ev) => {
+        const file = ev.target.files[0];
+        const reader = new FileReader();
+        reader.onload = async (ev) => {
+          const result = ev.target.result;
+          const data = JSON.parse(result);
+          if (!data) {
+            console.warn(`Could not parse ${result}`);
+            return alert(
+              "Er ging iets fout met het parsen van het bestand... spijtig"
+            );
+          }
+          importData(data);
+        };
+        reader.readAsText(file, "UTF-8");
+      });
+      input.click();
+    });
   };
   Monkey.onLocationChange(doStuff);
   doStuff();
