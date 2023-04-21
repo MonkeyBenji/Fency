@@ -102,9 +102,13 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
         .filter((input) => !input.value);
       if (!requiredInputsNotFilledIn.length)
         return console.log("Ik weet t ook niet man");
-      requiredInputsNotFilledIn[
-        requiredInputsNotFilledIn.length - 1
-      ].scrollIntoView({ block: "center" });
+      const requiredInput =
+        requiredInputsNotFilledIn[requiredInputsNotFilledIn.length - 1];
+      const section = requiredInput.closest("section");
+      if (section.classList.contains("cxs-is-closed")) {
+        section.querySelector("button").click();
+      }
+      setTimeout(() => requiredInput.scrollIntoView({ block: "center" }), 200);
     });
 
     // Change today hyperlink to present for work experience and education
