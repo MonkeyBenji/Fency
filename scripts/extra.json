@@ -62,6 +62,16 @@
         "enabled": true
       },
       {
+        "id": "bitbucket-jira-key-pr",
+        "type": "script",
+        "version": "0.1",
+        "name": "Bitbucket Jira key PR",
+        "description": "Pleur altijd de Jira key in de Pull Request naam, ook als je maar 1 commit hebt",
+        "matches": "https://bitbucket.org/*",
+        "path": "misc/bitbucket-jira-key-pr.js",
+        "enabled": true
+      },
+      {
         "id": "jira-less-dark",
         "type": "script",
         "version": "0.1",
