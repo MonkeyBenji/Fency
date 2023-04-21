@@ -27,4 +27,13 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
       `<br><span>${title}</span>`
     );
   });
+
+  Monkey.waitForSelector("p.post-meta").then(() => {
+    document.querySelectorAll("p.post-meta").forEach((p) => {
+      const url = p.parentElement.querySelector("a").href;
+      const reactionsText = p.lastChild.textContent.split("| ")[1];
+      p.lastChild.textContent = "";
+      p.innerHTML += ` | <a href="${url}#comments">${reactionsText}</a>`;
+    });
+  });
 });
