@@ -525,7 +525,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
             if (confirm(q)) {
               await importData(storedCv.data);
               alert("It is done");
-            } else if (confirm("Zal ik die oude data dan maar wegtyfen?")) {
+            } else if (confirm("Zal ik die oude data dan maar wegbonjouren?")) {
               Monkey.set(candidateKey, null);
             }
           }
