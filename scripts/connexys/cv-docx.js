@@ -3,6 +3,9 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
   let docxButton = null;
   let exportButton = null;
   let importButton = null;
+  let recoverButton = null;
+  let inputListenerTimer = null;
+  let inputListener = null;
 
   /** Find querySelector match whose textContent also matches text */
   const selectorByText = (node, match, text) =>
@@ -258,6 +261,10 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
       importButton.unregister();
       importButton = null;
     }
+    if (recoverButton !== null) {
+      recoverButton.unregister();
+      recoverButton = null;
+    }
 
     // Page == CV Generator
     try {
@@ -391,7 +398,6 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
     };
 
     const setValue = (input, value) => {
-      console.log(input, value);
       if (input.matches('input[type="checkbox"]')) {
         input.checked = value === input.value;
       } else if (input.matches("input,select,textarea")) {
@@ -487,12 +493,88 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
               "Er ging iets fout met het parsen van het bestand... spijtig"
             );
           }
-          importData(data);
+          await importData(data);
+          alert("It is done");
         };
         reader.readAsText(file, "UTF-8");
       });
       input.click();
     });
+
+    try {
+      const candidateId = JSON.parse(atob(window.location.hash.slice(1)))
+        .attributes.candidateId;
+      const candidateKey = `cv-${candidateId}`;
+
+      Monkey.get(candidateKey, null).then(async (storedCv) => {
+        if (storedCv === null) return;
+        await Monkey.waitForSelector(
+          ".cvSection.cvSection-Educations:not(.slds-clearfix) > div:last-of-type > button"
+        );
+        const oldData = storedCv.data;
+        const oldTs = storedCv.ts;
+        await Monkey.set(candidateKey + "_tmp", getConnexysFields());
+        const currentData = await Monkey.get(candidateKey + "_tmp");
+        if (JSON.stringify(oldData) === JSON.stringify(currentData))
+          return console.log("nochange");
+        recoverButton = Monkey.fab(
+          "fa fa-file-archive",
+          `Herstel Levenswerk ${storedCv.date}`,
+          async () => {
+            const q = `Huidige CV configuratie wegpleuren en die van ${storedCv.date} inladen?`;
+            if (confirm(q)) {
+              await importData(storedCv.data);
+              alert("It is done");
+            } else if (confirm("Zal ik die oude data dan maar wegbonjouren?")) {
+              Monkey.set(candidateKey, null);
+            }
+          }
+        );
+        const ts = new Date().getTime();
+        if (ts - oldTs > 1000 * 60 * 60 * 24 * 5) return console.log("TooOld");
+        Monkey.css(`@keyframes tilt-shaking {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(5deg); }
+            50% { transform: rotate(0eg); }
+            75% { transform: rotate(-5deg); }
+            100% { transform: rotate(0deg); }
+          }
+          #monkey-fab {
+            animation: tilt-shaking 0.15s 50;
+          }
+          `);
+        document.addEventListener("click", (ev) => {
+          if (!ev.target.closest("#monkey-fab")) return;
+          Monkey.css(`#monkey-fab {
+              animation: tilt-shaking 0.15s 2 !important;
+            }`);
+        });
+      });
+
+      setTimeout(() => {
+        if (inputListener !== null) {
+          document.removeEventListener("input", inputListener);
+        }
+        inputListener = () => {
+          if (inputListenerTimer !== null) clearTimeout(inputListenerTimer);
+          inputListenerTimer = setTimeout(() => {
+            const now = new Date();
+            const date = new Intl.DateTimeFormat("nl-NL", {
+              dateStyle: "full",
+              timeStyle: "short",
+            }).format(now);
+            const ts = now.getTime();
+            const data = getConnexysFields();
+            Monkey.set(candidateKey, { date, data, ts });
+            inputListenerTimer = null;
+          }, 1337);
+        };
+        document.addEventListener("input", inputListener);
+      }, 10 * 60 * 1000);
+    } catch (e) {
+      console.warn(e);
+      throw e;
+    }
   };
   Monkey.onLocationChange(doStuff);
   doStuff();
