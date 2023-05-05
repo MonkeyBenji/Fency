@@ -283,9 +283,12 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
         const template = (
           await Monkey.waitForSelector('select[name="template"]')
         ).value;
-        fetch(`https://fency.dev/misc/${template}.php`)
-          .then((response) => response.blob())
-          .then(JSZip.loadAsync)
+        Monkey.fetchData(`https://fency.dev/misc/${template}.docx`)
+          .then((dataUri) =>
+            JSZip.loadAsync(dataUri.substring(dataUri.indexOf(",") + 1), {
+              base64: true,
+            })
+          )
           .then(async (zip) => {
             // Rip fields from Connexys CV gen wizard and put them in a mapping
             const mapping = getConnexysFields();
