@@ -1,0 +1,120 @@
+{
+  "version": "0.0.0.1",
+  "scripts": {
+    "InWork": [
+      {
+        "id": "inwork-bananen",
+        "type": "script",
+        "version": "0.1",
+        "name": "Groene Bananen",
+        "description": "Banaan!",
+        "matches": [
+          "https://inwork.nl/*",
+          "https://www.inwork.nl/*",
+          "https://www-dev.inwork.nl/*",
+          "https://intranet.inwork.nl/*"
+        ],
+        "path": "inwork/bananen.js",
+        "enabled": false
+      },
+      {
+        "id": "inwork-werkgeluk",
+        "type": "script",
+        "version": "0.1",
+        "name": "Werkgeluk",
+        "description": "Heel duurzaam",
+        "matches": "<all_urls>",
+        "path": "inwork/werkgeluk.js",
+        "enabled": false
+      }
+    ],
+    "InCTRL": [
+      {
+        "id": "auto-mike",
+        "type": "script",
+        "version": "0.1",
+        "name": "AutoMike",
+        "description": "Redirect InCTRL to mike.inwork.nl",
+        "matches": "https://inctrl.inwork.nl/*",
+        "path": "inctrl/auto-mike.js",
+        "enabled": false
+      }
+    ],
+    "Misc": [
+      {
+        "id": "untappd-lookup",
+        "type": "script",
+        "version": "0.1",
+        "name": "Untappd Lookup",
+        "description": "Select beer, find Untappd ratings",
+        "matches": "<all_urls>",
+        "path": "misc/untappd-lookup.js",
+        "enabled": true
+      },
+      {
+        "id": "jira-recent",
+        "type": "script",
+        "version": "0.1",
+        "name": "Jira Recente Updates",
+        "description": "Laat de recent geüpdate issues wat meer shinen in het bord, zodat ze wat meer opvallen",
+        "matches": "https://*.atlassian.net/*",
+        "path": "misc/jira-recent.js",
+        "enabled": true
+      },
+      {
+        "id": "bitbucket-jira-key-pr",
+        "type": "script",
+        "version": "0.1",
+        "name": "Bitbucket Jira key PR",
+        "description": "Pleur altijd de Jira key in de Pull Request naam, ook als je maar 1 commit hebt",
+        "matches": "https://bitbucket.org/*",
+        "path": "misc/bitbucket-jira-key-pr.js",
+        "enabled": true
+      },
+      {
+        "id": "jira-less-dark",
+        "type": "script",
+        "version": "0.1",
+        "name": "Jira Less Dark",
+        "description": "Dark mode net iets minder donker maken",
+        "matches": "https://*.atlassian.net/*",
+        "path": "misc/jira-less-dark.js",
+        "enabled": true
+      },
+      {
+        "id": "jira-current-estimate",
+        "type": "script",
+        "version": "0.1",
+        "name": "Jira Current Estimate",
+        "description": "Toon op de backlog de huidige estimates in plaats van de originals",
+        "matches": "https://*.atlassian.net/*",
+        "path": "misc/jira-current-estimate.js",
+        "enabled": true
+      },
+      {
+        "id": "giphy-gif",
+        "type": "script",
+        "version": "0.1",
+        "name": "Giphy .gif images",
+        "description": "Replace the .webp images with the .gif variant when trying to copy it to Outlook or something",
+        "matches": "https://*.giphy.com/media/*",
+        "path": "misc/giphy-gif.js",
+        "enabled": true
+      },
+      {
+        "id": "camas-compare",
+        "type": "script",
+        "version": "0.1",
+        "name": "CAMAS Compare",
+        "description": "Vergelijk medewerkers/verzuim tussen InCTRL en CAMAS",
+        "matches": [
+          "https://werkgever.perspectief.eu/Overzichten/Werknemers",
+          "https://werkgever.perspectief.eu/Overzichten/Dossiers",
+          "https://inctrl.inwork.nl/profile/*"
+        ],
+        "path": "misc/camas-compare.js",
+        "enabled": true
+      }
+    ]
+  }
+}

@@ -1,0 +1,367 @@
+{
+  "version": "0.0.0.1",
+  "scripts": {
+    "InWork": [
+      {
+        "id": "vaca-shortcuts",
+        "type": "script",
+        "version": "0.1",
+        "name": "InWork Vacature Connexys Link",
+        "description": "Maakt van vacature titels hieperlinks naar het Connexys object",
+        "matches": [
+          "https://inwork.nl/*",
+          "https://www.inwork.nl/*",
+          "https://www-dev.inwork.nl/*"
+        ],
+        "path": "inwork/vaca-shortcuts.js",
+        "enabled": true
+      },
+      {
+        "id": "campus-qr",
+        "type": "script",
+        "version": "0.1",
+        "name": "Campus QR",
+        "description": "Extra knopjes om QR code te maken met vooraf ingevulde info campus formulier",
+        "matches": [
+          "https://inwork.nl/events/campus-*",
+          "https://www.inwork.nl/events/campus-*",
+          "https://www-dev.inwork.nl/events/campus-*",
+          "https://www-test.inwork.nl/events/campus-*"
+        ],
+        "path": "inwork/campus-qr.js",
+        "enabled": true
+      }
+    ],
+    "Connexys": [
+      {
+        "id": "new-report-shortcut",
+        "type": "script",
+        "version": "0.1",
+        "name": "Nieuw rapport vanuit dropdown",
+        "description": "Nooit begrepen waarom je in Salesforce geen nieuw rapport kan maken vanuit de dropdown in de tab bar",
+        "matches": "https://*.lightning.force.com/*",
+        "path": "connexys/new-report-shortcut.js",
+        "enabled": true
+      },
+      {
+        "id": "mail-task-html",
+        "type": "script",
+        "version": "0.1",
+        "name": "HTML mail taak",
+        "description": "Activeer HTML content uit mails als je de taak in Knexis opent, zodat je lekker kan klikken op hieperlinks",
+        "matches": "https://*.lightning.force.com/*",
+        "path": "connexys/mail-task-html.js",
+        "enabled": true,
+        "allFrames": true
+      },
+      {
+        "id": "textarea-autobullets",
+        "type": "script",
+        "version": "0.1",
+        "name": "TextArea autobullets",
+        "description": "Zet automagisch een • en wat bijzondere spaties aan het begin van de regel als je vorige regel eindigde met een : en iets met ; en zo",
+        "matches": "https://*.lightning.force.com/*",
+        "path": "connexys/textarea-autobullets.js",
+        "enabled": true,
+        "allFrames": true
+      },
+      {
+        "id": "auto-login-365",
+        "type": "script",
+        "version": "0.1",
+        "name": "Office 365 auto login",
+        "description": "Klikt meteen op de Office 365 inlog knop, nog voordat je kan besluiten om op de verkeerde manier in te loggen",
+        "matches": [
+          "https://inwork.cloudforce.com/*",
+          "https://inwork.my.salesforce.com/*"
+        ],
+        "path": "connexys/auto-login-365.js",
+        "enabled": true,
+        "allFrames": true
+      },
+      {
+        "id": "report-colors",
+        "type": "script",
+        "version": "0.1",
+        "name": "Report Colors",
+        "description": "Voeg wat kleurtjes toe aan rapporten aan de hand van de kleur kolom",
+        "matches": "https://*.lightning.force.com/reports/lightningReportApp.app*",
+        "path": "connexys/report-colors.js",
+        "enabled": true,
+        "allFrames": true
+      },
+      {
+        "id": "remove-padding",
+        "type": "script",
+        "version": "0.1",
+        "name": "Remove Padding",
+        "description": "Voegt context menu toe om padding uit een textarea weg te bonjouren",
+        "matches": "<all_urls>",
+        "path": "connexys/remove-padding.js",
+        "enabled": true,
+        "allFrames": false
+      },
+      {
+        "id": "geo-col",
+        "type": "script",
+        "version": "0.1",
+        "name": "Geo Coordinaten Kolom",
+        "description": "Snelle methode om in een Salesforce rapport een kolom toe te voegen met de afstand tot een bepaalde locatie",
+        "matches": "https://*.lightning.force.com/reports/lightningReportApp.app*",
+        "path": "connexys/geo-col.js",
+        "enabled": true,
+        "allFrames": true
+      },
+      {
+        "id": "vaca-font",
+        "type": "script",
+        "version": "0.1",
+        "name": "Vaca font fixer",
+        "description": "Zorgt dat je vacature niet vernoikt wordt als je van Word naar Knexis kopie pasta'd",
+        "matches": "https://*.lightning.force.com/*",
+        "path": "connexys/vaca-font.js",
+        "enabled": true,
+        "allFrames": true
+      },
+      {
+        "id": "remove-default-filters",
+        "type": "script",
+        "version": "0.1",
+        "name": "#nofilter",
+        "description": "Verwijder de standaard filters van een Salesforce rapport met 1 klik",
+        "matches": "https://*.lightning.force.com/reports/lightningReportApp.app*",
+        "path": "connexys/remove-default-filters.js",
+        "enabled": true,
+        "allFrames": true
+      },
+      {
+        "id": "multipicklist-autocomplete",
+        "type": "script",
+        "version": "0.1",
+        "name": "Multipicklist Autocomplete",
+        "description": "Waarom dat filteren op multipicklist waardes nou weer zo omslachtig moet van Salesforce...",
+        "matches": [
+          "https://*.lightning.force.com/reports/lightningReportApp.app*",
+          "https://*.lightning.force.com/one/one.app*"
+        ],
+        "path": "connexys/multipicklist-autocomplete.js",
+        "enabled": true,
+        "allFrames": true
+      },
+      {
+        "id": "anonimize-default-state",
+        "type": "script",
+        "version": "0.1",
+        "name": "Status na anonimiseren",
+        "description": "Zet de standaard status bij anonimiseren op 9.0, omdat de standaard standaard (6.0 aangenomen) niet heel logisch is...",
+        "matches": [
+          "https://*.force.com/apex/cxsAnonymize*",
+          "https://*.visualforce.com/apex/cxsAnonymize*"
+        ],
+        "path": "connexys/anonimize-default-state.js",
+        "enabled": true,
+        "allFrames": true
+      },
+      {
+        "id": "dash-autorefresh",
+        "type": "script",
+        "version": "0.1",
+        "name": "Dashboard Auto-refresh",
+        "description": "Automatically refresh dashboards when Salesforce warns they're old",
+        "matches": "https://*.lightning.force.com/desktopDashboards/*",
+        "path": "connexys/dash-autorefresh.js",
+        "enabled": true,
+        "allFrames": true
+      },
+      {
+        "id": "matching-customers",
+        "type": "script",
+        "version": "0.1",
+        "name": "Matchende klanten zoekert",
+        "description": "Maak vanuit een kandidaat, automagisch een rapport van klanten op basis van Geo/BU/Functie",
+        "matches": "https://*.lightning.force.com/*",
+        "path": "connexys/matching-customers.js",
+        "enabled": true,
+        "allFrames": true
+      },
+      {
+        "id": "add-to-vacancy",
+        "type": "script",
+        "version": "0.1",
+        "name": "Snellere recr. inschrijving",
+        "description": "Voeg een kandidaat toe aan je recente vacature vanuit een FAB menu'tje bij de kandidaat",
+        "matches": "https://*.lightning.force.com/*",
+        "path": "connexys/add-to-vacancy.js",
+        "enabled": true,
+        "allFrames": true
+      },
+      {
+        "id": "cv-generator",
+        "type": "script",
+        "version": "0.1",
+        "name": "CV Generator Fixes",
+        "description": "Kut Connexys updates ook (tekst in datum veld, auto anoniem, styling, etc.)",
+        "matches": "https://*.lightning.force.com/*",
+        "path": "connexys/cv-generator.js",
+        "enabled": true
+      },
+      {
+        "id": "cv-parser",
+        "type": "script",
+        "version": "0.1",
+        "name": "CV Parser Persoonsprofiel",
+        "description": "Persoonsprofiel toevoegen aan CV parser",
+        "matches": "https://*.lightning.force.com/*",
+        "path": "connexys/cv-parser.js",
+        "enabled": true
+      },
+      {
+        "id": "cv-docx",
+        "type": "script",
+        "version": "0.1",
+        "name": "CV Word (beta)",
+        "description": "Word CV download knop ding",
+        "matches": "https://*.lightning.force.com/*",
+        "path": "connexys/cv-docx.js",
+        "enabled": true
+      },
+      {
+        "id": "step-style",
+        "type": "script",
+        "version": "0.1",
+        "name": "Step styling",
+        "description": "Zet wat veldjes naast elkaar voor betere UI",
+        "matches": "https://*.lightning.force.com/*",
+        "path": "connexys/step-style.js",
+        "enabled": true
+      },
+      {
+        "id": "step-expand",
+        "type": "script",
+        "version": "0.1",
+        "name": "Stap openklap",
+        "description": "Ik kom binnen zo van whoop pap pap. Hey gap, ik open die shit stap voor stap",
+        "matches": "https://*.lightning.force.com/*",
+        "path": "connexys/step-expand.js",
+        "enabled": true,
+        "allFrames": true
+      },
+      {
+        "id": "new-candidate-style",
+        "type": "script",
+        "version": "0.1",
+        "name": "Nieuwe kandidaat optimalisaties",
+        "description": "Zet wat veldjes naast elkaar voor betere UI; Kopie pasta functionaliteit InWork.club mail",
+        "matches": "https://*.lightning.force.com/*",
+        "path": "connexys/new-candidate-style.js",
+        "enabled": true
+      },
+      {
+        "id": "default-report-filter-iw",
+        "type": "script",
+        "version": "0.1",
+        "name": "Standaard [iw] filter",
+        "description": "Standaard [iw] filter bij nieuw rapport",
+        "matches": "https://*.lightning.force.com/reports/lightningReportApp.app",
+        "path": "connexys/default-report-filter-iw.js",
+        "enabled": true,
+        "allFrames": true
+      },
+      {
+        "id": "default-subject-empty",
+        "type": "script",
+        "version": "0.1",
+        "name": "Standaard leeg onderwerp taak",
+        "description": "Is nu standaard \"Bellen\" ... ... teh fuk Salesforce",
+        "matches": "https://*.lightning.force.com/*",
+        "path": "connexys/default-subject-empty.js",
+        "enabled": true,
+        "allFrames": true
+      },
+      {
+        "id": "decimal-dot",
+        "type": "script",
+        "version": "0.1",
+        "name": "Punt naar komma replacer",
+        "description": "Gebruik je je numpad om 12.34 als verkooptarief in te vullen, maakt dat pretpakket er €1234,- van. Lekker dan...",
+        "matches": [
+          "https://*.lightning.force.com/*",
+          "https://*.my.salesforce.com/*",
+          "https://*.cloudforce.com/*"
+        ],
+        "path": "connexys/decimal-dot.js",
+        "enabled": true
+      },
+      {
+        "id": "logo",
+        "type": "script",
+        "version": "0.1",
+        "name": "Clickable Connexys Logo",
+        "description": "Anders weet ik mijn weg terug niet als ik in de Admin verdwaal",
+        "matches": [
+          "https://*.lightning.force.com/*",
+          "https://*.my.salesforce.com/*",
+          "https://*.cloudforce.com/*"
+        ],
+        "path": "connexys/logo.js",
+        "enabled": true
+      }
+    ],
+    "Misc": [
+      {
+        "id": "directlease-contract-kevin",
+        "type": "script",
+        "version": "0.1",
+        "name": "DirectLease Contract Kevin",
+        "description": "Set contract settings to Kevin preferences automagically",
+        "matches": "https://directlease.nl/leasen/*",
+        "path": "misc/directlease-contract-kevin.js",
+        "enabled": true
+      },
+      {
+        "id": "phone-search",
+        "type": "script",
+        "version": "0.1",
+        "name": "Search Phone Number",
+        "description": "Voegt context menu toe om 06 nummer te Googelen van persoontje",
+        "matches": "<all_urls>",
+        "path": "misc/phone-search.js",
+        "enabled": true,
+        "allFrames": false
+      },
+      {
+        "id": "intranet-links",
+        "type": "script",
+        "version": "0.1",
+        "name": "Intranet Linkjes",
+        "description": "Maakt het wat duidelijker dat die intranet linkjes linkjes zijn",
+        "matches": "https://intranet.inwork.nl/",
+        "path": "misc/intranet-links.js",
+        "enabled": true,
+        "allFrames": false
+      },
+      {
+        "id": "sign-request-100pp",
+        "type": "script",
+        "version": "0.1",
+        "name": "Sign Request 100p.p.",
+        "description": "Defaultly show 100 documents per page instead of 10 in SignRequest",
+        "matches": ["https://*.signrequest.com/*"],
+        "path": "misc/sign-request-100pp.js",
+        "enabled": true,
+        "allFrames": false
+      },
+      {
+        "id": "twitter-lurking",
+        "type": "script",
+        "version": "0.1",
+        "name": "Twitter Lurking",
+        "description": "Remove annoying popup forcing you to log in",
+        "matches": ["https://twitter.com/*"],
+        "path": "misc/twitter-lurking.js",
+        "enabled": true,
+        "allFrames": false
+      }
+    ]
+  }
+}

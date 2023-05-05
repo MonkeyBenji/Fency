@@ -3,9 +3,9 @@
 const SUBSCRIPTIONS_DEFAULT = [
   { url: browser.runtime.getURL("scripts/index.json"), enabled: true },
   { url: browser.runtime.getURL("scripts/samples.json"), enabled: true },
-  { url: "https://fency.dev/scripts/0.1.0/inwork.json", enabled: true },
-  { url: "https://fency.dev/scripts/0.1.0/extra.json", enabled: false },
-  { url: "https://fency.dev/scripts/0.1.0/admin.json", enabled: false },
+  { url: browser.runtime.getURL("scripts/inwork.json"), enabled: true },
+  { url: browser.runtime.getURL("scripts/extra.json"), enabled: true },
+  { url: browser.runtime.getURL("scripts/admin.json"), enabled: true },
 ];
 
 const TOGGLES = "toggles";

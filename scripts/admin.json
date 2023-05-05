@@ -1,0 +1,221 @@
+{
+  "version": "0.0.0.1",
+  "scripts": {
+    "Salesforce": [
+      {
+        "id": "fullcopy-link",
+        "type": "script",
+        "version": "0.1",
+        "name": "FullCopyLink",
+        "description": "Add link to fullcopy version of current page",
+        "matches": ["https://*.lightning.force.com/*"],
+        "path": "salesforce/fullcopy-link.js",
+        "enabled": true
+      },
+      {
+        "id": "salesblurred",
+        "type": "script",
+        "version": "0.1",
+        "name": "Salesblurred",
+        "description": "Defaultly blur private information in Salesforce, for making screenshots n stuff",
+        "matches": [
+          "https://*.lightning.force.com/*",
+          "https://*.cloudforce.com/*"
+        ],
+        "path": "salesforce/salesblurred.js",
+        "enabled": false,
+        "allFrames": true
+      },
+      {
+        "id": "language-switch",
+        "type": "script",
+        "version": "0.1",
+        "name": "Language Switch",
+        "description": "Switch languages faster in SalesForce",
+        "matches": [
+          "https://*.lightning.force.com/*",
+          "https://*.cloudforce.com/setup*"
+        ],
+        "path": "salesforce/language-switch.js",
+        "enabled": true
+      },
+      {
+        "id": "hijack",
+        "type": "script",
+        "version": "0.1",
+        "name": "User Hijacker",
+        "description": "Shortcuts to recent Hijacks (log in as user)",
+        "matches": [
+          "https://*.lightning.force.com/*",
+          "https://*.cloudforce.com/005*"
+        ],
+        "path": "salesforce/user-hijacker.js",
+        "enabled": true
+      },
+      {
+        "id": "workbench-link",
+        "type": "script",
+        "version": "0.1",
+        "name": "Workbench Hieperlink",
+        "description": "Shortcuts to Workbench retrieve object",
+        "matches": ["https://*.lightning.force.com/*"],
+        "path": "salesforce/workbench-link.js",
+        "enabled": true
+      },
+      {
+        "id": "workbench-autologin",
+        "type": "script",
+        "version": "0.1",
+        "name": "Workbench Auto-Login",
+        "description": "Yes I agree to terms yesh",
+        "matches": [
+          "https://workbench.developerforce.com/login.php*",
+          "https://login.salesforce.com/*"
+        ],
+        "path": "salesforce/workbench-autologin.js",
+        "enabled": false
+      },
+      {
+        "id": "reporttype-shortcut",
+        "type": "script",
+        "version": "0.1",
+        "name": "Shortcut to report types",
+        "description": "May safe some clicks",
+        "matches": ["https://inwork.lightning.force.com/reports/*"],
+        "path": "salesforce/reporttype-shortcut.js",
+        "enabled": true,
+        "allFrames": true
+      },
+      {
+        "id": "accountmerge-shortcut",
+        "type": "script",
+        "version": "0.1",
+        "name": "Shortcut to account merging",
+        "description": "Classic > Lightning",
+        "matches": ["https://inwork.lightning.force.com/*"],
+        "path": "salesforce/accountmerge-shortcut.js",
+        "enabled": true
+      }
+    ],
+    "InCTRL": [
+      {
+        "id": "local-link",
+        "type": "script",
+        "version": "0.1",
+        "name": "LocalLink",
+        "description": "Add link to localhost:8080 of current page",
+        "matches": [
+          "https://inctrl.inwork.nl/*",
+          "https://mike.inwork.nl/*",
+          "http://127.0.0.1/*",
+          "http://127.0.0.1:8080/*",
+          "http://127.0.0.1:7080/*",
+          "https://inctrl-update.dev.inwork.nl/*"
+        ],
+        "path": "inctrl/local-link.js",
+        "enabled": true
+      }
+    ],
+    "InWork": [
+      {
+        "id": "site-local-link",
+        "type": "script",
+        "version": "0.1",
+        "name": "LocalLink",
+        "description": "Add link to localhost:8088 of current page",
+        "matches": [
+          "https://inwork.nl/*",
+          "http://127.0.0.1/*",
+          "http://localhost/*",
+          "http://127.0.0.1:8088/*",
+          "http://localhost:8088/*"
+        ],
+        "path": "inwork/local-link.js",
+        "enabled": true
+      },
+      {
+        "id": "local-wp-admin-color",
+        "type": "script",
+        "version": "0.1",
+        "name": "Local WP-Admin color",
+        "description": "Add some color to indicate local WP-admin",
+        "matches": ["https://inwork.nl/*", "https://intranet.inwork.nl/*"],
+        "path": "inwork/local-wp-admin-color.js",
+        "enabled": true
+      }
+    ],
+    "WalHalla": [
+      {
+        "id": "walhalla-local-link",
+        "type": "script",
+        "version": "0.1",
+        "name": "LocalLink",
+        "description": "Add link to 127.0.0.1:9000 of current page",
+        "matches": [
+          "https://walhalla.inwork.nl/*",
+          "http://127.0.0.1/*",
+          "http://127.0.0.1:9000/*",
+          "http://127.0.0.1:5400/*",
+          "http://localhost/*",
+          "http://localhost:9000/*",
+          "http://localhost:5400/*"
+        ],
+        "path": "walhalla/local-link.js",
+        "enabled": true
+      },
+      {
+        "id": "login-token",
+        "type": "script",
+        "version": "0.1",
+        "name": "Login Token :9000",
+        "description": "Automatically login on local WalHalla :9000",
+        "matches": [
+          "http://127.0.0.1/*",
+          "http://127.0.0.1:9000/*",
+          "http://127.0.0.1:5400/*",
+          "http://localhost/*",
+          "http://localhost:9000/*",
+          "http://localhost:5400/*"
+        ],
+        "path": "walhalla/login-token.js",
+        "enabled": false
+      },
+      {
+        "id": "no-cache",
+        "type": "script",
+        "version": "0.1",
+        "name": "?no-cache",
+        "description": "Adds ?no-cache=1 to URLs, cause I don't like caches",
+        "matches": [
+          "https://walhalla.inwork.nl/*",
+          "http://127.0.0.1/*",
+          "http://127.0.0.1:9000/*",
+          "http://127.0.0.1:5400/*",
+          "http://localhost/*",
+          "http://localhost:9000/*",
+          "http://localhost:5400/*"
+        ],
+        "path": "walhalla/no-cache.js",
+        "enabled": false
+      },
+      {
+        "id": "no-refresh",
+        "type": "script",
+        "version": "0.1",
+        "name": "no-refresh",
+        "description": "Kills the setInterval so the tables don't keep refreshing",
+        "matches": [
+          "https://walhalla.inwork.nl/*",
+          "http://127.0.0.1/*",
+          "http://127.0.0.1:9000/*",
+          "http://127.0.0.1:5400/*",
+          "http://localhost/*",
+          "http://localhost:9000/*",
+          "http://localhost:5400/*"
+        ],
+        "path": "walhalla/no-refresh.js",
+        "enabled": false
+      }
+    ]
+  }
+}
