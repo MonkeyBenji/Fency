@@ -45,7 +45,14 @@ import("/lib/core.js").then(
       if (!script) throw `No script ${id}`;
       const matches =
         typeof script.matches === "string" ? [script.matches] : script.matches;
-      const code = await fetchCached(script.path, false, ignoreCache);
+
+      let code = null;
+      try {
+        code = await fetchCached(script.path, false, ignoreCache);
+      } catch {
+        if (ignoreCache) code = await fetchCached(script.path, false);
+        if (!code) return;
+      }
 
       registrations[script.id] = await browser.contentScripts.register({
         matches,
@@ -67,12 +74,13 @@ import("/lib/core.js").then(
           if (script.id in toggles) {
             script.enabled = toggles[script.id];
           }
-          if (script.enabled) {
+          if (script.enabled && fencyEnabled) {
             register(script.id, ignoreCache);
           }
         }
       } catch (e) {
-        console.warn(`Could not load scripts of ${subscription.url}`, e);
+        console.warn(`Could not load scripts of ${url}`, e);
+        if (ignoreCache === true) await enableSubscription(url, false);
         return;
       }
     };
