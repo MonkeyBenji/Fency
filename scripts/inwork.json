@@ -80,6 +80,17 @@
         "allFrames": true
       },
       {
+        "id": "report-colors",
+        "type": "script",
+        "version": "0.1",
+        "name": "Report Colors",
+        "description": "Voeg wat kleurtjes toe aan rapporten aan de hand van de kleur kolom",
+        "matches": "https://*.lightning.force.com/reports/lightningReportApp.app*",
+        "path": "connexys/report-colors.js",
+        "enabled": true,
+        "allFrames": true
+      },
+      {
         "id": "remove-padding",
         "type": "script",
         "version": "0.1",
