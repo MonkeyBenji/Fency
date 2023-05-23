@@ -14,6 +14,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
           }),
         123
       );
+      a.click();
     }
   );
 });
