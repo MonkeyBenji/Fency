@@ -5,10 +5,13 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
     );
     const getUrl = () => {
       const url = new URL(window.location);
-      if (url.host.includes("--fullcopy")) {
-        url.host = url.host.replace("--fullcopy", "");
+      if (url.host.includes("--fullcopy.sandbox")) {
+        url.host = url.host.replace("--fullcopy.sandbox", "");
       } else {
-        url.host = url.host.replace(".lightning", "--fullcopy.lightning");
+        url.host = url.host.replace(
+          ".lightning",
+          "--fullcopy.sandbox.lightning"
+        );
       }
       return url;
     };
@@ -22,14 +25,6 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
     );
     a.addEventListener("click", () => (a.href = getUrl()));
     logo.parentElement.appendChild(a);
-    if (isFullCopy)
-      Monkey.css(`.slds-global-header {
-      background: repeating-linear-gradient(45deg, rgb(84,105,141), rgb(84,105,141) 20px, rgba(84,105,141,.97) 20px, rgba(84,105,141,.97) 40px);
-    }
-    .slds-global-header a {
-      background: #f8f8f8;
-    }
-    `);
   } catch (e) {
     console.error(e.toString());
   }
