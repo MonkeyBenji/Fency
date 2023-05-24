@@ -41,13 +41,13 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
       }
       thisButton = Monkey.fab("fa fa-suitcase", "Zoek klantjes!", async () => {
         const map = await extractSalesforceDataFromPage();
-        await Monkey.set(KEY, map);
         const confirmQuestion = `Ik ga op zoek naar klantjes 
 in de buurt van: ${map["Postcode"]}, 
 met Business Unit ${map["Business unit"]} 
 en functie: ${map["Gewenste functie"]}. 
 Ff nergens aanzitten okki?`;
         if (confirm(confirmQuestion)) {
+          await Monkey.set(KEY, map);
           window.open(URL_REPORT_CREATE, "_blank");
         } else {
           alert("Dan niet joh!");
