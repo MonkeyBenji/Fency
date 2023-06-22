@@ -23,7 +23,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
 
       !(function (send) {
         XMLHttpRequest.prototype.send = function (postData) {
-          if (postData.includes("queryReportType")) {
+          if (postData?.includes("queryReportType")) {
             this.addEventListener("load", () => {
               try {
                 const data = JSON.parse(this.response);
