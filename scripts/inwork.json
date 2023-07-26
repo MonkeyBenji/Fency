@@ -34,6 +34,16 @@
     ],
     "Connexys": [
       {
+        "id": "open-last-generated-cv",
+        "type": "script",
+        "version": "0.1",
+        "name": "Open Standaard InWork CV",
+        "description": "Open standaard het laatst gegenereerde CV",
+        "matches": "https://*.lightning.force.com/*",
+        "path": "connexys/open-last-generated-cv.js",
+        "enabled": true
+      },
+      {
         "id": "new-report-shortcut",
         "type": "script",
         "version": "0.1",
