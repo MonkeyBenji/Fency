@@ -8,11 +8,7 @@
         "version": "0.1",
         "name": "InWork Vacature Connexys Link",
         "description": "Maakt van vacature titels hieperlinks naar het Connexys object",
-        "matches": [
-          "https://inwork.nl/*",
-          "https://www.inwork.nl/*",
-          "https://www-dev.inwork.nl/*"
-        ],
+        "matches": ["https://inwork.nl/*", "https://www.inwork.nl/*", "https://www-dev.inwork.nl/*"],
         "path": "inwork/vaca-shortcuts.js",
         "enabled": true
       },
@@ -33,6 +29,17 @@
       }
     ],
     "Connexys": [
+      {
+        "id": "it-request-screen",
+        "type": "script",
+        "version": "0.1",
+        "name": "IT aanvragen scherm",
+        "description": "Fullscreen hacks voor IT aanvragen dashboard",
+        "matches": "https://*.lightning.force.com/*",
+        "path": "connexys/it-request-screen.js",
+        "enabled": true,
+        "allFrames": true
+      },
       {
         "id": "open-last-generated-cv",
         "type": "script",
@@ -81,10 +88,7 @@
         "version": "0.1",
         "name": "Office 365 auto login",
         "description": "Klikt meteen op de Office 365 inlog knop, nog voordat je kan besluiten om op de verkeerde manier in te loggen",
-        "matches": [
-          "https://inwork.cloudforce.com/*",
-          "https://inwork.my.salesforce.com/*"
-        ],
+        "matches": ["https://inwork.cloudforce.com/*", "https://inwork.my.salesforce.com/*"],
         "path": "connexys/auto-login-365.js",
         "enabled": true,
         "allFrames": true
@@ -150,10 +154,7 @@
         "version": "0.1",
         "name": "Multipicklist Autocomplete",
         "description": "Waarom dat filteren op multipicklist waardes nou weer zo omslachtig moet van Salesforce...",
-        "matches": [
-          "https://*.lightning.force.com/reports/lightningReportApp.app*",
-          "https://*.lightning.force.com/one/one.app*"
-        ],
+        "matches": ["https://*.lightning.force.com/reports/lightningReportApp.app*", "https://*.lightning.force.com/one/one.app*"],
         "path": "connexys/multipicklist-autocomplete.js",
         "enabled": true,
         "allFrames": true
@@ -164,10 +165,7 @@
         "version": "0.1",
         "name": "Status na anonimiseren",
         "description": "Zet de standaard status bij anonimiseren op 9.0, omdat de standaard standaard (6.0 aangenomen) niet heel logisch is...",
-        "matches": [
-          "https://*.force.com/apex/cxsAnonymize*",
-          "https://*.visualforce.com/apex/cxsAnonymize*"
-        ],
+        "matches": ["https://*.force.com/apex/cxsAnonymize*", "https://*.visualforce.com/apex/cxsAnonymize*"],
         "path": "connexys/anonimize-default-state.js",
         "enabled": true,
         "allFrames": true
@@ -294,11 +292,7 @@
         "version": "0.1",
         "name": "Punt naar komma replacer",
         "description": "Gebruik je je numpad om 12.34 als verkooptarief in te vullen, maakt dat pretpakket er €1234,- van. Lekker dan...",
-        "matches": [
-          "https://*.lightning.force.com/*",
-          "https://*.my.salesforce.com/*",
-          "https://*.cloudforce.com/*"
-        ],
+        "matches": ["https://*.lightning.force.com/*", "https://*.my.salesforce.com/*", "https://*.cloudforce.com/*"],
         "path": "connexys/decimal-dot.js",
         "enabled": true
       },
@@ -308,11 +302,7 @@
         "version": "0.1",
         "name": "Clickable Connexys Logo",
         "description": "Anders weet ik mijn weg terug niet als ik in de Admin verdwaal",
-        "matches": [
-          "https://*.lightning.force.com/*",
-          "https://*.my.salesforce.com/*",
-          "https://*.cloudforce.com/*"
-        ],
+        "matches": ["https://*.lightning.force.com/*", "https://*.my.salesforce.com/*", "https://*.cloudforce.com/*"],
         "path": "connexys/logo.js",
         "enabled": true
       }
