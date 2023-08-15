@@ -31,13 +31,13 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
     div.data-grid-table-ctr { overflow-x: hidden !important; }
     div.grid-layout {overflow-y: hidden !important; }
     
-    div.widgets .widget-container:nth-child(1) colgroup > col:nth-of-type(1) { width: 5% !important; }
+    div.widgets .widget-container:nth-child(1) colgroup > col:nth-of-type(1) { width: 28px !important; }
     div.widgets .widget-container:nth-child(1) colgroup > col:nth-of-type(2) { width: 50% !important; }
     div.widgets .widget-container:nth-child(1) colgroup > col:nth-of-type(3) { width: 20% !important; }
     div.widgets .widget-container:nth-child(1) colgroup > col:nth-of-type(4) { width: 20% !important; }
     div.widgets .widget-container:nth-child(1) colgroup > col:nth-of-type(5) { width: 15% !important; }
     
-    div.widgets .widget-container:nth-child(2) colgroup > col:nth-of-type(1) { width: 5% !important; }
+    div.widgets .widget-container:nth-child(2) colgroup > col:nth-of-type(1) { width: 28px !important; }
     div.widgets .widget-container:nth-child(2) colgroup > col:nth-of-type(2) { width: 20% !important; }
     div.widgets .widget-container:nth-child(2) colgroup > col:nth-of-type(3) { width: 10% !important; }
     div.widgets .widget-container:nth-child(2) colgroup > col:nth-of-type(4) { width: 20% !important; }
