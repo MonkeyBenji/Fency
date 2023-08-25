@@ -1,9 +1,7 @@
 import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
   if (
     window.location.pathname === "/one/one.app" &&
-    atob(decodeURIComponent(window.location.hash.substring(1))).includes(
-      "reports:reportBuilder"
-    )
+    atob(decodeURIComponent(window.location.hash.substring(1))).includes("reports:reportBuilder")
   ) {
     Monkey.js(() => {
       // Hijack XHR to hijack picklist values
@@ -13,9 +11,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
         cats.forEach((cat) => {
           Object.values(cat.columns).forEach((col) => {
             if (col.dataType !== "multipicklist") return;
-            multipicklistValues[col.label] = col.filterValues.map(
-              (val) => val.label
-            );
+            multipicklistValues[col.label] = col.filterValues.map((val) => val.label);
           });
         });
         return multipicklistValues;
@@ -27,10 +23,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
             this.addEventListener("load", () => {
               try {
                 const data = JSON.parse(this.response);
-                localStorage.setItem(
-                  "multipicklistValues",
-                  JSON.stringify(getMultipicklistValuesFromJson(data))
-                );
+                localStorage.setItem("multipicklistValues", JSON.stringify(getMultipicklistValuesFromJson(data)));
               } catch (e) {}
             });
           }
@@ -45,29 +38,17 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
       async (ev) => {
         try {
           if (!ev.target.closest("ul.report-combobox-listbox")) return;
-          const popover = await Monkey.waitForSelector(
-            "section.reports-filter-popover"
-          );
-          const title = popover
-            .querySelector("h2")
-            .textContent.trim()
-            .split(" ")
-            .slice(2)
-            .join(" ");
-          const multipicklistValues = JSON.parse(
-            localStorage.getItem("multipicklistValues")
-          );
+          const popover = await Monkey.waitForSelector("section.reports-filter-popover");
+          const title = popover.querySelector("h2").textContent.trim().split(" ").slice(2).join(" ");
+          const multipicklistValues = JSON.parse(localStorage.getItem("multipicklistValues"));
 
           if (!title in multipicklistValues) return;
-          if (popover.querySelector(".multi-picklist-container") !== null)
-            return; // Multipicklists dont have a multi-picklist container, only single picklists do
+          if (popover.querySelector(".multi-picklist-container") !== null) return; // Multipicklists dont have a multi-picklist container, only single picklists do
 
           const operator = popover.querySelector("button.slds-picklist__label");
           operator.click();
-          const allInclusive = await Monkey.waitForSelector(
-            "UL.dropdown__list > li:nth-of-type(3) > a"
-          );
-          allInclusive.click();
+          const allInclusive = await Monkey.waitForSelector("UL.dropdown__list > li:nth-of-type(3) > a");
+          if (allInclusive.closest("ul").children.length === 4) allInclusive.click();
         } catch (e) {
           console.warn(e);
         }
@@ -80,23 +61,10 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
       "click",
       async (ev) => {
         try {
-          if (
-            !ev.target.closest("ul.report-combobox-listbox") &&
-            !ev.target.closest(".filters-panel")
-          )
-            return;
-          const popover = await Monkey.waitForSelector(
-            "section.reports-filter-popover"
-          );
-          const title = popover
-            .querySelector("h2")
-            .textContent.trim()
-            .split(" ")
-            .slice(2)
-            .join(" ");
-          const multipicklistValues = JSON.parse(
-            localStorage.getItem("multipicklistValues")
-          );
+          if (!ev.target.closest("ul.report-combobox-listbox") && !ev.target.closest(".filters-panel")) return;
+          const popover = await Monkey.waitForSelector("section.reports-filter-popover");
+          const title = popover.querySelector("h2").textContent.trim().split(" ").slice(2).join(" ");
+          const multipicklistValues = JSON.parse(localStorage.getItem("multipicklistValues"));
 
           if (!title in multipicklistValues) return;
 
@@ -113,8 +81,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
             let currentValues = input.value.split(",").map((s) => s.trim());
             const lastValue = currentValues.slice(-1)[0];
             const possibleValues = multipicklistValues[title];
-            if (!possibleValues.includes(lastValue))
-              currentValues = currentValues.slice(0, -1);
+            if (!possibleValues.includes(lastValue)) currentValues = currentValues.slice(0, -1);
             possibleValues.forEach((value) => {
               if (currentValues.includes(value)) return;
               const option = document.createElement("option");
