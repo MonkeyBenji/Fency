@@ -178,6 +178,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
   document.addEventListener(
     "focus",
     (ev) => {
+      if (!ev.target.closest) return;
       if (ev.target.closest(`#${MODAL_ID}`)) return;
       const form = ev.target.closest("form");
       if (form) selectedForm = form;
@@ -378,6 +379,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
     (ev) => {
       const target = ev.target;
       const form = target.closest && target.closest("form");
+      if (!target.closest) return;
       if (target.closest(`#${MODAL_ID}`)) return;
       if (!target.type || (form && formComplexity(form) <= 2)) return;
       if (buttonish.includes(target.type)) return;
