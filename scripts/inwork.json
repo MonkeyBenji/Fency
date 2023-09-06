@@ -341,6 +341,17 @@
         "allFrames": false
       },
       {
+        "id": "sign-request-popup-blocker",
+        "type": "script",
+        "version": "0.1",
+        "name": "Sign Request Popup Blocker",
+        "description": "No, I don't want to log in!!",
+        "matches": ["https://*.signrequest.com/*"],
+        "path": "misc/sign-request-popup-blocker.js",
+        "enabled": true,
+        "allFrames": false
+      },
+      {
         "id": "sign-request-100pp",
         "type": "script",
         "version": "0.1",
