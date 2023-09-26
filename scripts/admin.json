@@ -18,10 +18,7 @@
         "version": "0.1",
         "name": "Salesblurred",
         "description": "Defaultly blur private information in Salesforce, for making screenshots n stuff",
-        "matches": [
-          "https://*.lightning.force.com/*",
-          "https://*.cloudforce.com/*"
-        ],
+        "matches": ["https://*.lightning.force.com/*", "https://*.cloudforce.com/*"],
         "path": "salesforce/salesblurred.js",
         "enabled": false,
         "allFrames": true
@@ -32,10 +29,7 @@
         "version": "0.1",
         "name": "Language Switch",
         "description": "Switch languages faster in SalesForce",
-        "matches": [
-          "https://*.lightning.force.com/*",
-          "https://*.cloudforce.com/setup*"
-        ],
+        "matches": ["https://*.lightning.force.com/*", "https://*.cloudforce.com/setup*"],
         "path": "salesforce/language-switch.js",
         "enabled": true
       },
@@ -45,10 +39,7 @@
         "version": "0.1",
         "name": "User Hijacker",
         "description": "Shortcuts to recent Hijacks (log in as user)",
-        "matches": [
-          "https://*.lightning.force.com/*",
-          "https://*.cloudforce.com/005*"
-        ],
+        "matches": ["https://*.lightning.force.com/*", "https://*.cloudforce.com/005*"],
         "path": "salesforce/user-hijacker.js",
         "enabled": true
       },
@@ -68,10 +59,7 @@
         "version": "0.1",
         "name": "Workbench Auto-Login",
         "description": "Yes I agree to terms yesh",
-        "matches": [
-          "https://workbench.developerforce.com/login.php*",
-          "https://login.salesforce.com/*"
-        ],
+        "matches": ["https://workbench.developerforce.com/login.php*", "https://login.salesforce.com/*"],
         "path": "salesforce/workbench-autologin.js",
         "enabled": false
       },
@@ -141,6 +129,18 @@
         "description": "Add some color to indicate local WP-admin",
         "matches": ["https://inwork.nl/*", "https://intranet.inwork.nl/*"],
         "path": "inwork/local-wp-admin-color.js",
+        "enabled": true
+      }
+    ],
+    "Fency": [
+      {
+        "id": "enable-disabled-everywhere",
+        "type": "script",
+        "version": "0.1",
+        "name": "Enable disabled everywhere",
+        "description": "On hover, remove disabled from all elements",
+        "matches": "<all_urls>",
+        "path": "misc/enable-disabled-everywhere.js",
         "enabled": true
       }
     ],
