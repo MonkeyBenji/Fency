@@ -68,7 +68,8 @@ Ff nergens aanzitten okki?`;
       [...document.querySelectorAll(".report-type-list-form a.slds-text-link_reset")]
         .filter((a) => a.textContent === "[iw] Accounts")[0]
         .click();
-      document.querySelector("button.slds-button_brand").click();
+      const startReportButton = await Monkey.waitForSelector("button.slds-button_brand");
+      startReportButton.click();
 
       // Save it, cause Salesforce update requires that
       (await Monkey.waitForSelector("button.report-action-ReportSaveAction")).click();
