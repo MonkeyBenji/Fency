@@ -154,7 +154,10 @@
         "version": "0.1",
         "name": "Multipicklist Autocomplete",
         "description": "Waarom dat filteren op multipicklist waardes nou weer zo omslachtig moet van Salesforce...",
-        "matches": ["https://*.lightning.force.com/reports/lightningReportApp.app*", "https://*.lightning.force.com/one/one.app*"],
+        "matches": [
+          "https://*.lightning.force.com/reports/lightningReportApp.app*",
+          "https://*.lightning.force.com/one/one.app*"
+        ],
         "path": "connexys/multipicklist-autocomplete.js",
         "enabled": true,
         "allFrames": true
@@ -178,6 +181,17 @@
         "description": "Automatically refresh dashboards when Salesforce warns they're old",
         "matches": "https://*.lightning.force.com/desktopDashboards/*",
         "path": "connexys/dash-autorefresh.js",
+        "enabled": true,
+        "allFrames": true
+      },
+      {
+        "id": "max-checkboxes",
+        "type": "script",
+        "version": "0.1",
+        "name": "Max Checkboxes",
+        "description": "Limits the number of checkboxes you can select, so Salesforce does not have to work so hard",
+        "matches": "https://*.lightning.force.com/lightning/n/Workflow1",
+        "path": "connexys/max-checkboxes.js",
         "enabled": true,
         "allFrames": true
       },
