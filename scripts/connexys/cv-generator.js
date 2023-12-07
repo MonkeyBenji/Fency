@@ -27,26 +27,18 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
     document.addEventListener("click", async (ev) => {
       const target = ev.target;
       const isDeleteButton = target.matches(".slds-button_text-destructive");
-      const isDeleteAllButton = target.matches(
-        "ul.slds-accordion > div > button:not(.slds-float_right)"
-      );
+      const isDeleteAllButton = target.matches("ul.slds-accordion > div > button:not(.slds-float_right)");
       if (!isDeleteButton && !isDeleteAllButton) return;
-      const parent = isDeleteButton
-        ? target.closest(".slds-section")
-        : target.closest(".cvSection");
+      const parent = isDeleteButton ? target.closest(".slds-section") : target.closest(".cvSection");
 
-      const requiredInputsNotFilledIn = [
-        ...parent.querySelectorAll(".cxsrecField:has(.slds-required)"),
-      ]
+      const requiredInputsNotFilledIn = [...parent.querySelectorAll(".cxsrecField:has(.slds-required)")]
         .map((field) => field.querySelector("input,textarea,select"))
         .filter((input) => !input.value);
 
       if (requiredInputsNotFilledIn.length) {
         requiredInputsNotFilledIn[0].scrollIntoView({ block: "center" });
         try {
-          const modal = await Monkey.waitForSelector(
-            ".cxsrecCVGenerator section.slds-modal"
-          );
+          const modal = await Monkey.waitForSelector(".cxsrecCVGenerator section.slds-modal");
           modal.querySelector("h2").textContent = "Ho eens even!";
           modal.querySelector("p").textContent =
             "Door een bug in Knexis kan je het CV niet opslaan als in de verwijderde opleidingen/werkervaring een verplicht veld niet is ingevuld. Vul eerst de verplichte velden voordat je dit blok mag verwijderen";
@@ -56,54 +48,43 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
     });
 
     // Add open all the things
-    Monkey.waitForSelector(".cvSection button.slds-button_neutral").then(
-      async () => {
-        await Monkey.sleep(100);
-        document
-          .querySelectorAll("ul.slds-accordion > div.section_buttons")
-          .forEach((section) => {
-            const button = document.createElement("button");
-            button.setAttribute("class", "slds-button slds-float_right");
-            button.textContent = "Open all the things!";
-            button.addEventListener("click", () => {
-              section
-                .closest(".cvSection")
-                .querySelectorAll(
-                  button.textContent.startsWith("Open")
-                    ? 'button[aria-expanded="false"]'
-                    : 'button[aria-expanded="true"]'
-                )
-                .forEach((accordion) => {
-                  accordion.click();
-                  if (button.textContent.startsWith("Open")) {
-                    button.textContent = "Close all the things!";
-                  } else {
-                    button.textContent = "Open all the things!";
-                  }
-                });
+    Monkey.waitForSelector(".cvSection button.slds-button_neutral").then(async () => {
+      await Monkey.sleep(100);
+      document.querySelectorAll("ul.slds-accordion > div.section_buttons").forEach((section) => {
+        const button = document.createElement("button");
+        button.setAttribute("class", "slds-button slds-float_right");
+        button.textContent = "Open all the things!";
+        button.addEventListener("click", () => {
+          section
+            .closest(".cvSection")
+            .querySelectorAll(
+              button.textContent.startsWith("Open") ? 'button[aria-expanded="false"]' : 'button[aria-expanded="true"]'
+            )
+            .forEach((accordion) => {
+              accordion.click();
+              if (button.textContent.startsWith("Open")) {
+                button.textContent = "Close all the things!";
+              } else {
+                button.textContent = "Open all the things!";
+              }
             });
-            section.appendChild(button);
-          });
-      }
-    );
+        });
+        section.appendChild(button);
+      });
+    });
 
     // Focus missing required field on error
     document.addEventListener("click", async (ev) => {
-      const saveButtonSelector =
-        ".cxsrecCVGenerator ul.slds-list_horizontal > li > button.slds-button_brand";
+      const saveButtonSelector = ".cxsrecCVGenerator ul.slds-list_horizontal > li > button.slds-button_brand";
       if (!ev.target.matches(saveButtonSelector)) return;
       await Monkey.waitForSelector("span.toastMessage");
       await Monkey.sleep(250);
 
-      const requiredInputsNotFilledIn = [
-        ...document.querySelectorAll(".cxsrecField:has(.slds-required)"),
-      ]
+      const requiredInputsNotFilledIn = [...document.querySelectorAll(".cxsrecField:has(.slds-required)")]
         .map((field) => field.querySelector("input,textarea,select"))
         .filter((input) => !input.value);
-      if (!requiredInputsNotFilledIn.length)
-        return console.log("Ik weet t ook niet man");
-      const requiredInput =
-        requiredInputsNotFilledIn[requiredInputsNotFilledIn.length - 1];
+      if (!requiredInputsNotFilledIn.length) return console.log("Ik weet t ook niet man");
+      const requiredInput = requiredInputsNotFilledIn[requiredInputsNotFilledIn.length - 1];
       const section = requiredInput.closest("section");
       if (section.classList.contains("cxs-is-closed")) {
         section.querySelector("button").click();
@@ -114,17 +95,10 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
     // Change today hyperlink to present for work experience and education
     document.body.addEventListener("click", async (ev) => {
       if (!ev.target.matches(".uiInputDate *")) return;
-      if (
-        !ev.target.closest(".cvSection-Educations") &&
-        !ev.target.closest(".cvSection-WorkExperiences")
-      )
-        return;
-      const oldButton = await Monkey.waitForSelector(
-        ".uiDatePicker button.today"
-      );
+      if (!ev.target.closest(".cvSection-Educations") && !ev.target.closest(".cvSection-WorkExperiences")) return;
+      const oldButton = await Monkey.waitForSelector(".uiDatePicker button.today");
       const newButton = document.createElement("button");
-      newButton.className =
-        "today slds-button slds-align_absolute-center slds-text-link";
+      newButton.className = "today slds-button slds-align_absolute-center slds-text-link";
       newButton.textContent = "Heden";
       newButton.addEventListener("click", () => {
         const input = ev.target.closest(".uiInputDate").querySelector("input");
@@ -161,11 +135,24 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
   `);
 
     // Anonymize CV
-    Monkey.waitForSelector(".genCVMeta lightning-input").then((input) => {
+    Monkey.waitForSelector(".genCVMeta lightning-input").then(() => {
       Monkey.js(() => {
-        document
+        const setValue = (input, value) => {
+          const setter = Object.getOwnPropertyDescriptor(input.__proto__, "value").set;
+          const event = new Event("input", { bubbles: true });
+          setter.call(input, value);
+          input.dispatchEvent(event);
+        };
+        const input = document
           .querySelector(".genCVMeta lightning-input")
-          .shadowRoot.querySelector("input").checked = true;
+          .shadowRoot.firstElementChild.shadowRoot.querySelector("input");
+        const fixIt = setInterval(() => {
+          if (input.value) {
+            setValue(input, input.value.split("_")[0]);
+            clearInterval(fixIt);
+          }
+        }, 123);
+        setTimeout(() => clearInterval(fixIt), 9001);
       });
     });
 
@@ -181,9 +168,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
           Monkey.js(() => {
             document
               .querySelector("lightning-tab-bar")
-              .shadowRoot.querySelector(
-                'li[data-tab-value="candidateRecordTab"]'
-              )
+              .shadowRoot.querySelector('li[data-tab-value="candidateRecordTab"]')
               .click();
             setTimeout(() => {
               document.querySelector("#candidateRecordTab button").click();
