@@ -208,11 +208,37 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
 
     // Header
     const header = Object.assign(document.createElement("header"), { className: "" });
-    header.innerHTML = `
-    <label><input type="radio" name="filter" value="${THIS_FORM}" checked>This Form</label>
-    <label><input type="radio" name="filter" value="${THIS_DOMAIN}">This Domain</label>
-    <label><input type="radio" name="filter" value="${ALL}">All</label>
-    `;
+    let label = document.createElement("label");
+    let radio = Object.assign(document.createElement("input"), {
+      type: "radio",
+      name: "filter",
+      value: THIS_FORM,
+      checked: true,
+    });
+    label.appendChild(radio);
+    label.appendChild(document.createTextNode("This Form"));
+    header.appendChild(label);
+
+    label = document.createElement("label");
+    radio = Object.assign(document.createElement("input"), {
+      type: "radio",
+      name: "filter",
+      value: THIS_DOMAIN,
+    });
+    label.appendChild(radio);
+    label.appendChild(document.createTextNode("This Domain"));
+    header.appendChild(label);
+
+    label = document.createElement("label");
+    radio = Object.assign(document.createElement("input"), {
+      type: "radio",
+      name: "filter",
+      value: ALL,
+    });
+    label.appendChild(radio);
+    label.appendChild(document.createTextNode("All"));
+    header.appendChild(label);
+
     container.appendChild(header);
 
     const renderMembahedForms = () => {
@@ -244,7 +270,10 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
 
           // Initialize "fill all" button which will be added at the end
           const thisFormDiv = formDiv;
-          fillAllButton = Object.assign(document.createElement("button"), { className: "fill-all", textContent: "✍️ Fill form" });
+          fillAllButton = Object.assign(document.createElement("button"), {
+            className: "fill-all",
+            textContent: "✍️ Fill form",
+          });
           fillAllButton.addEventListener("click", async () => {
             for (const button of thisFormDiv.querySelectorAll("button.fill")) {
               await Monkey.sleep(333); // TODO fix the debouncer in membah-fields instead
@@ -252,7 +281,10 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
             }
           });
 
-          deleteAllButton = Object.assign(document.createElement("button"), { className: "delete-all", textContent: "🗑️ Delete form" });
+          deleteAllButton = Object.assign(document.createElement("button"), {
+            className: "delete-all",
+            textContent: "🗑️ Delete form",
+          });
           deleteAllButton.addEventListener("click", async () => {
             for (const button of thisFormDiv.querySelectorAll("button.delete")) {
               await Monkey.sleep(123);
@@ -268,9 +300,18 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
         const spanLabel = Object.assign(document.createElement("span"), { textContent: label });
         const time = Object.assign(document.createElement("time"), { textContent: formatter.format(ts) });
         const textarea = Object.assign(document.createElement("textarea"), { value: truncated(value), readOnly: true });
-        const fillButton = Object.assign(document.createElement("button"), { className: "fill", textContent: "✍️ Fill" });
-        const copyButton = Object.assign(document.createElement("button"), { className: "copy", textContent: "📋 Copy" });
-        const deleteButton = Object.assign(document.createElement("button"), { className: "delete", textContent: "🗑️ Delete" });
+        const fillButton = Object.assign(document.createElement("button"), {
+          className: "fill",
+          textContent: "✍️ Fill",
+        });
+        const copyButton = Object.assign(document.createElement("button"), {
+          className: "copy",
+          textContent: "📋 Copy",
+        });
+        const deleteButton = Object.assign(document.createElement("button"), {
+          className: "delete",
+          textContent: "🗑️ Delete",
+        });
 
         // Button listeners
         let element = selectedForm?.elements[name];
@@ -316,7 +357,9 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
       dialog.scrollTo(0, dialog.scrollHeight);
     });
     if (container.querySelectorAll(".form-div").length === 0) {
-      header.querySelector(`[value="${THIS_DOMAIN}"]`).click();
+      header.querySelector(`[value="${THIS_FORM}"]`).checked = false;
+      header.querySelector(`[value="${THIS_DOMAIN}"]`).checked = true;
+      renderMembahedForms();
     }
 
     document.body.appendChild(dialog);
@@ -329,7 +372,8 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
   // Make berry appear
   const getAbsLeftTop = (elem) => {
     const getRelParent = (elem) =>
-      elem.parentNode.tagName === "HTML" || ["relative", "absolute", "sticky", "fixed"].includes(getComputedStyle(elem.parentNode).position)
+      elem.parentNode.tagName === "HTML" ||
+      ["relative", "absolute", "sticky", "fixed"].includes(getComputedStyle(elem.parentNode).position)
         ? elem.parentNode
         : getRelParent(elem.parentNode);
 

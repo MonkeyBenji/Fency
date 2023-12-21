@@ -48,16 +48,6 @@ footer {
   width: 100%;
 }
 
-#update-button {
-  border-radius: 100%;
-  width: 21px;
-  height: 21px;
-  padding: 2px;
-}
-#update-button > svg {
-  height: 14px;
-}
-
 #version {
   font-size: 1em;
   font-style: italic;

@@ -2,6 +2,12 @@
   "manifest_version": 2,
   "name": "Fency",
   "version": "0.1.3.1",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "fency@inwork.nl",
+      "update_url": "https://fency.inwork.nl/updates.json"
+    }
+  },
 
   "description": "Hack the Web: For Fun and Profit",
   "icons": {
@@ -12,7 +18,7 @@
 
   "web_accessible_resources": ["lib/*", "icons/*"],
 
-  "permissions": ["<all_urls>", "webNavigation", "storage", "debugger", "contextMenus", "unlimitedStorage"],
+  "permissions": ["<all_urls>", "webNavigation", "storage", "contextMenus", "unlimitedStorage"],
 
   "browser_action": {
     "default_icon": {
