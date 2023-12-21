@@ -9,19 +9,15 @@
     });
 
   const subscriptions = await sendMessage("getSubscriptions");
-  const toggleSubscription = async (url, enabled) =>
-    await sendMessage("toggleSubscription", { url, enabled });
+  const toggleSubscription = async (url, enabled) => await sendMessage("toggleSubscription", { url, enabled });
 
   const toggles = document.querySelector("#toggles");
-  toggles.innerHTML = "";
+  toggles.textContent = "";
   subscriptions.forEach((subscription) => {
     // Add toggle
     const div = document.createElement("div");
     const label = document.createElement("label");
-    label.textContent = subscription.url.replace(
-      /(chrome|moz)-extension:\/\/.*\//,
-      "Fency/"
-    );
+    label.textContent = subscription.url.replace(/(chrome|moz)-extension:\/\/.*\//, "Fency/");
 
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
@@ -37,10 +33,8 @@
 
   document.querySelector("#reset").addEventListener("click", (ev) => {
     ev.preventDefault();
-    const uSure =
-      "Weet je zeker dat je al je mooie voorkeuren 'n shit in de shredder wilt pleuren?";
-    const allDone =
-      "Alles is weggepleurt, kan je weer opnieuw beginnen... Nou succes hè!";
+    const uSure = "Weet je zeker dat je al je mooie voorkeuren 'n shit in de shredder wilt pleuren?";
+    const allDone = "Alles is weggepleurt, kan je weer opnieuw beginnen... Nou succes hè!";
     if (confirm(uSure)) {
       chrome.storage.local.clear();
       alert(allDone);

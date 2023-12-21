@@ -7,7 +7,6 @@ import("/lib/core.js").then(async (Monkey) => {
   const refreshScriptsButton = document.querySelector("#refresh-scripts");
   const refreshPageButton = document.querySelector("#refresh-page");
   const enabledToggle = document.querySelector("#enabled-toggle");
-  const updateButton = document.querySelector("#update-button");
   const version = chrome.runtime.getManifest().version;
   document.querySelector("#version").textContent = `Fency version ${version}`;
 
@@ -17,10 +16,9 @@ import("/lib/core.js").then(async (Monkey) => {
       if (folderOrder !== 0) return folderOrder;
       return a.name.localeCompare(b.name);
     });
-    const toggleScript = async (id, enabled) =>
-      await Monkey.sendMessage("toggleScript", { id, enabled });
+    const toggleScript = async (id, enabled) => await Monkey.sendMessage("toggleScript", { id, enabled });
 
-    toggles.innerHTML = "";
+    toggles.textContent = "";
     let prevFolder = "";
     if (scripts.length === 0) {
       toggles.textContent = "No scripts found, check subscriptions";
@@ -63,10 +61,7 @@ import("/lib/core.js").then(async (Monkey) => {
     refreshScriptsButton.setAttribute("title", "");
     refreshScriptsButton.disabled = true;
     toggles.textContent = "";
-    await Promise.all([
-      Monkey.sendMessage("refresh-scripts"),
-      Monkey.sleep(1337),
-    ]);
+    await Promise.all([Monkey.sendMessage("refresh-scripts"), Monkey.sleep(1337)]);
     displayScripts();
     refreshScriptsButton.disabled = false;
   });
@@ -79,83 +74,6 @@ import("/lib/core.js").then(async (Monkey) => {
     await Monkey.sendMessage("enabled", { enabled });
     toggles.classList.toggle("disabled", !enabled);
   });
-
-  // Update status
-  const AUTO_UPDATE_INTERVAL = 24 * 60 * 60 * 1000;
-  const LOADING = 0;
-  const UPDATE_AVAILABLE = 1;
-  const THROTTLED = 2;
-  const UP_TO_DATE = 3;
-  let updateStatus = UP_TO_DATE;
-  let lastUpdated = await Monkey.get("lastUpdated", 0);
-
-  chrome.runtime.onUpdateAvailable.addListener((details) => {
-    console.log("Updating to version " + details.version);
-    chrome.runtime.reload();
-  });
-
-  const updateClassReset = () => {
-    updateButton.classList.remove("success");
-    updateButton.classList.remove("error");
-    updateButton.classList.remove("spin");
-  };
-  const updateIsAvailable = async () => {
-    updateStatus = UPDATE_AVAILABLE;
-    updateButton.innerHTML = await Monkey.getFaSvg("arrow-alt-up");
-    updateButton.title = "Update available";
-    updateClassReset();
-    updateButton.classList.add("success");
-  };
-  const isUpToDate = async (checked = false) => {
-    updateStatus = UP_TO_DATE;
-    updateButton.innerHTML = await Monkey.getFaSvg("check");
-    updateButton.title = "Up-to-date" + (checked ? "" : " (probably)");
-    updateClassReset();
-    updateButton.classList.add("success");
-  };
-  const updateThrottled = async () => {
-    updateStatus = THROTTLED;
-    updateButton.innerHTML = await Monkey.getFaSvg("exclamation-triangle");
-    updateButton.title = "Throttled";
-    updateClassReset();
-    updateButton.classList.add("error");
-  };
-  const updateDoLoading = async () => {
-    updateStatus = LOADING;
-    await Monkey.set("lastUpdated", new Date().getTime());
-    updateClassReset();
-    updateButton.classList.add("spin");
-    updateButton.innerHTML = await Monkey.getFaSvg("spinner");
-    updateButton.title = "Checking for update";
-    setTimeout(() => {
-      chrome.runtime.requestUpdateCheck((status) => {
-        if (status === "update_available") {
-          updateIsAvailable();
-        } else if (status === "no_update") {
-          isUpToDate(true);
-        } else if (status === "throttled") {
-          console.warn("throttled");
-          updateThrottled();
-        }
-      });
-    }, 1337);
-  };
-  updateButton.addEventListener("click", () => {
-    if (updateStatus === LOADING) {
-      alert("Rustig jij!");
-    } else if (updateStatus === UPDATE_AVAILABLE) {
-      chrome.runtime.reload();
-    } else if (updateStatus === THROTTLED) {
-      updateDoLoading();
-    } else if (updateStatus === UP_TO_DATE) {
-      updateDoLoading();
-    }
-  });
-  if (new Date().getTime() - lastUpdated > AUTO_UPDATE_INTERVAL) {
-    updateDoLoading();
-  } else {
-    isUpToDate(false);
-  }
 
   refreshPageButton.addEventListener("click", async () => {
     await Monkey.sendMessage("refresh-page");
@@ -174,8 +92,7 @@ import("/lib/core.js").then(async (Monkey) => {
       });
       refreshScriptsButton.setAttribute(
         "title",
-        refreshScriptsButton.getAttribute("title") +
-          ` (Last update ${formatted})`
+        refreshScriptsButton.getAttribute("title") + ` (Last update ${formatted})`
       );
     }
   });
