@@ -25,4 +25,12 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
   };
   doStuff();
   Monkey.onLocationChange(doStuff);
+  document.addEventListener("click", (ev) => {
+    if (!ev.target.matches('div[id^="react-select"]')) return;
+    setTimeout(doStuff, 123);
+  });
+  document.addEventListener("keyup", (ev) => {
+    if (ev.key !== "Enter") return;
+    setTimeout(doStuff, 123);
+  });
 });
