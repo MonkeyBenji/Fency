@@ -44,6 +44,16 @@
         "enabled": true
       },
       {
+        "id": "related-soql",
+        "type": "script",
+        "version": "0.1",
+        "name": "Related SOQL",
+        "description": "Adds related SOQL dropdown to Salesforce Inspector thingy",
+        "matches": ["https://*.lightning.force.com/*"],
+        "path": "salesforce/related-soql.js",
+        "enabled": true
+      },
+      {
         "id": "workbench-link",
         "type": "script",
         "version": "0.1",
