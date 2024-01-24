@@ -2,6 +2,8 @@ document.addEventListener(
   "click",
   async (ev) => {
     if (!ev.target.matches("#insext *")) return;
+    const insext = document.querySelector("#insext");
+    const wasActive = insext.classList.contains("insext-active");
     const pathSplit = window.location.pathname.split("/");
     const recordId = pathSplit[4];
     if (typeof recordId === "undefined") return;
@@ -11,7 +13,7 @@ document.addEventListener(
     }
 
     setTimeout(() => {
-      if (!document.querySelector("#insext.insext-active")) return;
+      if (wasActive) return;
 
       const inspectorUrl = new URL(document.querySelector(".insext-popup").src);
       inspectorUrl.pathname = "data-export.html";
@@ -26,8 +28,9 @@ document.addEventListener(
         Taken: `SELECT Id, Subject, OwnerId FROM Task WHERE WhatId = '${recordId}'`,
         "Taken (kandidaat update)": `SELECT Id, Subject, OwnerId FROM Task WHERE WhatId = '${recordId}' AND Status = 'Not Started'`,
         "Gegenereerde CV's": `SELECT Id, Name, cxsrec__CV_PDF_Name__c, OwnerId FROM cxsrec__cxsGenerated_CV__c WHERE cxsrec__Candidate__c = '${recordId}'`,
-        "Inschrijvingen Kandidaat": `SELECT Id, Name, OwnerId FROM cxsrec__cxsJob_application__c WHERE cxsrec__Candidate__c = '${recordId}`,
-        "Inschrijvingen Vacature": `SELECT Id, Name, OwnerId FROM cxsrec__cxsJob_application__c WHERE cxsrec__Position__c = '${recordId}`,
+        "Inschrijvingen Kandidaat": `SELECT Id, Name, OwnerId FROM cxsrec__cxsJob_application__c WHERE cxsrec__Candidate__c = '${recordId}'`,
+        "Inschrijvingen Vacature": `SELECT Id, Name, OwnerId FROM cxsrec__cxsJob_application__c WHERE cxsrec__Position__c = '${recordId}'`,
+        "Kandidaten van Gebruiker": `SELECT Id, OwnerId FROM cxsrec__cxsCandidate__c WHERE cxsrec__Anonymize_status__c != 'Anonymized' AND OwnerId = '${recordId}'`,
       };
 
       Object.entries(queries).forEach(([label, soql]) => {
@@ -42,7 +45,6 @@ document.addEventListener(
       select.addEventListener("change", () => {
         inspectorUrl.searchParams.set("query", select.value);
         window.open(inspectorUrl);
-        select.outerHTML = "";
       });
     }, 123);
   },
