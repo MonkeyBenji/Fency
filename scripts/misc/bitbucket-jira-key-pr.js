@@ -16,7 +16,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
       if (isNaN(jiraKey.split("-")[1].trim())) return; // hotfix
       const goFix = () => {
         if (!inputTitle.value?.trim()) return setTimeout(goFix, 123);
-        if (!inputTitle.value.includes(jiraKey)) {
+        if (!inputTitle.value.toLowerCase().includes(jiraKey.toLowerCase())) {
           MonkeySetValue(inputTitle, `${jiraKey} ${inputTitle.value}`);
         }
       };
