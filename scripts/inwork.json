@@ -30,6 +30,17 @@
     ],
     "Connexys": [
       {
+        "id": "salesbord-colors",
+        "type": "script",
+        "version": "0.1",
+        "name": "Salesbord Techniek Kleurtjes",
+        "description": "Kleurtjes voor Salesbord Techniek rapportje",
+        "matches": "https://*.lightning.force.com/*",
+        "path": "connexys/salesbord-colors.js",
+        "enabled": true,
+        "allFrames": true
+      },
+      {
         "id": "it-request-screen",
         "type": "script",
         "version": "0.1",
