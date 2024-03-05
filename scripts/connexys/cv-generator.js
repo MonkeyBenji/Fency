@@ -29,7 +29,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
       const isDeleteButton = target.matches(".slds-button_text-destructive");
       const isDeleteAllButton = target.matches("ul.slds-accordion > div > button:not(.slds-float_right)");
       if (!isDeleteButton && !isDeleteAllButton) return;
-      const parent = isDeleteButton ? target.closest(".slds-section") : target.closest(".cvSection");
+      const parent = isDeleteButton ? target.closest("section") : target.closest(".cvSection");
 
       const requiredInputsNotFilledIn = [...parent.querySelectorAll(".cxsrecField:has(.slds-required)")]
         .map((field) => field.querySelector("input,textarea,select"))
