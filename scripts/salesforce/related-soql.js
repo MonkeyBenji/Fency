@@ -21,7 +21,9 @@ document.addEventListener(
 
       const select = document.createElement("select");
       select.id = "every-day-were-soqling";
-      select.style = "position: absolute; width: 90px; z-index: 9999999999999999999; right: 8px; top: 42px;";
+      const style = document.createElement("style");
+      style.textContent = `#every-day-were-soqling { display: none; position: absolute; width: 90px; z-index: 9999999999999999999; right: 8px; top: 42px; }
+      .insext-active #every-day-were-soqling { display: block; }`;
 
       const queries = {
         SOQL: "SOQL",
@@ -41,6 +43,7 @@ document.addEventListener(
       });
 
       document.querySelector("#insext").appendChild(select);
+      document.querySelector("#insext").appendChild(style);
 
       select.addEventListener("change", () => {
         inspectorUrl.searchParams.set("query", select.value);
