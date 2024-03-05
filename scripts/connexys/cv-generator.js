@@ -23,6 +23,17 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
       { once: true }
     );
 
+    // Add extra newline after each paragraph (except the last one)
+    document.addEventListener("keyup", (ev) => {
+      if (ev.key !== "Enter") return;
+      const qlEditor = ev.target.closest(".ql-editor");
+      if (!qlEditor) return;
+      qlEditor.querySelectorAll("p:not(:last-of-type)").forEach((p) => {
+        if (p.textContent.endsWith("\n")) return;
+        p.lastChild.textContent += "\n";
+      });
+    });
+
     // Prevent deleting work or education with required fields because Connexys bug prevents you from saving afterwards
     document.addEventListener("click", async (ev) => {
       const target = ev.target;
