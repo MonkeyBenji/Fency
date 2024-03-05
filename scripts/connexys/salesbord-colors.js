@@ -3,7 +3,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
     if (
       !window.location.pathname.includes("lightning/r/Report") ||
       !window.location.pathname.endsWith("/view") ||
-      !["00OW7000000rqDOMAY", "00OW7000000762HMAQ", "00OW700000110JxMAI"].includes(
+      !["00OW7000000rqDOMAY", "00OW7000000762HMAQ", "00OW700000110JxMAI", "00OW70000011TU1MAM"].includes(
         window.location.pathname.split("/")[4]
       )
     )
@@ -26,12 +26,15 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
                     const data = JSON.parse(this.response);
                     const factMap = data?.actions?.[i]?.returnValue?.factMap ?? {};
                     let rowId = 0;
-                    Object.values(factMap).forEach((t) => {
-                      t.rows.forEach((row) => {
-                        const date = row.dataCells.slice(-1)[0].value;
-                        employeeLastUpdateMapping[rowId] = date;
-                        rowId++;
-                      });
+                    const rows = Object.entries(factMap)
+                      .sort(([t], [t2]) => t.localeCompare(t2))
+                      .map(([_, b]) => b)
+                      .map(({ rows }) => rows)
+                      .flat();
+                    rows.forEach((row) => {
+                      const date = row.dataCells.slice(-1)[0].value;
+                      employeeLastUpdateMapping[rowId] = date;
+                      rowId++;
                     });
                     setTimeout(applySalesbordColors, 1337);
                     const widgets = document
