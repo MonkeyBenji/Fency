@@ -9,7 +9,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
     )
       return;
     Monkey.js(() => {
-      const GREEN_DAYS = 5;
+      const GREEN_DAYS = 2;
       !(function (send) {
         if (XMLHttpRequest.prototype.sendHijacked) return;
         XMLHttpRequest.prototype.sendHijacked = true;
@@ -67,11 +67,16 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
           const rowId = tr.querySelector("td")?.dataset?.rowIndex;
           if (typeof rowId === "undefined") return;
           const updateDate = employeeLastUpdateMapping[rowId];
-          const daysAgo = Math.floor((new Date() - new Date(updateDate)) / (1000 * 60 * 60 * 24));
+          let daysAgo = Math.floor((new Date() - new Date(updateDate)) / (1000 * 60 * 60 * 24));
+          if (new Date().getDay() === 1 && daysAgo <= 3) {
+            daysAgo = 1;
+          }
           if (daysAgo > GREEN_DAYS) return;
           const opacity = ((GREEN_DAYS - daysAgo) / GREEN_DAYS / 1.75).toFixed(2);
           tr.querySelectorAll("td").forEach((td) => {
-            td.style.backgroundColor = `rgba(154, 196, 69, ${opacity})`;
+            if (!td.style.backgroundColor) {
+              td.style.backgroundColor = `rgba(154, 196, 69, ${opacity})`;
+            }
           });
         });
       };
