@@ -1,14 +1,19 @@
 import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
   const doStuff = async () => {
-    if (
+    const isNotOnSalesbordPage = () =>
       !window.location.pathname.includes("lightning/r/Report") ||
       !window.location.pathname.endsWith("/view") ||
       !["00OW7000000rqDOMAY", "00OW7000000762HMAQ", "00OW700000110JxMAI", "00OW70000011TU1MAM"].includes(
         window.location.pathname.split("/")[4]
-      )
-    )
-      return;
+      );
+    if (isNotOnSalesbordPage()) return;
     Monkey.js(() => {
+      const isNotOnSalesbordPage = () =>
+        !window.location.pathname.includes("lightning/r/Report") ||
+        !window.location.pathname.endsWith("/view") ||
+        !["00OW7000000rqDOMAY", "00OW7000000762HMAQ", "00OW700000110JxMAI", "00OW70000011TU1MAM"].includes(
+          window.location.pathname.split("/")[4]
+        );
       const GREEN_DAYS = 2;
       !(function (send) {
         if (XMLHttpRequest.prototype.sendHijacked) return;
@@ -62,6 +67,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
       let scrollTimer = null;
 
       const applySalesbordColors = () => {
+        if (isNotOnSalesbordPage()) return;
         const supDoc = document.querySelector(".active iframe").contentDocument;
         supDoc.querySelectorAll("tr.data-grid-table-row").forEach((tr) => {
           const rowId = tr.querySelector("td")?.dataset?.rowIndex;
