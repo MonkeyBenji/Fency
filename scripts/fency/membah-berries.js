@@ -244,7 +244,10 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
 
           // Initialize "fill all" button which will be added at the end
           const thisFormDiv = formDiv;
-          fillAllButton = Object.assign(document.createElement("button"), { className: "fill-all", textContent: "✍️ Fill form" });
+          fillAllButton = Object.assign(document.createElement("button"), {
+            className: "fill-all",
+            textContent: "✍️ Fill form",
+          });
           fillAllButton.addEventListener("click", async () => {
             for (const button of thisFormDiv.querySelectorAll("button.fill")) {
               await Monkey.sleep(333); // TODO fix the debouncer in membah-fields instead
@@ -252,7 +255,10 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
             }
           });
 
-          deleteAllButton = Object.assign(document.createElement("button"), { className: "delete-all", textContent: "🗑️ Delete form" });
+          deleteAllButton = Object.assign(document.createElement("button"), {
+            className: "delete-all",
+            textContent: "🗑️ Delete form",
+          });
           deleteAllButton.addEventListener("click", async () => {
             for (const button of thisFormDiv.querySelectorAll("button.delete")) {
               await Monkey.sleep(123);
@@ -268,9 +274,18 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
         const spanLabel = Object.assign(document.createElement("span"), { textContent: label });
         const time = Object.assign(document.createElement("time"), { textContent: formatter.format(ts) });
         const textarea = Object.assign(document.createElement("textarea"), { value: truncated(value), readOnly: true });
-        const fillButton = Object.assign(document.createElement("button"), { className: "fill", textContent: "✍️ Fill" });
-        const copyButton = Object.assign(document.createElement("button"), { className: "copy", textContent: "📋 Copy" });
-        const deleteButton = Object.assign(document.createElement("button"), { className: "delete", textContent: "🗑️ Delete" });
+        const fillButton = Object.assign(document.createElement("button"), {
+          className: "fill",
+          textContent: "✍️ Fill",
+        });
+        const copyButton = Object.assign(document.createElement("button"), {
+          className: "copy",
+          textContent: "📋 Copy",
+        });
+        const deleteButton = Object.assign(document.createElement("button"), {
+          className: "delete",
+          textContent: "🗑️ Delete",
+        });
 
         // Button listeners
         let element = selectedForm?.elements[name];
@@ -329,7 +344,8 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
   // Make berry appear
   const getAbsLeftTop = (elem) => {
     const getRelParent = (elem) =>
-      elem.parentNode.tagName === "HTML" || ["relative", "absolute", "sticky", "fixed"].includes(getComputedStyle(elem.parentNode).position)
+      elem.parentNode.tagName === "HTML" ||
+      ["relative", "absolute", "sticky", "fixed"].includes(getComputedStyle(elem.parentNode).position)
         ? elem.parentNode
         : getRelParent(elem.parentNode);
 
@@ -375,15 +391,16 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
   const hasIcon = ["date", "time", "datetime-local", "week", "month", "number"]; // Inputs with picker icon
   const ts = Date.now();
   document.addEventListener(
-    "focus",
+    "mousedown",
     (ev) => {
       const target = ev.target;
       const form = target.closest && target.closest("form");
       if (!target.closest) return;
       if (target.closest(`#${MODAL_ID}`)) return;
-      if (!target.type || (form && formComplexity(form) <= 2)) return;
-      if (buttonish.includes(target.type)) return;
+      if ((!target.type && !target.isContentEditable) || (form && formComplexity(form) <= 2)) return;
+      if (buttonish.includes(target.type) && !target.isContentEditable) return;
       berry.style.display = "None";
+      if (!target.matches(":focus") && target.type !== "textarea" && !target.isContentEditable) return;
       setTimeout(() => (berryEnabled = false), 9001);
       if (!berryEnabled) return;
       getData().then((entries) => {
