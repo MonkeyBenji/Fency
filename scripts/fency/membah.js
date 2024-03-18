@@ -35,6 +35,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
   };
 
   const onInput = debounceTarget((ev) => {
+    console.log({ ev });
     const element = Monkey.getInputElement(ev.target);
     if (element.type === "password") return;
     if (element.closest(`#${MODAL_ID}`)) return;
@@ -63,4 +64,5 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
   }, 250);
 
   document.addEventListener("input", onInput, { capture: true, passive: true });
+  document.addEventListener("change", onInput, { capture: true, passive: true });
 });

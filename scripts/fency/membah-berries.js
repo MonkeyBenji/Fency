@@ -147,7 +147,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
     const oldAnimation = element.style.animation;
     const oldBackgroundColor = element.style.backgroundColor;
     element.style.transition = `background ${duration}ms`;
-    element.style.backgroundColor = "purple";
+    element.style.backgroundColor = "rgba(0, 192, 0, 25%)";
     Monkey.setValue(element, value);
     setTimeout(() => {
       element.style.backgroundColor = oldBackgroundColor;
@@ -250,9 +250,10 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
           });
           fillAllButton.addEventListener("click", async () => {
             for (const button of thisFormDiv.querySelectorAll("button.fill")) {
-              await Monkey.sleep(333); // TODO fix the debouncer in membah-fields instead
+              await Monkey.sleep(42);
               button.click();
             }
+            dialog.close();
           });
 
           deleteAllButton = Object.assign(document.createElement("button"), {
