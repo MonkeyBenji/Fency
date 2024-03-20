@@ -1,15 +1,20 @@
 import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
   const doStuff = async () => {
-    if (
+    const isNotOnSalesbordPage = () =>
       !window.location.pathname.includes("lightning/r/Report") ||
       !window.location.pathname.endsWith("/view") ||
       !["00OW7000000rqDOMAY", "00OW7000000762HMAQ", "00OW700000110JxMAI", "00OW70000011TU1MAM"].includes(
         window.location.pathname.split("/")[4]
-      )
-    )
-      return;
+      );
+    if (isNotOnSalesbordPage()) return;
     Monkey.js(() => {
-      const GREEN_DAYS = 5;
+      const isNotOnSalesbordPage = () =>
+        !window.location.pathname.includes("lightning/r/Report") ||
+        !window.location.pathname.endsWith("/view") ||
+        !["00OW7000000rqDOMAY", "00OW7000000762HMAQ", "00OW700000110JxMAI", "00OW70000011TU1MAM"].includes(
+          window.location.pathname.split("/")[4]
+        );
+      const GREEN_DAYS = 2;
       !(function (send) {
         if (XMLHttpRequest.prototype.sendHijacked) return;
         XMLHttpRequest.prototype.sendHijacked = true;
@@ -62,16 +67,22 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
       let scrollTimer = null;
 
       const applySalesbordColors = () => {
+        if (isNotOnSalesbordPage()) return;
         const supDoc = document.querySelector(".active iframe").contentDocument;
         supDoc.querySelectorAll("tr.data-grid-table-row").forEach((tr) => {
           const rowId = tr.querySelector("td")?.dataset?.rowIndex;
           if (typeof rowId === "undefined") return;
           const updateDate = employeeLastUpdateMapping[rowId];
-          const daysAgo = Math.floor((new Date() - new Date(updateDate)) / (1000 * 60 * 60 * 24));
+          let daysAgo = Math.floor((new Date() - new Date(updateDate)) / (1000 * 60 * 60 * 24));
+          if (new Date().getDay() === 1 && daysAgo <= 3) {
+            daysAgo = 1;
+          }
           if (daysAgo > GREEN_DAYS) return;
           const opacity = ((GREEN_DAYS - daysAgo) / GREEN_DAYS / 1.75).toFixed(2);
           tr.querySelectorAll("td").forEach((td) => {
-            td.style.backgroundColor = `rgba(154, 196, 69, ${opacity})`;
+            if (!td.style.backgroundColor) {
+              td.style.backgroundColor = `rgba(154, 196, 69, ${opacity})`;
+            }
           });
         });
       };
