@@ -9,9 +9,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
 
   /** Find querySelector match whose textContent also matches text */
   const selectorByText = (node, match, text) =>
-    [...node.querySelectorAll(match)].filter(
-      (node) => node.textContent === text
-    )[0];
+    [...node.querySelectorAll(match)].filter((node) => node.textContent === text)[0];
 
   /** Convert Connexys from-to date to CV style period */
   const formatPeriod = (from, to, withMonth = false) => {
@@ -43,17 +41,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
       const image = new Image();
 
       image.onload = () => {
-        context.drawImage(
-          image,
-          0,
-          0,
-          image.width,
-          image.height,
-          0,
-          0,
-          width,
-          (image.height / image.width) * height
-        );
+        context.drawImage(image, 0, 0, image.width, image.height, 0, 0, width, (image.height / image.width) * height);
         resolve(canvas.toDataURL("image/png").split(";base64,")[1]);
       };
       image.onerror = reject;
@@ -63,20 +51,16 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
 
   /** Read the fields from the current Connexys form */
   const getConnexysFields = () => {
-    const mapping = [...document.querySelectorAll("div.cxsrecField")]
+    const mapping = [...document.querySelectorAll(".active div.cxsrecField")]
       .map((div) => {
         const input = div.querySelector("input,select,textarea,.ql-editor");
         if (!input) return null;
-        const name = div
-          .querySelector("span.slds-form-element__label")
-          .childNodes[1].textContent.trim();
+        const name = div.querySelector("span.slds-form-element__label").childNodes[1].textContent.trim();
 
         let value;
         if (input.matches(".ql-editor")) {
           // RichText magic
-          value = input.innerText
-            .replaceAll("\n\n\n\n\n", "\n\n\n\n")
-            .replaceAll("\n\n", "\n");
+          value = input.innerText.replaceAll("\n\n\n\n\n", "\n\n\n\n").replaceAll("\n\n", "\n");
         } else if (input.matches('input[type="checkbox"]')) {
           value = input.checked ? input.value : null;
         } else {
@@ -99,8 +83,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
         (map, { section, name, value }) => {
           if (section) {
             // If field was found before, create a new workexperience / education block
-            if (name in map[section][map[section].length - 1])
-              map[section].push({});
+            if (name in map[section][map[section].length - 1]) map[section].push({});
             map[section][map[section].length - 1][name] = value;
           } else {
             while (name in map) {
@@ -127,8 +110,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
     t.outerHTML = t.outerHTML.replace(search, replace);
   };
 
-  const nuke = (...elements) =>
-    elements.forEach((elem) => (elem.outerHTML = ""));
+  const nuke = (...elements) => elements.forEach((elem) => (elem.outerHTML = ""));
 
   const educationAndCertificateMagic = (dom, educationMap) => {
     educationMap = educationMap.map((edu) => ({
@@ -150,12 +132,10 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
       // InWorkStandard
       const pEducation = educationT.closest("p");
       const pEducationYear = pEducation.previousElementSibling;
-      const pEducationTitle =
-        pEducationYear.previousElementSibling.previousElementSibling;
+      const pEducationTitle = pEducationYear.previousElementSibling.previousElementSibling;
       const pCertificate = selectorByText(dom, "t", "Certificaat").closest("p");
       const pCertificateYear = pCertificate.previousElementSibling;
-      const pCertificateTitle =
-        pCertificateYear.previousElementSibling.previousElementSibling;
+      const pCertificateTitle = pCertificateYear.previousElementSibling.previousElementSibling;
 
       // Opleidingen
       educations.slice(-1)[0].body = educations.slice(-1)[0].body.trim();
@@ -163,10 +143,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
         .map((edu) => {
           return (
             pEducationYear.outerHTML.replace("1980", edu.period) +
-            pEducation.outerHTML.replace(
-              "Opleiding",
-              wordNewLinesAndEscape(edu.body)
-            )
+            pEducation.outerHTML.replace("Opleiding", wordNewLinesAndEscape(edu.body))
           );
         })
         .join("\n");
@@ -177,19 +154,14 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
         .map((edu) => {
           return (
             pCertificateYear.outerHTML.replace("1990", edu.period) +
-            pCertificate.outerHTML.replace(
-              "Certificaat",
-              wordNewLinesAndEscape(edu.body)
-            )
+            pCertificate.outerHTML.replace("Certificaat", wordNewLinesAndEscape(edu.body))
           );
         })
         .join("\n");
       pCertificateYear.outerHTML = "";
 
-      if (educations.length === 0)
-        nuke(pEducationTitle.nextElementSibling, pEducationTitle);
-      if (certificates.length === 0)
-        nuke(pCertificateTitle.nextElementSibling, pCertificateTitle);
+      if (educations.length === 0) nuke(pEducationTitle.nextElementSibling, pEducationTitle);
+      if (certificates.length === 0) nuke(pCertificateTitle.nextElementSibling, pCertificateTitle);
     } else {
       // InWorkLongEducation
       let tr = selectorByText(dom, "t", "Opleiding1").closest("tr");
@@ -211,9 +183,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
         nuke(
           tbl,
           tbl.previousElementSibling,
-          tbl.previousElementSibling.previousElementSibling
-            .querySelector("t")
-            .closest("r")
+          tbl.previousElementSibling.previousElementSibling.querySelector("t").closest("r")
         );
       } else {
         nuke(tr);
@@ -238,9 +208,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
         nuke(
           tbl,
           tbl.previousElementSibling,
-          tbl.previousElementSibling.previousElementSibling
-            .querySelector("t")
-            .closest("r")
+          tbl.previousElementSibling.previousElementSibling.querySelector("t").closest("r")
         );
       } else {
         nuke(tr);
@@ -275,122 +243,87 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
       return;
     }
 
-    docxButton = Monkey.fab(
-      "fa fa-file-word",
-      "Word CV'tje genereren",
-      async () => {
-        await Monkey.lib("jszip");
-        const template = (
-          await Monkey.waitForSelector('select[name="template"]')
-        ).value;
-        Monkey.fetchData(`https://fency.dev/misc/${template}.docx`)
-          .then((dataUri) =>
-            JSZip.loadAsync(dataUri.substring(dataUri.indexOf(",") + 1), {
-              base64: true,
+    docxButton = Monkey.fab("fa fa-file-word", "Word CV'tje genereren", async () => {
+      await Monkey.lib("jszip");
+      const template = (await Monkey.waitForSelector('select[name="template"]')).value;
+      Monkey.fetchData(`https://fency.dev/misc/${template}.docx`)
+        .then((dataUri) =>
+          JSZip.loadAsync(dataUri.substring(dataUri.indexOf(",") + 1), {
+            base64: true,
+          })
+        )
+        .then(async (zip) => {
+          // Rip fields from Connexys CV gen wizard and put them in a mapping
+          const mapping = getConnexysFields();
+
+          // Replace word content
+          const xml = await zip.file("word/document.xml").async("string");
+          const dom = new DOMParser().parseFromString(xml, "text/xml");
+
+          // Find <w:t> node references in document.xml DOM
+          const tName = selectorByText(dom, "t", "Roepnaam");
+          const tYear = selectorByText(dom, "t", "1970");
+          const tPlace = selectorByText(dom, "t", "Hollum");
+          const tDriversLicense = selectorByText(dom, "t", "Soms");
+          const pProfile = selectorByText(dom, "t", "Hallo").closest("p");
+
+          const pWork = selectorByText(dom, "t", "Werkgever").closest("p");
+          const pWork2 = pWork.nextElementSibling;
+          const pWorkDivider = pWork2.nextElementSibling;
+
+          // Single line replacements
+          tName.textContent = mapping["Roepnaam"];
+          tYear.textContent = mapping["Geboortedatum"].split(" ")[2];
+          tPlace.textContent = mapping["Woonplaats"];
+          tDriversLicense.textContent = mapping["Rijbewijs"];
+
+          // Persoonsprofiel
+          const persoonsProfiel = mapping["Persoonsprofiel"] ?? "";
+          pProfile.outerHTML = pProfile.outerHTML.replace(
+            "Hallo",
+            wordNewLinesAndEscape(persoonsProfiel.replaceAll("\n", "\n\n") + "\n")
+          );
+
+          educationAndCertificateMagic(dom, mapping["education"]);
+
+          // Werkervaring
+          let i = 19; // Shapes have id's in Word, need to uniqueify them or Word will start bitchin
+          let workXml = mapping["work"]
+            .map((work) => {
+              const period = formatPeriod(work.Startdatum, work.Einddatum, true);
+
+              return (
+                pWork.outerHTML
+                  .replace("Functie", wordNewLinesAndEscape(work.Functietitel))
+                  .replace("Werkgever", wordNewLinesAndEscape(work.Werkgever))
+                  .replace("Periode", period) +
+                pWork2.outerHTML.replace("Werkzaamheden", wordNewLinesAndEscape(work.Beschrijving))
+              );
             })
-          )
-          .then(async (zip) => {
-            // Rip fields from Connexys CV gen wizard and put them in a mapping
-            const mapping = getConnexysFields();
+            .join(pWorkDivider.outerHTML);
+          workXml = workXml.replaceAll('<wp:docPr id="19"', () => `<wp:docPr id="${i++}"`);
+          pWork.outerHTML = workXml;
+          pWork2.outerHTML = "";
+          pWorkDivider.outerHTML = "";
 
-            // Replace word content
-            const xml = await zip.file("word/document.xml").async("string");
-            const dom = new DOMParser().parseFromString(xml, "text/xml");
+          zip.file("word/document.xml", new XMLSerializer().serializeToString(dom));
 
-            // Find <w:t> node references in document.xml DOM
-            const tName = selectorByText(dom, "t", "Roepnaam");
-            const tYear = selectorByText(dom, "t", "1970");
-            const tPlace = selectorByText(dom, "t", "Hollum");
-            const tDriversLicense = selectorByText(dom, "t", "Soms");
-            const pProfile = selectorByText(dom, "t", "Hallo").closest("p");
-
-            const pWork = selectorByText(dom, "t", "Werkgever").closest("p");
-            const pWork2 = pWork.nextElementSibling;
-            const pWorkDivider = pWork2.nextElementSibling;
-
-            // Single line replacements
-            tName.textContent = mapping["Roepnaam"];
-            tYear.textContent = mapping["Geboortedatum"].split(" ")[2];
-            tPlace.textContent = mapping["Woonplaats"];
-            tDriversLicense.textContent = mapping["Rijbewijs"];
-
-            // Persoonsprofiel
-            const persoonsProfiel = mapping["Persoonsprofiel"] ?? "";
-            pProfile.outerHTML = pProfile.outerHTML.replace(
-              "Hallo",
-              wordNewLinesAndEscape(
-                persoonsProfiel.replaceAll("\n", "\n\n") + "\n"
-              )
-            );
-
-            educationAndCertificateMagic(dom, mapping["education"]);
-
-            // Werkervaring
-            let i = 19; // Shapes have id's in Word, need to uniqueify them or Word will start bitchin
-            let workXml = mapping["work"]
-              .map((work) => {
-                const period = formatPeriod(
-                  work.Startdatum,
-                  work.Einddatum,
-                  true
-                );
-
-                return (
-                  pWork.outerHTML
-                    .replace(
-                      "Functie",
-                      wordNewLinesAndEscape(work.Functietitel)
-                    )
-                    .replace("Werkgever", wordNewLinesAndEscape(work.Werkgever))
-                    .replace("Periode", period) +
-                  pWork2.outerHTML.replace(
-                    "Werkzaamheden",
-                    wordNewLinesAndEscape(work.Beschrijving)
-                  )
-                );
-              })
-              .join(pWorkDivider.outerHTML);
-            workXml = workXml.replaceAll(
-              '<wp:docPr id="19"',
-              () => `<wp:docPr id="${i++}"`
-            );
-            pWork.outerHTML = workXml;
-            pWork2.outerHTML = "";
-            pWorkDivider.outerHTML = "";
-
+          if (Monkey.fetchData)
             zip.file(
-              "word/document.xml",
-              new XMLSerializer().serializeToString(dom)
+              "word/media/image3.png",
+              await getImageResized(document.querySelector(".cxsSection_CandidatePhoto img").src, 400, 400),
+              { base64: true }
             );
 
-            if (Monkey.fetchData)
-              zip.file(
-                "word/media/image3.png",
-                await getImageResized(
-                  document.querySelector(".cxsSection_CandidatePhoto img").src,
-                  400,
-                  400
-                ),
-                { base64: true }
-              );
-
-            zip
-              .generateAsync({ type: "blob" })
-              .then((content) =>
-                Monkey.save(content, `${mapping["Roepnaam"]}.docx`)
-              );
-          });
-      }
-    );
+          zip.generateAsync({ type: "blob" }).then((content) => Monkey.save(content, `${mapping["Roepnaam"]}.docx`));
+        });
+    });
 
     // TODO add more suitable icons to the core
     exportButton = Monkey.fab("fa fa-file-archive", "JSON export", async () => {
       const fields = getConnexysFields();
       const data = [new TextEncoder().encode(JSON.stringify(fields))];
-      Monkey.save(
-        new Blob(data, { type: "application/json;charset=utf-8" }),
-        `${fields.Roepnaam}.json`
-      );
+      Monkey.save(new Blob(data, { type: "application/json;charset=utf-8" }), `${fields.Roepnaam}.json`);
     });
 
     const findChildId = (parent, selector, child) => {
@@ -418,9 +351,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
       );
       for (const deleteButton of deleteButtons) {
         deleteButton.click();
-        const confirmButton = await Monkey.waitForSelector(
-          'section[role="dialog"] button.slds-button_brand'
-        );
+        const confirmButton = await Monkey.waitForSelector('section[role="dialog"] button.slds-button_brand');
         confirmButton.click();
       }
       await Monkey.sleep(222);
@@ -428,16 +359,12 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
       // Add all teh rows!
       for (let i = 0; i < data.education.length; i++) {
         document
-          .querySelector(
-            ".cvSection.cvSection-Educations:not(.slds-clearfix) > div:last-of-type > button"
-          )
+          .querySelector(".cvSection.cvSection-Educations:not(.slds-clearfix) > div:last-of-type > button")
           .click();
       }
       for (let i = 0; i < data.work.length; i++) {
         document
-          .querySelector(
-            ".cvSection.cvSection-WorkExperiences:not(.slds-clearfix) > div:last-of-type > button"
-          )
+          .querySelector(".cvSection.cvSection-WorkExperiences:not(.slds-clearfix) > div:last-of-type > button")
           .click();
       }
       await Monkey.sleep(222);
@@ -449,9 +376,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
 
         const input = div.querySelector("input,select,textarea,.ql-editor");
         if (!input) continue;
-        const name = div
-          .querySelector("span.slds-form-element__label")
-          .childNodes[1].textContent.trim();
+        const name = div.querySelector("span.slds-form-element__label").childNodes[1].textContent.trim();
 
         let section = null;
         if (div.closest(".cvSection-Educations")) section = "education";
@@ -492,9 +417,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
           const data = JSON.parse(result);
           if (!data) {
             console.warn(`Could not parse ${result}`);
-            return alert(
-              "Er ging iets fout met het parsen van het bestand... spijtig"
-            );
+            return alert("Er ging iets fout met het parsen van het bestand... spijtig");
           }
           await importData(data);
           alert("It is done");
@@ -505,34 +428,26 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
     });
 
     try {
-      const candidateId = JSON.parse(atob(window.location.hash.slice(1)))
-        .attributes.candidateId;
+      const candidateId = JSON.parse(atob(window.location.hash.slice(1))).attributes.candidateId;
       const candidateKey = `cv-${candidateId}`;
 
       Monkey.get(candidateKey, null).then(async (storedCv) => {
         if (storedCv === null) return;
-        await Monkey.waitForSelector(
-          ".cvSection.cvSection-Educations:not(.slds-clearfix) > div:last-of-type > button"
-        );
+        await Monkey.waitForSelector(".cvSection.cvSection-Educations:not(.slds-clearfix) > div:last-of-type > button");
         const oldData = storedCv.data;
         const oldTs = storedCv.ts;
         await Monkey.set(candidateKey + "_tmp", getConnexysFields());
         const currentData = await Monkey.get(candidateKey + "_tmp");
-        if (JSON.stringify(oldData) === JSON.stringify(currentData))
-          return console.log("nochange");
-        recoverButton = Monkey.fab(
-          "fa fa-file-archive",
-          `Herstel Levenswerk ${storedCv.date}`,
-          async () => {
-            const q = `Huidige CV configuratie wegpleuren en die van ${storedCv.date} inladen?`;
-            if (confirm(q)) {
-              await importData(storedCv.data);
-              alert("It is done");
-            } else if (confirm("Zal ik die oude data dan maar wegbonjouren?")) {
-              Monkey.set(candidateKey, null);
-            }
+        if (JSON.stringify(oldData) === JSON.stringify(currentData)) return console.log("nochange");
+        recoverButton = Monkey.fab("fa fa-file-archive", `Herstel Levenswerk ${storedCv.date}`, async () => {
+          const q = `Huidige CV configuratie wegpleuren en die van ${storedCv.date} inladen?`;
+          if (confirm(q)) {
+            await importData(storedCv.data);
+            alert("It is done");
+          } else if (confirm("Zal ik die oude data dan maar wegbonjouren?")) {
+            Monkey.set(candidateKey, null);
           }
-        );
+        });
         const ts = new Date().getTime();
         if (ts - oldTs > 1000 * 60 * 60 * 24 * 5) return console.log("TooOld");
         Monkey.css(`@keyframes tilt-shaking {
