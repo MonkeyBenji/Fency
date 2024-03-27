@@ -49,7 +49,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
       if (requiredInputsNotFilledIn.length) {
         requiredInputsNotFilledIn[0].scrollIntoView({ block: "center" });
         try {
-          const modal = await Monkey.waitForSelector(".cxsrecCVGenerator section.slds-modal");
+          const modal = await Monkey.waitForSelector(".active .cxsrecCVGenerator section.slds-modal");
           modal.querySelector("h2").textContent = "Ho eens even!";
           modal.querySelector("p").textContent =
             "Door een bug in Knexis kan je het CV niet opslaan als in de verwijderde opleidingen/werkervaring een verplicht veld niet is ingevuld. Vul eerst de verplichte velden voordat je dit blok mag verwijderen";
@@ -59,9 +59,9 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
     });
 
     // Add open all the things
-    Monkey.waitForSelector(".cvSection button.slds-button_neutral").then(async () => {
+    Monkey.waitForSelector(".active .cvSection button.slds-button_neutral").then(async () => {
       await Monkey.sleep(100);
-      document.querySelectorAll("ul.slds-accordion > div.section_buttons").forEach((section) => {
+      document.querySelectorAll(".active ul.slds-accordion > div.section_buttons").forEach((section) => {
         const button = document.createElement("button");
         button.setAttribute("class", "slds-button slds-float_right");
         button.textContent = "Open all the things!";
@@ -91,7 +91,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
       await Monkey.waitForSelector("span.toastMessage");
       await Monkey.sleep(250);
 
-      const requiredInputsNotFilledIn = [...document.querySelectorAll(".cxsrecField:has(.slds-required)")]
+      const requiredInputsNotFilledIn = [...document.querySelectorAll(".active .cxsrecField:has(.slds-required)")]
         .map((field) => field.querySelector("input,textarea,select"))
         .filter((input) => !input.value);
       if (!requiredInputsNotFilledIn.length) return console.log("Ik weet t ook niet man");
@@ -146,7 +146,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
   `);
 
     // Anonymize CV
-    Monkey.waitForSelector(".genCVMeta lightning-input").then(() => {
+    Monkey.waitForSelector(".active .genCVMeta lightning-input").then(() => {
       Monkey.js(() => {
         const setValue = (input, value) => {
           const setter = Object.getOwnPropertyDescriptor(input.__proto__, "value").set;
@@ -155,11 +155,11 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
           input.dispatchEvent(event);
         };
         const input = document
-          .querySelector(".genCVMeta lightning-input")
+          .querySelector(".active .genCVMeta lightning-input")
           .shadowRoot.firstElementChild.shadowRoot.querySelector("input");
         const fixIt = setInterval(() => {
-          if (input.value) {
-            setValue(input, input.value.split("_")[0]);
+          if (input.value && input.value.startsWith("CV-")) {
+            setValue(input, "InWork cv - " + input.value.split("_")[0].substring(3));
             clearInterval(fixIt);
           }
         }, 123);
@@ -168,7 +168,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
     });
 
     // Add Refresh Info Candidate button
-    Monkey.waitForSelector("lightning-icon.slds-icon-utility-save")
+    Monkey.waitForSelector(".active lightning-icon.slds-icon-utility-save")
       .then((save) => {
         const button = document.createElement("button");
         button.textContent = "Ververs info kandidaat";
@@ -178,11 +178,11 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
         button.addEventListener("click", () => {
           Monkey.js(() => {
             document
-              .querySelector("lightning-tab-bar")
+              .querySelector(".active lightning-tab-bar")
               .shadowRoot.querySelector('li[data-tab-value="candidateRecordTab"]')
               .click();
             setTimeout(() => {
-              document.querySelector("#candidateRecordTab button").click();
+              document.querySelector(".active #candidateRecordTab button").click();
             }, 1337);
           });
         });

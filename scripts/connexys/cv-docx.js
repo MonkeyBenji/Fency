@@ -315,7 +315,8 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
               { base64: true }
             );
 
-          zip.generateAsync({ type: "blob" }).then((content) => Monkey.save(content, `${mapping["Roepnaam"]}.docx`));
+          const filename = `InWork cv - ${mapping["Roepnaam"]}.docx`;
+          zip.generateAsync({ type: "blob" }).then((content) => Monkey.save(content, filename));
         });
     });
 
