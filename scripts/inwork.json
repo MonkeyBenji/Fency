@@ -185,6 +185,17 @@
         "allFrames": true
       },
       {
+        "id": "mail-template-intake",
+        "type": "script",
+        "version": "0.1",
+        "name": "Mail template intake",
+        "description": "Kies juiste e-mail template bij intake stap o.b.v. geselecteerde intake locatie",
+        "matches": "https://*.lightning.force.com/*",
+        "path": "connexys/mail-template-intake.js",
+        "enabled": true,
+        "allFrames": true
+      },
+      {
         "id": "dash-autorefresh",
         "type": "script",
         "version": "0.1",
