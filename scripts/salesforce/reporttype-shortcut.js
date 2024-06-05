@@ -3,6 +3,6 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
   await Monkey.sleep(13.37);
   reportTypeName.insertAdjacentHTML(
     "beforeend",
-    ' <a href="/lightning/setup/CustomReportTypes/home" target="_top" style="padding-left:0.5em">(edit types)</a>'
+    ' <a href="/lightning/setup/CustomReportTypes/home" target="_blank" style="padding-left:0.5em">(edit types)</a>'
   );
 });
