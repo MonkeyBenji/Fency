@@ -35,7 +35,6 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
   };
 
   const onInput = debounceTarget((ev) => {
-    console.log({ ev });
     const element = Monkey.getInputElement(ev.target);
     if (element.type === "password") return;
     if (element.closest(`#${MODAL_ID}`)) return;
