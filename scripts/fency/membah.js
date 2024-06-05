@@ -3,7 +3,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
   /** Monkey.set / get key */
   const KEY = "Membah";
   /** Maximum number of entries that will be membah'd */
-  const MAX_SIZE = 100;
+  const MAX_SIZE = 250;
   /** Time until another entry is made for certain element to prevent data loss by deleting textarea content */
   const FORGET_FIELD_AFTER = 5 * 60 * 1000;
 
@@ -63,4 +63,5 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
   }, 250);
 
   document.addEventListener("input", onInput, { capture: true, passive: true });
+  document.addEventListener("change", onInput, { capture: true, passive: true });
 });
