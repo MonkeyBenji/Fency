@@ -352,8 +352,14 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
       );
       for (const deleteButton of deleteButtons) {
         deleteButton.click();
-        const confirmButton = await Monkey.waitForSelector('section[role="dialog"] button.slds-button_brand');
-        confirmButton.click();
+        await Monkey.sleep(123);
+        try {
+          const confirmButton = await Monkey.waitForSelector('section[role="dialog"] button.slds-button_brand', 1337);
+          confirmButton.click();
+        } catch (e) {
+          alert("Import onderbroken, er ging iets fout tijdens het verwijderen van opleidingen en/of werkervaring");
+          throw e;
+        }
       }
       await Monkey.sleep(222);
 
