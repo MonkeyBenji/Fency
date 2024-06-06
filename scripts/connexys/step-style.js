@@ -2,11 +2,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
   document.body.addEventListener("click", async (ev) => {
     if (!ev.target.closest(".cxsrecWorkflowStepActions")) return;
 
-    await Monkey.waitForTrue(
-      () =>
-        document.querySelectorAll(".cxsField_PICKLIST select.uiInput--select")
-          .length > 3
-    );
+    await Monkey.waitForTrue(() => document.querySelectorAll(".cxsField_PICKLIST select.uiInput--select").length > 3);
     const modal = document.querySelector(".modal-body");
     modal.querySelector("h3:first-of-type button").click();
 
@@ -15,6 +11,11 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
       field.style.float = "left";
       field.style.width = `${percentage}%`;
       field.style.clear = clear;
+    };
+
+    const hide = (field) => {
+      if (!field) return;
+      field.style.display = "none";
     };
 
     const selectToToggle = (field) => {
@@ -58,7 +59,9 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
     setWidth(fieldsByName["E-mailadres"], 100 / 3);
 
     setWidth(fieldsByName["Beschikbaar per"], 100 / 4, "left");
-    setWidth(fieldsByName["Uren per week beschikbaar"], 75 / 2);
+    setWidth(fieldsByName["Opzegtermijn"], 75);
+
+    setWidth(fieldsByName["Uren per week beschikbaar"], 75 / 2, "left");
     setWidth(fieldsByName["24*7 diensten/Onregelmatigheiddienst"], 75 / 2);
 
     setWidth(fieldsByName["Gewenste brutosalaris"], 100 / 2, "left");
@@ -69,7 +72,16 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
     setWidth(fieldsByName["Eigen vervoer"], 100 / 2, "left");
     setWidth(fieldsByName["Rijbewijs"], 100 / 2);
 
-    if (fieldsByName["Divisie"]) fieldsByName["Divisie"].style.display = "None";
+    if (fieldsByName["Divisie"]) {
+      hide(fieldsByName["Divisie"]);
+      const divisie = fieldsByName["Divisie"].querySelector("select").value;
+      if (divisie === "IT") {
+        hide(fieldsByName["Wat wil je graag terugzien"]);
+        hide(fieldsByName["Wat laat je graag achter je"]);
+        hide(fieldsByName["Besproken functies"]);
+        hide(fieldsByName["Besproken bedrijven"]);
+      }
+    }
 
     // setWidth(fieldsByName["Gewenste functie"], 100);
 
