@@ -7,11 +7,9 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
         setTimeout(() => {
           const input = document.querySelector("#modal-search-input");
           input.focus();
-          input.value = "[iw]";
-          Monkey.type(" ");
+          Monkey.setValue(input, "[iw]");
         }),
       123
     );
-    // a.click();
   });
 });
