@@ -28,7 +28,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
       const locationName = location.querySelector("option:checked").textContent.toLocaleLowerCase();
       const templateValue = [...template.querySelectorAll("option")].filter((option) =>
         option.textContent.toLowerCase().includes(locationName)
-      )[0].value;
+      )[0]?.value;
       setValue(template, templateValue);
     });
   });
