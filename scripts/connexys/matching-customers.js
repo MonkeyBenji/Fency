@@ -64,8 +64,8 @@ Ff nergens aanzitten okki?`;
       }
 
       // [iw] Accounts, next
-      await Monkey.waitForSelector(".report-type-list-form a.slds-text-link_reset");
-      [...document.querySelectorAll(".report-type-list-form a.slds-text-link_reset")]
+      await Monkey.waitForSelector("a.slds-text-link_reset");
+      [...document.querySelectorAll("a.slds-text-link_reset")]
         .filter((a) => a.textContent === "[iw] Accounts")[0]
         .click();
       const startReportButton = await Monkey.waitForSelector("button.slds-button_brand");
