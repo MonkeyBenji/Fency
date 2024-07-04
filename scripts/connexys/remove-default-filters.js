@@ -44,9 +44,9 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
         buttonApplyDate.click();
         await Monkey.waitForTrue(filterApplyBeGone);
 
-        // Add Anonimize filter for candidates
         const reportName = document.querySelector(".dash-title .dash-tag").textContent.toLocaleLowerCase();
         if (reportName.includes("kandidaten") || reportName.includes("inschrijvingen")) {
+          // Add Anonimize filter for candidates
           document.querySelector(".filters-panel .slds-combobox__input").click();
           [...document.querySelectorAll("ul.report-combobox-listbox li > span")]
             .filter((li) => li.textContent.includes("Anonimiseringsstatus"))[0]
@@ -58,6 +58,25 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
             .click();
           document.querySelector(".filter-widget button.filter-apply").click();
           await Monkey.waitForTrue(filterApplyBeGone);
+
+          // Add Recordtype !== hidden filter for candidates
+          document.querySelector(".filters-panel .slds-combobox__input").click();
+          let recordTypes = [...document.querySelectorAll("ul.report-combobox-listbox li > span")].filter((li) =>
+            li.textContent.includes("Recordtype")
+          );
+          if (recordTypes.length > 1) {
+            recordTypes = recordTypes.filter((li) => li.textContent.includes("andida"));
+          }
+          if (recordTypes.length === 1) {
+            recordTypes[0].click();
+            (await Monkey.waitForSelector(".filter-widget .slds-picklist button")).click();
+            (await Monkey.waitForSelector(".filter-widget .slds-dropdown__item:nth-of-type(2) a")).click();
+            (await Monkey.waitForSelector(".multi-picklist-container .multi-picklist-option:nth-of-type(7)"))
+              .querySelector("a,button")
+              .click();
+            document.querySelector(".filter-widget button.filter-apply").click();
+            await Monkey.waitForTrue(filterApplyBeGone);
+          }
         }
       });
     })
