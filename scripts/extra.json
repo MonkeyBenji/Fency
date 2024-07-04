@@ -62,6 +62,16 @@
         "enabled": true
       },
       {
+        "id": "jira-nyan",
+        "type": "script",
+        "version": "0.1",
+        "name": "Jira Nyan",
+        "description": "Laat de recent geüpdate issues wat meer shinen in het bord, zodat ze wat meer opvallen",
+        "matches": "https://*.atlassian.net/*",
+        "path": "misc/jira-nyan.js",
+        "enabled": true
+      },
+      {
         "id": "bitbucket-jira-key-pr",
         "type": "script",
         "version": "0.1",
