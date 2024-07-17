@@ -391,6 +391,9 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
   const buttonish = ["radio", "checkbox", "button", "submit"]; // Inputs you change by clicking
   const hasIcon = ["date", "time", "datetime-local", "week", "month", "number"]; // Inputs with picker icon
   const ts = Date.now();
+  const nonEditableParent = (node) =>
+    node.parentNode.isContentEditable && node.tagName !== "HTML" ? nonEditableParent(node.parentNode) : node.parentNode;
+
   document.addEventListener(
     "mousedown",
     (ev) => {
@@ -415,7 +418,8 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then((Monkey) => {
         if (hasIcon.includes(target.type)) width += 32;
         berry.style.left = `${left + width - 16}px`;
         berry.style.top = `${top - 8}px`;
-        target.parentNode.appendChild(berry);
+
+        nonEditableParent(target).appendChild(berry);
         setTimeout(() => (berry.style.display = "block"), 250);
       });
     },
