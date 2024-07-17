@@ -14,28 +14,6 @@
         "allFrames": false
       },
       {
-        "id": "membah-form",
-        "type": "script",
-        "version": "0.1",
-        "name": "Membah Form (deprecated)",
-        "description": "Store filled in forms locally, so when Windows starts forcing update halfway through (or your session expires) you can restore using Membah Berry (keep on)",
-        "matches": "<all_urls>",
-        "path": "fency/membah-form.js",
-        "enabled": false,
-        "allFrames": true
-      },
-      {
-        "id": "membah-berry",
-        "type": "script",
-        "version": "0.1",
-        "name": "Membah Berry (deprecated)",
-        "description": "Restore forms saved by Membah Form",
-        "matches": "<all_urls>",
-        "path": "fency/membah-berry.js",
-        "enabled": false,
-        "allFrames": true
-      },
-      {
         "id": "membah",
         "type": "script",
         "version": "0.1",
