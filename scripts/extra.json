@@ -82,6 +82,16 @@
         "enabled": true
       },
       {
+        "id": "bitbucket-pr-mine",
+        "type": "script",
+        "version": "0.1",
+        "name": "Bitbucket PR Mine shortcut",
+        "description": "In lijst met alle Pull Requests, maak een linkje naar al je eigen Pull Requests",
+        "matches": "https://bitbucket.org/*",
+        "path": "misc/bitbucket-pr-mine.js",
+        "enabled": true
+      },
+      {
         "id": "jira-less-dark",
         "type": "script",
         "version": "0.1",
