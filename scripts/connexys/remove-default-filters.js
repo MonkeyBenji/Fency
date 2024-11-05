@@ -4,9 +4,11 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
     5 * 60 * 1000
   )
     .then((span) => {
-      const a = Monkey.createElement(
-        `<a href="#nofilter" style="position: absolute;top: 26px;right: 4px;z-index: 1337;font-weight: normal;padding-top:11px;line-height:18px">#nofilter</a>`
-      );
+      const a = document.createElement("a");
+      a.href = "#nofilter";
+      a.style =
+        "position: absolute;top: 26px;right: 4px;z-index: 1337;font-weight: normal;padding-top:11px;line-height:18px";
+      a.textContent = "#nofilter";
       span.parentNode.insertBefore(a, span);
       a.addEventListener("click", async (ev) => {
         ev.preventDefault();
