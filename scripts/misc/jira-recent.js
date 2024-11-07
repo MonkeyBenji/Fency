@@ -33,7 +33,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
         const hue = 150 + age * 25;
         const alpha = 100 - age * 20;
         if (div.id && div.id.startsWith("card-")) {
-          div = div.querySelector('div[data-test-id="platform-card.ui.card.focus-container"]');
+          div = div.querySelector('[data-testid="platform-card.ui.card.focus-container"]');
         }
         div.style.boxShadow = `-8px -8px 16px -8px hsla(${hue}, 60%, 60%, ${alpha}%) inset`;
         div.title = `Last update: ${updated}`;
