@@ -53,7 +53,7 @@ import(chrome.runtime.getURL("/lib/monkey-script.js")).then(async (Monkey) => {
             .click();
           (await Monkey.waitForSelector(".filter-widget .slds-picklist button")).click();
           (await Monkey.waitForSelector(".filter-widget .slds-dropdown__item:nth-of-type(2) a")).click();
-          (await Monkey.waitForSelector(".multi-picklist-container .multi-picklist-option:nth-of-type(3)"))
+          (await Monkey.waitForSelector(".multi-picklist-container .multi-picklist-option:nth-of-type(4)"))
             .querySelector("a,button")
             .click();
           document.querySelector(".filter-widget button.filter-apply").click();
